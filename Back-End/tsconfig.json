@@ -6,5 +6,5 @@
         "sourceMap": true,
         "outDir": "build",
     },
-    "include": ["Routes/**/*", "src/**/*",  "Components/**/*",  "**/*.ts"]
+    "include": ["Routes/**/*", "Applications/**/*", "src/main.ts",  "Components/**/*",  "**/*.ts"]
 }
