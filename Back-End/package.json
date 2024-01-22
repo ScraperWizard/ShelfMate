@@ -1,0 +1,14 @@
+{
+  "name": "shelfmate-backend",
+  "version": "1.0.0",
+  "description": "Backend service for Shelfmate",
+  "scripts": {
+    "start": "node server.js",
+    "prebuild": "rimraf build",
+    "build": "tsc && node build/src/main.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.3.3"
+  }
+}
