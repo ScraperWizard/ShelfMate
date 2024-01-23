@@ -4,7 +4,7 @@ export default function Signup() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    //Sign up Page
     const firstName = (
       event.currentTarget.elements.namedItem("firstName") as HTMLInputElement
     )?.value;
