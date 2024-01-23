@@ -1,26 +1,41 @@
 import AnimatedPage from "../Animation/AnimatedPage";
-import NotificationProvider, {notifySuccess , notifyError} from "../context/NotificationProvider";
+import {showNotification, NotificationProvider, Notification} from "../context/NotificationProvider";
 export default function Signup() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Your form submission logic goes here
-    const firstName = (event.currentTarget.elements.namedItem("firstName") as HTMLInputElement)?.value;
-    const lastName = (event.currentTarget.elements.namedItem("lastName") as HTMLInputElement)?.value;
-    const username = (event.currentTarget.elements.namedItem("username") as HTMLInputElement)?.value;
-    const password = (event.currentTarget.elements.namedItem("password") as HTMLInputElement)?.value;
-    const id = (event.currentTarget.elements.namedItem("id") as HTMLInputElement)?.value;
+    const firstName = (
+      event.currentTarget.elements.namedItem("firstName") as HTMLInputElement
+    )?.value;
+    const lastName = (
+      event.currentTarget.elements.namedItem("lastName") as HTMLInputElement
+    )?.value;
+    const username = (
+      event.currentTarget.elements.namedItem("username") as HTMLInputElement
+    )?.value;
+    const password = (
+      event.currentTarget.elements.namedItem("password") as HTMLInputElement
+    )?.value;
+    const id = (
+      event.currentTarget.elements.namedItem("id") as HTMLInputElement
+    )?.value;
 
-    // Validate the form fields (you can add more validation logic as needed)
     if (!firstName || !lastName || !username || !password || !id) {
-      // If any field is empty, show an error message
-      notifyError();
+      const notification: Notification = {
+        type: "error",
+        message: "Please fill in all fields",
+      };
+      showNotification(notification);
+
       return;
     }
 
-    // If all fields are filled, show success message
-    notifySuccess();
+    const successNotification: Notification = {
+      type: "success",
+      message: "Signup successful!",
+    };
+    showNotification(successNotification);
   };
 
   return (
