@@ -1,21 +1,13 @@
-import React from "react";
-import { ToastContainer, toast, Slide, ToastOptions, ToastPosition } from "react-toastify";
+import { ToastContainer, toast, Slide, ToastPosition } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-export const notifySuccess = () => {
-  toast.success("Success", commonAttributes);
+export type Notification = {
+  type: "success" | "warning" | "error";
+  message: string;
 };
 
-export const notifyWarning = () => {
-  toast.warn("Warning", commonAttributes);
-};
-
-export const notifyError = () => {
-  toast.error('Error occurred', commonAttributes);
-};
-
-const commonAttributes: ToastOptions<unknown> = {
+function showNotification(notification: Notification) {
+  const options = {
     position: "top-right" as ToastPosition,
     autoClose: 5000,
     hideProgressBar: false,
@@ -27,12 +19,21 @@ const commonAttributes: ToastOptions<unknown> = {
     transition: Slide,
   };
 
-function NotificationProvider() {
-  return (
-    <>
-      <ToastContainer />
-    </>
-  );
+  if (notification.type === "success") {
+    toast.success(notification.message, options);
+  }
+
+  if (notification.type === "warning") {
+    toast.warn(notification.message, options);
+  }
+
+  if (notification.type === "error") {
+    toast.error(notification.message, options);
+  }
 }
 
-export default NotificationProvider;
+function NotificationProvider() {
+  return <ToastContainer />;
+}
+
+export { showNotification, NotificationProvider };
