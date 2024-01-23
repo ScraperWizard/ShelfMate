@@ -49,4 +49,4 @@ function Login() {
     </AnimatedPage>
   );
 }
-export default Login
+export default Login;
