@@ -14,7 +14,21 @@ interface Command {
     getCommand: Function
 }
 
+enum StaticCommandNames {
+    NOTIFICATION = "show-notification",
+}
+
+enum StaticCommandErrorNames {
+    INVALID_CLIENT_INCOMING_DATA = "INVALID_CLIENT_DATA",
+    INVALID_CLIENT_OUTGOING_DATA = "INVALID_SERVER_DATA",
+    UNAUTHORIZED = "USER_NOT_AUTHORIZED"
+}
+
+
+
 export {
     UserHierarchy,
-    Command
+    StaticCommandNames,
+    Command,
+    StaticCommandErrorNames
 }
