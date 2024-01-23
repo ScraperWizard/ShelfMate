@@ -1,10 +1,10 @@
 import AnimatedPage from "../Animation/AnimatedPage";
 
-export default function Login() {
+function Login() {
   return (
     <AnimatedPage>
       <div
-        className="relative w-full h-screen bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900"
+        className="relative w-full h-screen bg-gradient-to-r from-white via-blue-900 to-slate-900"
         data-name="login"
       >
         <div className="flex justify-center items-center h-full">
@@ -49,3 +49,4 @@ export default function Login() {
     </AnimatedPage>
   );
 }
+export default Login
