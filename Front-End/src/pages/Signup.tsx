@@ -100,7 +100,7 @@ export default function Signup() {
               </label>
               <input
                 className="border relative bg-gray-100 p-2"
-                type="password"
+                type="text"
                 placeholder="ID"
                 name="id"
               />
