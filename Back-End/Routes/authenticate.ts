@@ -1,5 +1,6 @@
 import { ServerCommandBuilder } from "../Applications/Commands/Builder.js";
 import { UserAccessLevels } from "../Applications/Commands/Context.js";
+import { Database } from "Applications/Database/Database.js";
 import Client from "../Components/Client/Client.js";
 
 const command = new ServerCommandBuilder("authenticate")
@@ -10,17 +11,16 @@ const command = new ServerCommandBuilder("authenticate")
     properties: {
       username: { type: "string" },
       password: { type: "string" },
-      accesstoken: { type: "string" },
     },
     required: ["username", "password"],
   })
+  .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
-async function callback(Client: Client, data, io, socket, db) {
+async function callback(Client: Client, data: any, Database: Database) {
   const { username, password } = data;
-
-  const [results] = await db.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [username, password]);
+  const results = await Database.authenticateUser(username, password);
 
   if (results == null) {
     return {

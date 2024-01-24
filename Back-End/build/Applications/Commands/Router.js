@@ -1,4 +1,5 @@
 import { StaticCommandNames, StaticCommandErrorNames } from "../../Applications/Commands/Context.js";
+import { NotificationTypes } from "../../Components/Notification/Notification.js";
 import { createValidationService } from "../Validation/Validation.js";
 class CommandRouter {
     constructor(Command, Socket, Client, Data, DBRouter) {
@@ -8,7 +9,7 @@ class CommandRouter {
         this.Data = Data;
         this.ValidationService = createValidationService();
         this.CommandExecutionFunction = Command.getCommand();
-        // this.Database = DBRouter.getConnectionForClientType(Client.setAccessLevel());
+        this.Database = DBRouter.getRoutedDatabaseConnection(Client.getAccessLevel());
     }
     route() {
         if (!this.validateIncomingData()) {
@@ -29,16 +30,22 @@ class CommandRouter {
         return incomingParser(this.Data);
     }
     sendErrorMessageToClient(errorMessage) {
-        // TODO log here
-        // console.log(``)
+        console.log("Sending error message to client: ", errorMessage);
         this.Socket.emit(this.Command.getOutgoingChannel(), { error: errorMessage });
-        this.Socket.emit(StaticCommandNames.NOTIFICATION, Notification);
+        this.Socket.emit(StaticCommandNames.NOTIFICATION, {
+            type: NotificationTypes.ERROR,
+            message: errorMessage,
+        });
     }
     validateCommandUserAccessLevel() {
         return this.Command.getUserAccessLevel() > this.Client.getAccessLevel();
     }
     async executeCommand() {
-        return await this.CommandExecutionFunction(this.Data);
+        return await this.CommandExecutionFunction({
+            Client: this.Client,
+            Data: this.Data,
+            Database: this.Database,
+        });
     }
     validateOutgoingData(CommandData) {
         const outgoingParser = this.Command.getOutgoingValidationSchema();

@@ -6,25 +6,17 @@ class DatabaseRouter {
   private DBConnections = {};
 
   constructor() {
-    
     for (let i = 0; i < DBConnectionConfig.default.users.length; i++) {
-      const user =DBConnectionConfig.default.users[i];
-      const newDB = new MySqlDB(DBConnectionConfig.default["host"],
-        DBConnectionConfig.default["dbname"],
-        user.username,
-        user.password,
-        user.type);
-        newDB.connectToDatabase();
+      const user = DBConnectionConfig.default.users[i];
+      const newDB = new MySqlDB(DBConnectionConfig.default["host"], DBConnectionConfig.default["dbname"], user.username, user.password, user.type);
+      newDB.connectToDatabase();
       this.DBConnections[newDB.getType()] = newDB;
-
     }
   }
 
   getRoutedDatabaseConnection(userType: string) {
     return this.DBConnections[userType].db;
   }
-
-
 }
 
 export default DatabaseRouter;

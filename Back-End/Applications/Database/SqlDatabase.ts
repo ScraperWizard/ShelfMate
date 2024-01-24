@@ -8,10 +8,10 @@ class MySqlDB implements Database {
   private name: string;
   private username: string;
   private password: string;
-  private type: string;
+  private type: number;
 
   state: DatabaseState = DatabaseState.CONNECTING;
-  constructor(host: string, name: string, username: string, password: string, type: string) {
+  constructor(host: string, name: string, username: string, password: string, type: number) {
     this.host = host;
     this.name = name;
     this.username = username;
@@ -19,7 +19,7 @@ class MySqlDB implements Database {
     this.type = type;
   }
 
-  getType(): string {
+  getType(): number {
     return this.type;
   }
 
