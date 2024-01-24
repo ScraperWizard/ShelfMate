@@ -1,4 +1,4 @@
-import { UserHierarchy } from "./Context.js";
+import { UserAccessLevels } from "./Context.js";
 import { Command } from "./Context.js";
 
 class ServerCommand implements Command {
@@ -7,10 +7,10 @@ class ServerCommand implements Command {
   private incomingValidationSchema: object;
   private outgoingValidationSchema: object;
   private outgoingChannel: string;
-  private userHierarchy: UserHierarchy;
+  private accessLevel: UserAccessLevels;
 
   constructor(builder: ServerCommandBuilder) {
-    this.userHierarchy = builder.accessLevel;
+    this.accessLevel = builder.accessLevel;
     this.name = builder.name;
     this.execute = builder.execute;
     this.incomingValidationSchema = builder.incomingValidationSchema;
@@ -27,7 +27,7 @@ class ServerCommand implements Command {
   }
 
   getUserAccessLevel() {
-    return this.userHierarchy;
+    return this.accessLevel;
   }
 
   getOutgoingChannel() {
@@ -44,7 +44,7 @@ class ServerCommand implements Command {
 }
 
 class ServerCommandBuilder {
-  accessLevel: UserHierarchy;
+  accessLevel: UserAccessLevels;
   name: string;
   execute: Function;
   incomingValidationSchema: object;
@@ -54,8 +54,8 @@ class ServerCommandBuilder {
     this.name = name;
   }
 
-  setUserHirarchy(hirarchy: UserHierarchy) {
-    this.accessLevel = hirarchy;
+  setAccessLevel(accessLevel: UserAccessLevels) {
+    this.accessLevel = accessLevel;
     return this;
   }
 

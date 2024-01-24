@@ -3,60 +3,77 @@ import { Notification, NotificationTypes } from "../../Components/Notification/N
 import { createValidationService } from "../Validation/Validation.js";
 import Client from "../../Components/Client/Client.js";
 
-const CommandRouter = async (Command: Command, Socket: any, Client: Client, Data: any) => {
-  const execute = Command.getCommand();
-  const validationService = createValidationService();
+class CommandRouter {
+  private Command: Command;
+  private Socket: any;
+  private Client: any;
+  private Data: any;
+  private ValidationService: any;
+  private Database: any;
+  private CommandExecutionFunction: Function;
 
-  console.log(`Received command ${Command.getName()} from client ${getIdentifierClient(Client)}`);
-
-  const incomingParser = validationService.compile(Command.getIncomingValidationSchema());
-  if (!incomingParser(Data)) {
-    sendErrorMessageToClient(Command, Socket, {
-      type: NotificationTypes.ERROR,
-      message: StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA,
-    } as Notification);
-
-    return console.error(`Invalid incoming content for command ${Command.getName()}!`);
+  constructor(Command: Command, Socket: any, Client: Client, Data: any, DBRouter: any) {
+    this.Command = Command;
+    this.Socket = Socket;
+    this.Client = Client;
+    this.Data = Data;
+    this.ValidationService = createValidationService();
+    this.CommandExecutionFunction = Command.getCommand();
+    // this.Database = DBRouter.getConnectionForClientType(Client.setAccessLevel());
   }
 
-  if (Command.getUserAccessLevel() > Client.getAccessLevel()) {
-    sendErrorMessageToClient(Command, Socket, {
-      type: NotificationTypes.ERROR,
-      message: StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA,
-    } as Notification);
+  route() {
+    if (!this.validateIncomingData()) {
+      return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA);
+    }
 
-    return console.error(`Client ${getIdentifierClient(Client)} is not authorized to execute command ${Command.getName()}!`);
+    if(!this.validateCommandUserAccessLevel()) {
+      return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA);
+    }
+
+    const CommandData = this.executeCommand();
+    this.emitNotificationIfCommandRequires(CommandData);
+
+    if(!this.validateOutgoingData(CommandData)) {
+      return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_OUTGOING_DATA);
+    } 
+
+    this.Socket.emit(this.Command.getOutgoingChannel(), CommandData); 
   }
 
-  // Get response of command
-  const data = await execute(Client, Data);
-
-  if (data?.notification) {
-    Socket.emit(StaticCommandNames.NOTIFICATION, data.notification as Notification);
-    delete data.notification;
+  private validateIncomingData(): Boolean {
+    const incomingParser = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
+    
+    return incomingParser(this.Data);
   }
 
-  const outgoingParser = Command.getOutgoingValidationSchema();
-  if (!validationService.validate(outgoingParser, data)) {
-    sendErrorMessageToClient(Command, Socket, {
-      type: NotificationTypes.ERROR,
-      message: StaticCommandErrorNames.INVALID_CLIENT_OUTGOING_DATA,
-    } as Notification);
-
-    return console.error(`Invalid outgoing content for command ${Command.getOutgoingChannel()}!`);
+  private sendErrorMessageToClient(errorMessage: StaticCommandErrorNames) {
+    // TODO log here
+    // console.log(``)
+    this.Socket.emit(this.Command.getOutgoingChannel(), { error: errorMessage });
+    this.Socket.emit(StaticCommandNames.NOTIFICATION, Notification);
   }
 
-  console.log(`Sending command ${Command.getOutgoingChannel()} to client ${getIdentifierClient(Client)}`);
-  Socket.emit(Command.getOutgoingChannel(), data);
-};
+  private validateCommandUserAccessLevel(): Boolean {
+    return this.Command.getUserAccessLevel() > this.Client.getAccessLevel();
+  }
 
-function sendErrorMessageToClient(Command: Command, Socket: any, Notification: Notification) {
-  Socket.emit(Command.getOutgoingChannel(), { error: Notification.message });
-  Socket.emit(StaticCommandNames.NOTIFICATION, Notification);
-}
+  private async executeCommand(): Promise<Object> {
+    return await this.CommandExecutionFunction(this.Data)
+  }
 
-function getIdentifierClient(Client: Client) {
-  return Client.getName() || Client.getSocketId();
+  private validateOutgoingData(CommandData: any ): Boolean {
+    const outgoingParser = this.Command.getOutgoingValidationSchema();
+
+    return this.ValidationService.validate(outgoingParser, CommandData)
+  }
+
+  private emitNotificationIfCommandRequires(CommandData: any) {
+    if (CommandData?.notification) {
+      this.Socket.emit(StaticCommandNames.NOTIFICATION, CommandData.notification as Notification);
+      delete CommandData.notification;
+    }
+  }
 }
 
 export default CommandRouter;

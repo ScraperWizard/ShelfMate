@@ -1,10 +1,10 @@
-var UserHierarchy;
-(function (UserHierarchy) {
-    UserHierarchy[UserHierarchy["UNAUTHORIZED"] = 0] = "UNAUTHORIZED";
-    UserHierarchy[UserHierarchy["STUDENT"] = 1] = "STUDENT";
-    UserHierarchy[UserHierarchy["LIBRARIAN"] = 2] = "LIBRARIAN";
-    UserHierarchy[UserHierarchy["ADMIN"] = 3] = "ADMIN";
-})(UserHierarchy || (UserHierarchy = {}));
+var UserAccessLevels;
+(function (UserAccessLevels) {
+    UserAccessLevels[UserAccessLevels["UNAUTHENTICATED"] = 0] = "UNAUTHENTICATED";
+    UserAccessLevels[UserAccessLevels["STUDENT"] = 1] = "STUDENT";
+    UserAccessLevels[UserAccessLevels["LIBRARIAN"] = 2] = "LIBRARIAN";
+    UserAccessLevels[UserAccessLevels["ADMIN"] = 3] = "ADMIN";
+})(UserAccessLevels || (UserAccessLevels = {}));
 var StaticCommandNames;
 (function (StaticCommandNames) {
     StaticCommandNames["NOTIFICATION"] = "show-notification";
@@ -15,5 +15,5 @@ var StaticCommandErrorNames;
     StaticCommandErrorNames["INVALID_CLIENT_OUTGOING_DATA"] = "INVALID_SERVER_DATA";
     StaticCommandErrorNames["UNAUTHORIZED"] = "USER_NOT_AUTHORIZED";
 })(StaticCommandErrorNames || (StaticCommandErrorNames = {}));
-export { UserHierarchy, StaticCommandNames, StaticCommandErrorNames };
+export { UserAccessLevels, StaticCommandNames, StaticCommandErrorNames };
 //# sourceMappingURL=Context.js.map

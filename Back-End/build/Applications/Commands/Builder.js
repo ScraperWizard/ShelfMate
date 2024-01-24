@@ -1,6 +1,6 @@
 class ServerCommand {
     constructor(builder) {
-        this.userHierarchy = builder.accessLevel;
+        this.accessLevel = builder.accessLevel;
         this.name = builder.name;
         this.execute = builder.execute;
         this.incomingValidationSchema = builder.incomingValidationSchema;
@@ -14,7 +14,7 @@ class ServerCommand {
         return this.outgoingValidationSchema;
     }
     getUserAccessLevel() {
-        return this.userHierarchy;
+        return this.accessLevel;
     }
     getOutgoingChannel() {
         return this.outgoingChannel;
@@ -30,8 +30,8 @@ class ServerCommandBuilder {
     constructor(name) {
         this.name = name;
     }
-    setUserHirarchy(hirarchy) {
-        this.accessLevel = hirarchy;
+    setAccessLevel(accessLevel) {
+        this.accessLevel = accessLevel;
         return this;
     }
     setOutgoingChannel(channel) {

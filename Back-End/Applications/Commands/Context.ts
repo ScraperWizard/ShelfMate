@@ -1,5 +1,5 @@
-enum UserHierarchy {
-    UNAUTHORIZED = 0,
+enum UserAccessLevels {
+    UNAUTHENTICATED = 0,
     STUDENT = 1,
     LIBRARIAN = 2,
     ADMIN = 3
@@ -25,7 +25,7 @@ enum StaticCommandErrorNames {
 }
 
 export {
-    UserHierarchy,
+    UserAccessLevels,
     StaticCommandNames,
     Command,
     StaticCommandErrorNames

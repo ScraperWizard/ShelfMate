@@ -1,4 +1,4 @@
-import AjvValidation from "./AjvValidation.js";
+import ValidationServiceI from "./ValidationServiceI.js";
 
 interface ValidationService {
     initialize: Function;
@@ -7,7 +7,7 @@ interface ValidationService {
 }
 
 function createValidationService(): ValidationService | null {
-    return new AjvValidation().initialize();
+    return new ValidationServiceI().initialize();
 }
 
 export {

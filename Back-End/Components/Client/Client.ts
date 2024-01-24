@@ -1,9 +1,9 @@
-import { UserHierarchy } from "../../Applications/Commands/Context.js";
+import { UserAccessLevels } from "../../Applications/Commands/Context.js";
 
 class Client {
     private name: string;
     private socketId: string;
-    private accessLevel: UserHierarchy = UserHierarchy.UNAUTHORIZED;
+    private accessLevel: UserAccessLevels = UserAccessLevels.UNAUTHENTICATED;
 
     constructor(socketId: string) {
         this.socketId = socketId;
@@ -17,7 +17,7 @@ class Client {
         return this.socketId;
     }
 
-    getAccessLevel(): UserHierarchy {
+    getAccessLevel(): UserAccessLevels {
         return this.accessLevel;
     }
 
@@ -25,7 +25,7 @@ class Client {
         this.name = value;
     }
 
-    setAccessLevel(value: UserHierarchy) {
+    setAccessLevel(value: UserAccessLevels) {
         this.accessLevel = value;
     }
 }

@@ -1,7 +1,7 @@
 import { ValidationService } from "./Validation.js";
 import Ajv from "ajv";
 
-class AjvValidation implements ValidationService {
+class AjvValidationService implements ValidationService {
     // TODO correct type of ajvinstance
     ajvInstance: any;
 
@@ -20,4 +20,4 @@ class AjvValidation implements ValidationService {
 }
 
 
-export default AjvValidation
+export default AjvValidationService;
