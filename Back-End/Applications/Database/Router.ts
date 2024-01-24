@@ -15,7 +15,7 @@ class DatabaseRouter {
   }
 
   getRoutedDatabaseConnection(userType: string) {
-    return this.DBConnections[userType].db;
+    return this.DBConnections[userType];
   }
 }
 

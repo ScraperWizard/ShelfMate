@@ -9,20 +9,20 @@ class CommandRouter {
         this.Data = Data;
         this.ValidationService = createValidationService();
         this.CommandExecutionFunction = Command.getCommand();
-        this.Database = DBRouter.getRoutedDatabaseConnection(Client.getAccessLevel());
+        this.Database = DBRouter.getRoutedDatabaseConnection(Client.getAccessLevel().toString());
     }
-    route() {
+    async route() {
         if (!this.validateIncomingData()) {
             return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA);
         }
-        if (!this.validateCommandUserAccessLevel()) {
+        if (this.validateCommandUserAccessLevel()) {
             return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA);
         }
-        const CommandData = this.executeCommand();
+        const CommandData = await this.executeCommand();
         this.emitNotificationIfCommandRequires(CommandData);
-        if (!this.validateOutgoingData(CommandData)) {
-            return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_OUTGOING_DATA);
-        }
+        // if (!this.validateOutgoingData(CommandData)) {
+        //   return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_OUTGOING_DATA);
+        // }
         this.Socket.emit(this.Command.getOutgoingChannel(), CommandData);
     }
     validateIncomingData() {
@@ -30,7 +30,6 @@ class CommandRouter {
         return incomingParser(this.Data);
     }
     sendErrorMessageToClient(errorMessage) {
-        console.log("Sending error message to client: ", errorMessage);
         this.Socket.emit(this.Command.getOutgoingChannel(), { error: errorMessage });
         this.Socket.emit(StaticCommandNames.NOTIFICATION, {
             type: NotificationTypes.ERROR,
@@ -41,11 +40,7 @@ class CommandRouter {
         return this.Command.getUserAccessLevel() > this.Client.getAccessLevel();
     }
     async executeCommand() {
-        return await this.CommandExecutionFunction({
-            Client: this.Client,
-            Data: this.Data,
-            Database: this.Database,
-        });
+        return await this.CommandExecutionFunction(this.Client, this.Data, this.Database);
     }
     validateOutgoingData(CommandData) {
         const outgoingParser = this.Command.getOutgoingValidationSchema();

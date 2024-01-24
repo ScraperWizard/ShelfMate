@@ -18,19 +18,23 @@ const command = new ServerCommandBuilder("authenticate")
   .setOutgoingValidationSchema({})
   .build();
 
-async function callback(Client: Client, data: any, Database: Database) {
+async function callback(Client: Client, data, Database: Database) {
   const { username, password } = data;
-  const results = await Database.authenticateUser(username, password);
+  const result: any = await Database.authenticateUser(username, password);
 
-  if (results == null) {
+  if (!result) {
     return {
+      notification: {
+        type: "error",
+        message: "Invalid username or password!",
+      },
       error: "Invalid username or password!",
     };
   }
 
-  Client.setName(results[0].Username);
+  Client.setName(result.username);
 
-  return results[0];
+  return result;
 }
 
 export default command;

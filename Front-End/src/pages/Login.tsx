@@ -22,21 +22,28 @@ function Login() {
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     socket.emit("authenticate", { username, password });
-  };
 
-  socket.on("authenticated", ({ success, message }) => {
-    if (success) {
-      showNotification({
-        type: "success",
-        message: "Authentication successful",
-      } as Notification);
-    } else {
-      showNotification({
-        type: "error",
-        message: `Authentication failed: ${message}`,
-      } as Notification);
-    }
-  });
+    socket.once("autheticate-response", (message) => {
+    //   {
+    //     "username": "user1",
+    //     "password": "password1",
+    //     "id": 21,
+    //     "first_name": "John",
+    //     "last_name": "Doe",
+    //     "postal_address": "123 Main St",
+    //     "email_adress": "john.doe@example.com",
+    //     "mobile_num": "12345678901234",
+    //     "enrolled": 1,
+    //     "user_type": "admin"
+    // }
+      if (message?.id) {
+        showNotification({
+          type: "success",
+          message: "Authentication successful",
+        } as Notification);
+      }
+    });
+  };
 
   return (
     <AnimatedPage>

@@ -42,14 +42,12 @@ class MySqlDB implements Database {
   }
 
   async authenticateUser(Username: string, Password: string): Promise<Object> {
-    const [results] = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [Username, Password]);
-
-    if (results == null) {
-      return {
-        error: "Invalid username or password!",
-      };
+    const results = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [Username, Password]);
+    
+    if (results[0].length === 0) {
+      return false;
     } else {
-      return results[0];
+      return results[0][0];
     }
   }
 
