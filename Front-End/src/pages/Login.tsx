@@ -1,12 +1,28 @@
+import { useState } from "react";
 import AnimatedPage from "../Animation/AnimatedPage";
 import { showNotification, Notification } from "../context/NotificationProvider";
+import socket from "../Socket";
 
 function Login() {
+  const [username, setUsername] = useState("");
+
+  const handleUsernameChange = (HTMLInputElement) => {
+    setUsername
+  }
   // Test
   // showNotification({
   //   type: "success",
   //   message: "This is a success notification",
   // } as Notification);
+
+
+  function submit() {
+    socket.emit("authenticate", {
+      // userrname
+      // password
+    })
+  }
+  
   return (
     <AnimatedPage>
       <div className="relative w-full h-screen bg-gradient-to-r from-white via-blue-900 to-slate-900" data-name="login">
@@ -16,7 +32,7 @@ function Login() {
 
             <div className="flex flex-col mb-4">
               <label className="text-slate-400 hover:text-sky-400">Enter your username: </label>
-              <input className="border relative bg-gray-100 p-2" type="text" placeholder="username" />
+              <input className="border relative bg-gray-100 p-2" onChange={setUsername} type="text" placeholder="username" />
             </div>
             <div className="flex flex-col ">
               <label className="text-slate-400 hover:text-sky-400">Enter your password: </label>

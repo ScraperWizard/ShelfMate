@@ -10,7 +10,6 @@ class MySqlDB implements Database {
   private password: string;
   private type: string;
 
-
   state: DatabaseState = DatabaseState.CONNECTING;
   constructor(host: string, name: string, username: string, password: string, type: string) {
     this.host = host;
@@ -34,16 +33,13 @@ class MySqlDB implements Database {
       })
       .then((DB) => {
         this.connection = DB;
-        console.log("connected")
+        console.log("connected");
       });
-     
   }
 
   getState(): DatabaseState {
     return this.state;
   }
-
-
 
   async authenticateUser(Username: string, Password: string): Promise<Object> {
     const [results] = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [Username, Password]);
