@@ -24,8 +24,6 @@ enum StaticCommandErrorNames {
     UNAUTHORIZED = "USER_NOT_AUTHORIZED"
 }
 
-
-
 export {
     UserHierarchy,
     StaticCommandNames,

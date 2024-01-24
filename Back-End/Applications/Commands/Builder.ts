@@ -10,7 +10,7 @@ class ServerCommand implements Command {
   private userHierarchy: UserHierarchy;
 
   constructor(builder: ServerCommandBuilder) {
-    this.userHierarchy = builder.userHierarchy;
+    this.userHierarchy = builder.accessLevel;
     this.name = builder.name;
     this.execute = builder.execute;
     this.incomingValidationSchema = builder.incomingValidationSchema;
@@ -44,7 +44,7 @@ class ServerCommand implements Command {
 }
 
 class ServerCommandBuilder {
-  userHierarchy: UserHierarchy;
+  accessLevel: UserHierarchy;
   name: string;
   execute: Function;
   incomingValidationSchema: object;
@@ -55,7 +55,7 @@ class ServerCommandBuilder {
   }
 
   setUserHirarchy(hirarchy: UserHierarchy) {
-    this.userHierarchy = hirarchy;
+    this.accessLevel = hirarchy;
     return this;
   }
 
