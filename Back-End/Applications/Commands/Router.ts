@@ -1,4 +1,4 @@
-import { Command, StaticCommandNames, StaticCommandErrorNames } from "../../Applications/Commands/Context.js";
+import { Command, StaticCommandNames, StaticCommandErrorNames, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 import { Notification, NotificationTypes } from "../../Components/Notification/Notification.js";
 import { createValidationService } from "../Validation/Validation.js";
 import Client from "../../Components/Client/Client.js";
@@ -42,9 +42,9 @@ class CommandRouter {
   }
 
   private validateIncomingData(): Boolean {
-    const incomingParser = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
+    const incomingDataValidate = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
 
-    return incomingParser(this.Data);
+    return incomingDataValidate(this.Data);
   }
 
   private sendErrorMessageToClient(errorMessage: StaticCommandErrorNames) {
@@ -60,17 +60,17 @@ class CommandRouter {
   }
 
   private async executeCommand(): Promise<Object> {
-    return await this.CommandExecutionFunction(
-      this.Client,
-      this.Data,
-      this.Database,
-    );
+    const ExecuteArguments: CommandExecuteArguments = {
+      Client: this.Client,
+      Data: this.Data,
+      Database: this.Database,
+    };
+    
+    return await this.CommandExecutionFunction(ExecuteArguments);
   }
 
   private validateOutgoingData(CommandData: any): Boolean {
-    const outgoingParser = this.Command.getOutgoingValidationSchema();
-
-    return this.ValidationService.validate(outgoingParser, CommandData);
+    return this.ValidationService.validate(this.Command.getOutgoingValidationSchema(), CommandData);
   }
 
   private emitNotificationIfCommandRequires(CommandData: any) {

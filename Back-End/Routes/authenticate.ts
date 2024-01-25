@@ -1,7 +1,5 @@
 import { ServerCommandBuilder } from "../Applications/Commands/Builder.js";
-import { UserAccessLevels } from "../Applications/Commands/Context.js";
-import { Database } from "Applications/Database/Database.js";
-import Client from "../Components/Client/Client.js";
+import { UserAccessLevels, CommandExecuteArguments } from "../Applications/Commands/Context.js";
 
 const command = new ServerCommandBuilder("authenticate")
   .setAccessLevel(UserAccessLevels.UNAUTHENTICATED)
@@ -18,8 +16,8 @@ const command = new ServerCommandBuilder("authenticate")
   .setOutgoingValidationSchema({})
   .build();
 
-async function callback(Client: Client, data, Database: Database) {
-  const { username, password } = data;
+async function callback({ Client, Data, Database }: CommandExecuteArguments) {
+  const { username, password } = Data;
   const result: any = await Database.authenticateUser(username, password);
 
   if (!result) {

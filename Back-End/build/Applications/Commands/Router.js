@@ -26,8 +26,8 @@ class CommandRouter {
         this.Socket.emit(this.Command.getOutgoingChannel(), CommandData);
     }
     validateIncomingData() {
-        const incomingParser = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
-        return incomingParser(this.Data);
+        const incomingDataValidate = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
+        return incomingDataValidate(this.Data);
     }
     sendErrorMessageToClient(errorMessage) {
         this.Socket.emit(this.Command.getOutgoingChannel(), { error: errorMessage });
@@ -40,11 +40,15 @@ class CommandRouter {
         return this.Command.getUserAccessLevel() > this.Client.getAccessLevel();
     }
     async executeCommand() {
-        return await this.CommandExecutionFunction(this.Client, this.Data, this.Database);
+        const ExecuteArguments = {
+            Client: this.Client,
+            Data: this.Data,
+            Database: this.Database,
+        };
+        return await this.CommandExecutionFunction(ExecuteArguments);
     }
     validateOutgoingData(CommandData) {
-        const outgoingParser = this.Command.getOutgoingValidationSchema();
-        return this.ValidationService.validate(outgoingParser, CommandData);
+        return this.ValidationService.validate(this.Command.getOutgoingValidationSchema(), CommandData);
     }
     emitNotificationIfCommandRequires(CommandData) {
         if (CommandData?.notification) {
