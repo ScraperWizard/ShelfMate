@@ -6,8 +6,11 @@ import {
   Notification,
 } from "../context/NotificationProvider";
 import socket from "../Socket";
+import {useAuth, AuthProvider} from '../context/AuthProvider'
+import User from '../context/AuthProvider'
 
 function Login() {
+  const {login} = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,19 +27,20 @@ function Login() {
     socket.emit("authenticate", { username, password });
 
     socket.once("autheticate-response", (message) => {
-    //   {
-    //     "username": "user1",
-    //     "password": "password1",
-    //     "id": 21,
-    //     "first_name": "John",
-    //     "last_name": "Doe",
-    //     "postal_address": "123 Main St",
-    //     "email_adress": "john.doe@example.com",
-    //     "mobile_num": "12345678901234",
-    //     "enrolled": 1,
-    //     "user_type": "admin"
-    // }
+    
       if (message?.id) {
+        const user: User = {
+          username: message.username,
+          password: message.password,
+          id: message.id.toString(),
+          first_name: message.first_name,
+          last_name: message.last_name,
+          postal: message.postal_address,
+          email: message.email_adress,
+          telephone_number: message.mobile_num,
+        };
+
+        login(user);
         showNotification({
           type: "success",
           message: "Authentication successful",
@@ -47,6 +51,7 @@ function Login() {
 
   return (
     <AnimatedPage>
+      <AuthProvider>
       <div
         className="relative w-full h-screen bg-gradient-to-r from-white via-blue-900 to-slate-900"
         data-name="login"
@@ -95,6 +100,7 @@ function Login() {
           </form>
         </div>
       </div>
+      </AuthProvider>
     </AnimatedPage>
   );
 }

@@ -9,14 +9,19 @@ import Home from "./pages/Home.tsx";
 import socket from "./Socket.tsx";
 import { NotificationProvider } from "./context/NotificationProvider.tsx";
 import Navbar from "./components/Navbar.tsx";
+import {AuthProvider} from './context/AuthProvider.tsx'
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
+
     <NotificationProvider />
-    <Routes>
+    {/* <Routes>
       <Route path="/" element={<Login></Login>}></Route>
       <Route path="/signup" element={<Signup></Signup>}></Route>
-    </Routes>
-    {/* <Navbar></Navbar> */}
+    </Routes> */}
+    <Navbar></Navbar>
+   
+
+
   </BrowserRouter>
 );
