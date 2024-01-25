@@ -54,6 +54,10 @@ class MySqlDB implements Database {
   async getAvailableBooks(): Promise<Object> | null {
     return null;
   }
+
+  async getUserFromAccessToken() {
+    
+  }
 }
 
 export default MySqlDB;
