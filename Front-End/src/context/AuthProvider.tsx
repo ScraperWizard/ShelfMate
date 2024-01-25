@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-export default interface User {
+interface UserData {
   username: string;
   password: string;
   id: string;
@@ -11,51 +11,38 @@ export default interface User {
   telephone_number: string;
 }
 
-interface AuthContextType {
-  user: User | null;
-  login: (user: User) => void;
+interface AuthContextProps {
+  user: UserData | null;
+  login: (userData: UserData) => void;
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth should be inside  AuthProvider");
-  }
-  return context;
-};
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<UserData | null>(null);
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>({
-    username: "",
-    password: "",
-    id: "",
-    first_name: "",
-    last_name: "",
-    postal: "",
-    email: "",
-    telephone_number: "",
-  });
-
-  const login = (userData: User) => {
+  const login = (userData: UserData) => {
     setUser(userData);
   };
+ // Remainder to me: I created this function so that it sets the user informmation to null after logging out or something like that
+  // const logout = () => {
+  //   setUser(null);
+  // };
 
-  const logout = () => {
-    setUser(null);
-  };
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-  const contextValue: AuthContextType = {
-    user,
-    login,
-    logout,
-  };
+export const useAuth = (): AuthContextProps => {
+  const context = useContext(AuthContext);
 
-  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
+  if (!context) { 
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+
+  return context;
 };

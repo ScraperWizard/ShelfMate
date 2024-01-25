@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import AnimatedPage from "../Animation/AnimatedPage";
 import {
   showNotification,
@@ -6,11 +6,11 @@ import {
   Notification,
 } from "../context/NotificationProvider";
 import socket from "../Socket";
-import {useAuth, AuthProvider} from '../context/AuthProvider'
-import User from '../context/AuthProvider'
+import { redirect } from "react-router-dom";
+import { useContext } from "react";
+import { useAuth } from "../context/AuthProvider";
 
 function Login() {
-  const {login} = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,18 +21,18 @@ function Login() {
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
+  let userData = null;
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     socket.emit("authenticate", { username, password });
 
     socket.once("autheticate-response", (message) => {
-    
       if (message?.id) {
-        const user: User = {
+        userData = {
           username: message.username,
           password: message.password,
-          id: message.id.toString(),
+          id: message.id,
           first_name: message.first_name,
           last_name: message.last_name,
           postal: message.postal_address,
@@ -40,7 +40,9 @@ function Login() {
           telephone_number: message.mobile_num,
         };
 
-        login(user);
+        const { login } = useAuth();
+        login(userData);// another reminder for myself this is where the user information is set
+        
         showNotification({
           type: "success",
           message: "Authentication successful",
@@ -51,7 +53,6 @@ function Login() {
 
   return (
     <AnimatedPage>
-      <AuthProvider>
       <div
         className="relative w-full h-screen bg-gradient-to-r from-white via-blue-900 to-slate-900"
         data-name="login"
@@ -74,9 +75,12 @@ function Login() {
                 onChange={handleUsernameChange}
                 type="text"
                 placeholder="username"
+                name="username"
+                id="username"
               />
             </div>
-            <div className="flex flex-col ">
+
+            <div className="flex flex-col">
               <label className="text-slate-400 hover:text-sky-400">
                 Enter your password:{" "}
               </label>
@@ -85,22 +89,29 @@ function Login() {
                 onChange={handlePasswordChange}
                 type="password"
                 placeholder="password"
+                id="password"
               />
             </div>
+
             <button className="w-full py-3 mt-8 bg-indigo-600 hover:bg-indigo-500 relative text-white hover:scale-110 duration-200">
               Sign In
             </button>
+
             <p className='flex items-center mt-2 text-slate-400 hover:text-sky-400"'>
               <input className="mr-2 " type="checkbox" />
               Remember Me
             </p>
+
             <p className="text-center mt-8 text-slate-400 hover:text-sky-400">
               Not a member? <a href="/signup">Sign up now</a>
+            </p>
+
+            <p className="text-center mt-8 text-slate-400 hover:text-sky-400">
+              Not a member? <a href="/home">go home</a>
             </p>
           </form>
         </div>
       </div>
-      </AuthProvider>
     </AnimatedPage>
   );
 }
