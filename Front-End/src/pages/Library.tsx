@@ -9,12 +9,13 @@ import arrivalImg7 from '../assets/arrival_7.jpg'
 import arrivalImg8 from '../assets/arrival_8.webp'
 import arrivalImg9 from '../assets/arrival_9.jpg'
 import arrivalImg10 from '../assets/arrival_10.jpg'
-// import arrivalImg11 from '../assets/arrival_11.jpg'
-// import arrivalImg12 from '../assets/arrival_12.jpg'
-// import arrivalImg13 from '../assets/arrival_13.jpg'
-// import arrivalImg14 from '../assets/arrival_14.jpg'
-// import arrivalImg15 from '../assets/arrival_15.jpg'
-
+import bookImg9 from '../assets/book_9.jpg';
+import bookImg10 from '../assets/book_10.png';
+import bookImg11 from '../assets/book_11.jpg';
+import bookImg12 from '../assets/book_12.png';
+import bookImg13 from '../assets/book_13.png';
+import bookImg14 from '../assets/book_14.png';
+import bookImg15 from '../assets/book_15.png';
 
 
 function Library() {
@@ -194,7 +195,7 @@ function Library() {
 
           <div className="libraryCards">
             <div className="libraryImage">
-              <img src="images/book_9.jpg"/>
+              <img src={bookImg9}/>
             </div>
             <div className="libraryTag">
               <p>Action, Mystery</p>
@@ -211,7 +212,7 @@ function Library() {
 
           <div className="libraryCards">
             <div className="libraryImage">
-                <img src="images/book_10.png"/>
+                <img src={bookImg10}/>
             </div>
             <div className="libraryTag">
               <p>Business & Finance</p>
@@ -228,7 +229,7 @@ function Library() {
 
           <div className="libraryCards">
             <div className="libraryImage">
-                <img src="images/book_11.jpg"/>
+                <img src={bookImg11}/>
             </div>
             <div className="libraryTag">
               <p>Drama</p>
@@ -245,7 +246,7 @@ function Library() {
 
           <div className="libraryCards">
             <div className="libraryImage">
-                <img src="images/book_12.png"/>
+                <img src={bookImg12}/>
             </div>
             <div className="libraryTag">
               <p>Business and Wellness</p>
@@ -262,7 +263,7 @@ function Library() {
 
           <div className="libraryCards">
             <div className="libraryImage">
-                <img src="images/book_13.png"/>
+                <img src={bookImg13}/>
             </div>
             <div className="libraryTag">
               <p>Mindfulness</p>
@@ -279,7 +280,7 @@ function Library() {
 
           <div className="libraryCards">
             <div className="libraryImage">
-                <img src="images/book_14.png"/>
+                <img src={bookImg14}/>
             </div>
             <div className="libraryTag">
               <p>Kids</p>
@@ -296,7 +297,7 @@ function Library() {
 
           <div className="libraryCards">
             <div className="libraryImage">
-                <img src="images/book_15.png"/>
+                <img src={bookImg15}/>
             </div>
             <div className="libraryTag">
               <p>Law</p>

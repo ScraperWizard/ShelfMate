@@ -1,4 +1,11 @@
 import React from 'react'
+import book1 from '../assets/book_1.jpg'
+import book2 from '../assets/book_2.jpg'
+import book3 from '../assets/book_3.jpg'
+import book4 from '../assets/book_4.jpg'
+import book5 from '../assets/book_5.jpg'
+import book6 from '../assets/book_7.png'
+import book7 from '../assets/book_8.png'
 
 function BookTable() {
   return (
@@ -8,7 +15,7 @@ function BookTable() {
                 
             <div className="myBooksCard">
                 <div className="myBooksImg">
-                    <img src="images/book_1.jpg"/>
+                    <img src={book1}/>
                 
 
                 <div className = "myBoogTag">
@@ -21,7 +28,7 @@ function BookTable() {
         
                 <div className="myBooksCard">
                     <div className="myBooksImg">
-                        <img src="images/book_2.jpg" />
+                        <img src={book2} />
                     </div>
     
                     <div className = "myBoogTag">
@@ -33,7 +40,7 @@ function BookTable() {
 
                 <div className="myBooksCard">
                     <div className="myBooksImg">
-                        <img src="images/book_3.jpg" />
+                        <img src={book3} />
                     </div>
     
                     <div className = "myBoogTag">
@@ -45,7 +52,7 @@ function BookTable() {
 
                 <div className="myBooksCard">
                     <div className="myBooksImg">
-                        <img src="images/book_4.jpg" />
+                        <img src={book4} />
                     </div>
     
                     <div className = "myBoogTag">
@@ -57,7 +64,7 @@ function BookTable() {
 
                 <div className="myBooksCard">
                     <div className="myBooksImg">
-                        <img src="images/book_5.jpg" />
+                        <img src={book5} />
                     </div>
     
                     <div className = "myBoogTag">
@@ -69,7 +76,7 @@ function BookTable() {
 
                 <div className="myBooksCard">
                     <div className="myBooksImg">
-                        <img src="images/book_7.png" />
+                        <img src={book6} />
                     </div>
     
                     <div className = "myBoogTag">
@@ -81,7 +88,7 @@ function BookTable() {
                 
                 <div className="myBooksCard">
                     <div className="myBooksImg">
-                        <img src="images/book_8.png" />
+                        <img src={book7} />
                     </div>
     
                     <div className = "myBoogTag">
