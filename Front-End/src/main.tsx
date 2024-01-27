@@ -11,15 +11,27 @@ import { NotificationProvider } from "./context/NotificationProvider.tsx";
 import Navbar from "./components/Navbar.tsx";
 import { AuthProvider } from "./context/AuthProvider.tsx";
 
+import './styles/About.css'
+import './styles/Library.css'
+import './styles/Home.css'
+import './styles/myBooks.css'
+import About from "./pages/About.tsx";
+import Library from "./pages/Library.tsx";
+import BookTable from "./components/BookTable.tsx";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <AuthProvider>
       <NotificationProvider />
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<Login></Login>}></Route>
         <Route path="/signup" element={<Signup></Signup>}></Route>
-      </Routes>
+      </Routes> */}
       {/* <Navbar></Navbar> */}
+      <Home></Home>
+      <About></About>
+      <Library></Library>
+      <BookTable></BookTable>
     </AuthProvider>
   </BrowserRouter>
 );

@@ -14,7 +14,7 @@ interface UserData {
 interface AuthContextProps {
   user: UserData | null;
   login: (userData: UserData) => void;
-  logout: () => void;
+  // logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -31,7 +31,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login,  }}>
       {children}
     </AuthContext.Provider>
   );
