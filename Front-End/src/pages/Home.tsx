@@ -1,9 +1,11 @@
 import React from 'react'
+import Navbar from '../components/Navbar'
 import tableImg from '../assets/table.png'
 
 function Home() {
   return (
-    <div>
+    <div data-name="home">
+        <Navbar></Navbar>
       <section>
         <div className = "main">
             <div className = "main_tag">

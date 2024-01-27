@@ -23,15 +23,19 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <AuthProvider>
       <NotificationProvider />
-      {/* <Routes>
+      <Routes>
         <Route path="/" element={<Login></Login>}></Route>
         <Route path="/signup" element={<Signup></Signup>}></Route>
-      </Routes> */}
+        <Route path="/home" element={<Home></Home>}></Route>
+        <Route path="/about" element={<About></About>}></Route>
+        <Route path="/library" element={<Library></Library>}></Route>
+        <Route path="/book-table" element={<BookTable></BookTable>}></Route>
+      </Routes>
       {/* <Navbar></Navbar> */}
-      <Home></Home>
+      {/* <Home></Home>
       <About></About>
       <Library></Library>
-      <BookTable></BookTable>
+      <BookTable></BookTable> */}
     </AuthProvider>
   </BrowserRouter>
 );
