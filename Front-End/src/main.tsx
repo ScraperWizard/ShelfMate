@@ -15,9 +15,12 @@ import { AuthProvider } from "./context/AuthProvider.tsx";
 // import './styles/Library.css'
 // import './styles/Home.css'
 // import './styles/myBooks.css'
+//meeting-room
 import About from "./pages/About.tsx";
 import Library from "./pages/Library.tsx";
 import BookTable from "./components/BookTable.tsx";
+import MeetingRooms from "./pages/MeetingRooms.tsx";
+import Contact from "./pages/Contact.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -30,6 +33,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="/about" element={<About></About>}></Route>
         <Route path="/library" element={<Library></Library>}></Route>
         <Route path="/book-table" element={<BookTable></BookTable>}></Route>
+        <Route path="/meeting-room" element={<MeetingRooms></MeetingRooms>}></Route>
+        <Route path="/contact" element={<Contact></Contact>}></Route>
       </Routes>
     </AuthProvider>
   </BrowserRouter>
