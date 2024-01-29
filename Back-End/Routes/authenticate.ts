@@ -5,22 +5,41 @@ const command = new ServerCommandBuilder("authenticate")
   .setAccessLevel(UserAccessLevels.UNAUTHENTICATED)
   .setOutgoingChannel("autheticate-response")
   .setIncomingValidationSchema({
-    type: "object",
-    properties: {
-      username: { type: "string" },
-      password: { type: "string" },
-    },
-    required: ["username", "password"],
+    oneOf: [
+      {
+        type: "object",
+        properties: {
+          username: { type: "string" },
+          password: { type: "string" },
+        },
+        required: ["username", "password"],
+        additionalProperties: false,
+      },
+      {
+        type: "object",
+        properties: {
+          accessToken: { type: "string" },
+        },
+        required: ["accessToken"],
+        additionalProperties: false,
+      },
+    ],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
-  const { username, password } = Data;
-  const result: any = await Database.authenticateUser(username, password);
+  const { username, password, accessToken } = Data;
+  let UserData: any;
 
-  if (!result) {
+  if (accessToken) {
+    UserData = await Database.getUserByAccessToken(accessToken);
+  } else {
+    UserData = await Database.authenticateUser({ username, password });
+  }
+
+  if (!UserData) {
     return {
       notification: {
         type: "error",
@@ -30,9 +49,9 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     };
   }
 
-  Client.setName(result.username);
+  Client.setName(UserData.username);
 
-  return result;
+  return UserData;
 }
 
 export default command;

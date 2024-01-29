@@ -1,6 +1,6 @@
 import { Database, DatabaseState } from "./Database.js";
-import * as DBConnectionConfig from "../../database.env.json" assert { type: "json" };
 import mysql from "mysql2/promise";
+import jwt from "jsonwebtoken";
 
 class MySqlDB implements Database {
   private connection: any;
@@ -41,9 +41,9 @@ class MySqlDB implements Database {
     return this.state;
   }
 
-  async authenticateUser(Username: string, Password: string): Promise<Object> {
-    const results = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [Username, Password]);
-    
+  async authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> {
+    const results = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [username, password]);
+
     if (results[0].length === 0) {
       return false;
     } else {
@@ -51,13 +51,26 @@ class MySqlDB implements Database {
     }
   }
 
+  async getUserByAccessToken({ accessToken }: { accessToken: string }) {
+    const results = await this.connection.execute(`SELECT * FROM accesstokens WHERE AccessToken=?`, [accessToken]);
+
+    if (results[0].length === 0) {
+      return false;
+    } else {
+      return results[0][0];
+    }
+  }
+
+  async generateJsonWebToken({ username }: { username: string }): Promise<Object> | null {
+    await this.connection.execute(`INSERT INTO accesstokens (accesstoken) VALUES (?)`, []);
+    return null
+  }
+
   async getAvailableBooks(): Promise<Object> | null {
     return null;
   }
 
-  async getUserFromAccessToken() {
-    
-  }
+  async getUserFromAccessToken() {}
 }
 
 export default MySqlDB;
