@@ -10,7 +10,7 @@
     width: 100%;
     height: 100vh;
     padding: 70px 0;
-    background-image: url(images/MyBooksBG99.jpg);     
+    background-image: url('../assets/MyBooksBG99.jpg');     
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -22,7 +22,7 @@
     justify-content: center;
     margin-bottom: 30px;
     font-size: 45px;
-    color: #089da1;
+    color: #3b82f6;
 }
 
 .myBooks .myBooksBox{
@@ -49,9 +49,9 @@
 }
 
 .myBooks .myBooksBox .myBooksCard:hover {
-    box-shadow: 0 0 5px #089da1;
+    box-shadow: 0 0 5px #3b82f6;
 }
-.myBooks .myBooksBox .myBooksCard .myBooksImg img {
+.myBooks .myBooksBox .myBooksCard .myBooksImg .Img {
     height: 30vh;
     width: 130px;
 }
@@ -59,12 +59,12 @@
     color:#919191;
 }
 .myBooks .myBooksBox .myBooksCard .myBoogTag .categories {
-    color: #089da1;
+    color: #3b82f6;
     margin-top: 8px;
 }
 .myBooks .myBooksBox .myBooksCard .myBoogTag .returnBtn {
     padding: 0px 20px;
-    border: 2px solid #089da1;
+    border: 2px solid #3b82f6;
     text-decoration: none;
     color: black;
 
@@ -77,6 +77,6 @@
     box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
 }
 ::-webkit-scrollbar-thumb {
-    background: #089da1;
+    background: #3b82f6;
     border-radius: 5px;
 }

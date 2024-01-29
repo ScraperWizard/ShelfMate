@@ -7,6 +7,7 @@ import book4 from "../assets/book_4.jpg";
 import book5 from "../assets/book_5.jpg";
 import book6 from "../assets/book_7.png";
 import book7 from "../assets/book_8.png";
+import '../styles/myBooks.css'
 
 function BookTable() {
   return (
@@ -17,7 +18,7 @@ function BookTable() {
         <div className="myBooksBox">
           <div className="myBooksCard">
             <div className="myBooksImg">
-              <img src={book1} />
+              <img src={book1} className="Img" />
 
               <div className="myBoogTag">
                 <p className="writer">John Deo</p>
@@ -31,7 +32,7 @@ function BookTable() {
 
           <div className="myBooksCard">
             <div className="myBooksImg">
-              <img src={book2} />
+              <img src={book2} className="Img"/>
             </div>
 
             <div className="myBoogTag">
@@ -45,7 +46,7 @@ function BookTable() {
 
           <div className="myBooksCard">
             <div className="myBooksImg">
-              <img src={book3} />
+              <img src={book3} className="Img"/>
             </div>
 
             <div className="myBoogTag">
@@ -59,7 +60,7 @@ function BookTable() {
 
           <div className="myBooksCard">
             <div className="myBooksImg">
-              <img src={book4} />
+              <img src={book4} className="Img"/>
             </div>
 
             <div className="myBoogTag">
@@ -73,7 +74,7 @@ function BookTable() {
 
           <div className="myBooksCard">
             <div className="myBooksImg">
-              <img src={book5} />
+              <img src={book5} className="Img"/>
             </div>
 
             <div className="myBoogTag">
@@ -87,7 +88,7 @@ function BookTable() {
 
           <div className="myBooksCard">
             <div className="myBooksImg">
-              <img src={book6} />
+              <img src={book6} className="Img"/>
             </div>
 
             <div className="myBoogTag">
@@ -101,7 +102,7 @@ function BookTable() {
 
           <div className="myBooksCard">
             <div className="myBooksImg">
-              <img src={book7} />
+              <img src={book7} className="Img"/>
             </div>
 
             <div className="myBoogTag">

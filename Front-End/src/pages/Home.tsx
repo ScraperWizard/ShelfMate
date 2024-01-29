@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import tableImg from '../assets/table.png'
+import '../styles/Home.css'
 
 function Home() {
   return (
@@ -19,7 +20,7 @@ function Home() {
 
             <div className = "main_img">
                 {/* <img src ="images/table.png"/> */}
-                <img src={tableImg} alt="this is a table img" />
+                <img src={tableImg} alt="this is a table img"  />
             </div>
         </div>
 

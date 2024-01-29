@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from '../components/Navbar'
+import '../styles/About.css'
 
 function About() {
   return (
@@ -7,9 +8,9 @@ function About() {
         <Navbar></Navbar>
       <div className="Desc">
         <article>
-          <h1>About Us</h1>
-          <img src="#" width="30%" />
-          <p>
+          <h1 className="h1">About Us</h1>
+          <img src="#" width="30%" className="img"/>
+          <p className="p">
             <br />
             At Book Library, we are a passionate team of four developers who
             share a common goal: to explore the realms of Artificial
@@ -23,8 +24,8 @@ function About() {
 
       <div className="Desc">
         <article>
-          <h1>Our Vision</h1>
-          <p>
+          <h1 className="h1">Our Vision</h1>
+          <p className="p">
             <br />
             Our vision is clear - to create a comprehensive library that not
             only serves as a valuable resource for fellow AI enthusiasts but
@@ -37,7 +38,7 @@ function About() {
 
           <h5>BOOK LIBRARY</h5>
           <nav>
-            <p>Where your Dreams Come True</p>
+            <p className="p">Where your Dreams Come True</p>
           </nav>
         </article>
       </div>

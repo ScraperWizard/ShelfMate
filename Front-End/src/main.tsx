@@ -11,10 +11,10 @@ import { NotificationProvider } from "./context/NotificationProvider.tsx";
 import Navbar from "./components/Navbar.tsx";
 import { AuthProvider } from "./context/AuthProvider.tsx";
 
-import './styles/About.css'
-import './styles/Library.css'
-import './styles/Home.css'
-import './styles/myBooks.css'
+// import './styles/About.css'
+// import './styles/Library.css'
+// import './styles/Home.css'
+// import './styles/myBooks.css'
 import About from "./pages/About.tsx";
 import Library from "./pages/Library.tsx";
 import BookTable from "./components/BookTable.tsx";
@@ -31,11 +31,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="/library" element={<Library></Library>}></Route>
         <Route path="/book-table" element={<BookTable></BookTable>}></Route>
       </Routes>
-      {/* <Navbar></Navbar> */}
-      {/* <Home></Home>
-      <About></About>
-      <Library></Library>
-      <BookTable></BookTable> */}
     </AuthProvider>
   </BrowserRouter>
 );

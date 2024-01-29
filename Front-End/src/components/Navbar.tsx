@@ -103,10 +103,10 @@ export default function Example() {
             </Transition>
           </Popover>
 
-          <a href="#" className="text-sm font-semibold leading-6 text-black-900">
+          <a href="/book-table" className="text-sm font-semibold leading-6 text-black-900">
             My Books
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-black-900">
+          <a href="" className="text-sm font-semibold leading-6 text-black-900">
             Meeting Rooms
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-black-900">
@@ -114,7 +114,7 @@ export default function Example() {
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-black-900">
+          <a href="/" className="text-sm font-semibold leading-6 text-black-900">
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
@@ -185,7 +185,7 @@ export default function Example() {
               </div>
               <div className="py-6">
                 <a
-                  href="#"
+                  href="/home"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-black hover:bg-gray-50"
                 >
                   Log in
