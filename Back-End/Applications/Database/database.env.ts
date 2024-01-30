@@ -19,7 +19,7 @@ const DBConnectionConfig = {
     },
     {
       "username": "defualt",
-      "password": "ThisIsForNewUserWithNoAccount1982121223",
+      "password": "ThisIsForNewUserWithNoAccount198212122",
       "type": 0
     }
   ]
