@@ -12,26 +12,26 @@ interface UserData {
 }
 
 interface AuthContextProps {
-  user: UserData | null;
+  user: UserData | undefined;
   login: (userData: UserData) => void;
-  // logout: () => void;
+   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<UserData | undefined>(undefined);
 
   const login = (userData: UserData) => {
     setUser(userData);
   };
  // Remainder to me: I created this function so that it sets the user informmation to null after logging out or something like that
-  // const logout = () => {
-  //   setUser(null);
-  // };
+  const logout = () => {
+    setUser(undefined);
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login,  }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

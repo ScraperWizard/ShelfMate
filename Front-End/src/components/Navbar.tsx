@@ -15,8 +15,9 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
-import '../styles/Options.css'
+import "../styles/Options.css";
 import { color } from "framer-motion";
+import { useAuth } from "../context/AuthProvider";
 
 const products = [
   {
@@ -38,16 +39,16 @@ const products = [
     icon: FingerPrintIcon,
   },
   {
-  //   name: "Integrations",
-  //   description: "Connect with third-party tools",
-  //   href: "#",
-  //   icon: SquaresPlusIcon,
-  // },
-  // {
-  //   name: "Automations",
-  //   description: "Build strategic funnels that will convert",
-  //   href: "#",
-  //   icon: ArrowPathIcon,
+    //   name: "Integrations",
+    //   description: "Connect with third-party tools",
+    //   href: "#",
+    //   icon: SquaresPlusIcon,
+    // },
+    // {
+    //   name: "Automations",
+    //   description: "Build strategic funnels that will convert",
+    //   href: "#",
+    //   icon: ArrowPathIcon,
   },
 ];
 // const callsToAction = [
@@ -61,6 +62,8 @@ function classNames(...classes: string[]) {
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
+  const { logout } = useAuth();
 
   return (
     <header className="bg-gradient-to-r from-blue-50 via-blue-300 to-blue-500">
@@ -113,7 +116,10 @@ export default function Example() {
             Contact
           </a>
           <a className="dropdown">
-            <a className="dropbtn" style={{color: 'black', fontWeight: '550'}}>
+            <a
+              className="dropbtn"
+              style={{ color: "black", fontWeight: "550" }}
+            >
               Library
               <i className="fa fa-caret-down"></i>
             </a>
@@ -123,15 +129,32 @@ export default function Example() {
               <a href="/book-table">My books</a>
             </div>
           </a>
-          
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a
+          {user == undefined? (
+            <a
+              href="/"
+              className="text-sm font-semibold leading-6 text-black-900"
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </a>
+          ) : (
+            <a
+            onClick={logout}
+              href="/"
+              className="text-sm font-semibold leading-6 text-black-900"
+              
+            >
+              Log out <span aria-hidden="true">&rarr;</span>
+            </a>
+            // {console.log(user?.password)}
+          )}
+          {/* <a
             href="/"
             className="text-sm font-semibold leading-6 text-black-900"
           >
             Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          </a> */}
         </div>
       </nav>
       <Dialog

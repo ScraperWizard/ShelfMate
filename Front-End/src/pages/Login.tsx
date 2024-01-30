@@ -23,7 +23,7 @@ function Login() {
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
-  let userData = null;
+  let userData = undefined;
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,6 +53,8 @@ function Login() {
           message: "Authentication successful",
         } as Notification);
       }
+      // if (user != null) {}
+      // console.log(userData)
     });
   };
 
