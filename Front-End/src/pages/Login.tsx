@@ -6,14 +6,16 @@ import {
   Notification,
 } from "../context/NotificationProvider";
 import socket from "../Socket";
-import { redirect } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { useAuth } from "../context/AuthProvider";
 
 function Login() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const [isSignedIN, setAuth] = useState(false);
+  const { login } = useAuth();
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
@@ -39,10 +41,13 @@ function Login() {
           email: message.email_adress,
           telephone_number: message.mobile_num,
         };
+        console.log(userData)
+        setAuth(true);
 
-        const { login } = useAuth();
+        
         login(userData);// another reminder for myself this is where the user information is set
         
+         navigate("/home");
         showNotification({
           type: "success",
           message: "Authentication successful",
@@ -61,6 +66,7 @@ function Login() {
           <form
             className="max-w-[400px] w-full mx-auto bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative"
             onSubmit={submit}
+            
           >
             <h2 className="text-4xl font-bold text-center py-4 text-white hover:text-slate-600">
               Login
@@ -94,7 +100,7 @@ function Login() {
             </div>
 
             <button className="w-full py-3 mt-8 bg-indigo-600 hover:bg-indigo-500 relative text-white hover:scale-110 duration-200">
-              Sign In
+Sign In
             </button>
 
             <p className='flex items-center mt-2 text-slate-400 hover:text-sky-400"'>
