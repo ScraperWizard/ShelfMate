@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise";
 import MySqlDB from "./SqlDatabase.js";
+import DBConnectionConfig from "./database.env.js";
 
 class DatabaseRouter {
   private DBConnections = {};

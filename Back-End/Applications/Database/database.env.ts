@@ -4,22 +4,22 @@ const DBConnectionConfig = {
   "users": [
     {
       "username": "admin",
-      "password": "admin@123",
+      "password": "ThisIsBigBossWhoFiresPeopleEveryDay",
       "type": 3
     },
     {
       "username": "librarian",
-      "password": "lib@123",
+      "password": "ThisIsForTheGuyWhoManagesBooksAndOtherStuff",
       "type": 2
     },
     {
       "username": "student",
-      "password": "stu@123",
+      "password": "ThisGuyIsPoorStudentTryingToSurviveUniversityButHisDataBaseGotHacked",
       "type": 1
     },
     {
       "username": "defualt",
-      "password": "defualt@123",
+      "password": "ThisIsForNewUserWithNoAccount1982121223",
       "type": 0
     }
   ]
