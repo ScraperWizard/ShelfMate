@@ -10,7 +10,8 @@ const commands = {};
 
 for (const file of commandFiles) {
     if (path.extname(file) === '.js') {
-        const commandModule = await import(path.join(commandsDir, file));
+        console.log(path.join(commandsDir, file).replace("C:", "file:\\C:"))
+        const commandModule = await import(path.join(commandsDir, file).replace("C:", "file:\\C:"));
         const command = commandModule.default;
         const commandName = path.basename(file, '.js');
         commands[commandName] = command;
