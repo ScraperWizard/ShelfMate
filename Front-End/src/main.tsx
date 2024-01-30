@@ -13,10 +13,15 @@ import Navbar from "./components/Navbar.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <NotificationProvider />
-    <Routes>
+    {/* <Routes>
       <Route path="/" element={<Login></Login>}></Route>
       <Route path="/signup" element={<Signup></Signup>}></Route>
-    </Routes>
+    </Routes> */}
+
     {/* <Navbar></Navbar> */}
+
+    <Routes>
+    
+    </Routes>
   </BrowserRouter>
 );
