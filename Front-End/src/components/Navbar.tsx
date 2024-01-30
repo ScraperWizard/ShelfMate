@@ -20,40 +20,40 @@ import { color } from "framer-motion";
 
 const products = [
   {
-    name: "Analytics",
+    name: "Book Store",
     description: "Get a better understanding of your traffic",
-    href: "#",
+    href: "/library",
     icon: ChartPieIcon,
   },
   {
-    name: "Engagement",
+    name: "Meeting room",
     description: "Speak directly to your customers",
-    href: "#",
+    href: "/meeting-room",
     icon: CursorArrowRaysIcon,
   },
   {
-    name: "Security",
+    name: "My books",
     description: "Your customers data will be safe and secure",
-    href: "#",
+    href: "/book-table",
     icon: FingerPrintIcon,
   },
   {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
+  //   name: "Integrations",
+  //   description: "Connect with third-party tools",
+  //   href: "#",
+  //   icon: SquaresPlusIcon,
+  // },
+  // {
+  //   name: "Automations",
+  //   description: "Build strategic funnels that will convert",
+  //   href: "#",
+  //   icon: ArrowPathIcon,
   },
 ];
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
-];
+// const callsToAction = [
+//   // { name: "Watch demo", href: "#", icon: PlayCircleIcon },
+//   // { name: "Contact sales", href: "#", icon: PhoneIcon },
+// ];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -123,6 +123,7 @@ export default function Example() {
               <a href="/book-table">My books</a>
             </div>
           </a>
+          
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <a
@@ -171,7 +172,7 @@ export default function Example() {
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
+                        {[...products].map((item) => (
                           <Disclosure.Button
                             key={item.name}
                             as="a"
@@ -186,19 +187,19 @@ export default function Example() {
                   )}
                 </Disclosure>
                 <a
-                  href="#"
+                  href="/home"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-blue-900 hover:bg-gray-50"
                 >
-                  My Books
+                  Home
                 </a>
                 <a
-                  href="#"
+                  href="/about"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-blue-900 hover:bg-gray-50"
                 >
-                  Meeting Rooms
+                  About us
                 </a>
                 <a
-                  href="#"
+                  href="/contact"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-blue-900 hover:bg-gray-50"
                 >
                   Contact
@@ -206,7 +207,7 @@ export default function Example() {
               </div>
               <div className="py-6">
                 <a
-                  href="/home"
+                  href="/"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-black hover:bg-gray-50"
                 >
                   Log in
