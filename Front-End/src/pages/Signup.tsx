@@ -63,9 +63,10 @@ export default function Signup() {
         className="relative w-full h-1150 bg-gradient-to-r from-white via-blue-900 to-slate-900 pb-0"
         data-name="signup"
       >
-        <div className="flex justify-center items-center h-full pb-0">
+        <div className="flex justify-center items-center h-full pb-0 pb-40 pt-20">
+          
           <form
-            className="max-w-[400px] w-full mx-auto bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative"
+            className="max-w-[400px] w-full mx-auto bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative max-h-[1200px]" 
             onSubmit={handleSubmit}
           >
             <h2 className="text-4xl font-bold text-center py-4 text-white hover:text-slate-600">
