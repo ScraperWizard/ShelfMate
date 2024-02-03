@@ -1,7 +1,7 @@
 import { ServerCommandBuilder } from "../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../Applications/Commands/Context.js";
 
-const command = new ServerCommandBuilder("register-account")
+const command = new ServerCommandBuilder("register")
   .setAccessLevel(UserAccessLevels.UNAUTHENTICATED)
   .setOutgoingChannel("register-account-response")
   .setIncomingValidationSchema({
@@ -39,17 +39,16 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     let errorObject = {
       notification: {
         type: "error",
-        message: error.message,
+        message: "Unexpected error occurred!",
       },
       error: true,
     };
 
     if (error.message === "Username already exists") {
       errorObject.notification.message = "Username already exists!";
-      return errorObject;
     }
 
-    console.log('Error occured at register-account command: ', error);
+    return errorObject
   }
 }
 
