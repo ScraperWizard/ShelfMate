@@ -7,7 +7,7 @@
 .library{
     width: 100%;
     height: fit-content;
-    margin-bottom: 35px;
+    /* margin-bottom: 35px; */
     background-image: url(../assets/LibraryBG8.jpg);     
     background-repeat: no-repeat;
     background-attachment: fixed;
