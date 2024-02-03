@@ -1,6 +1,7 @@
 import { Database, DatabaseState } from "./Database.js";
 import mysql from "mysql2/promise";
 import jwt from "jsonwebtoken";
+import { register } from "ts-node";
 
 class MySqlDB implements Database {
   private connection: any;
@@ -63,7 +64,7 @@ class MySqlDB implements Database {
 
   async generateJsonWebToken({ username }: { username: string }): Promise<Object> | null {
     await this.connection.execute(`INSERT INTO accesstokens (accesstoken) VALUES (?)`, []);
-    return null
+    return null;
   }
 
   async getAvailableBooks(): Promise<Object> | null {
@@ -71,6 +72,43 @@ class MySqlDB implements Database {
   }
 
   async getUserFromAccessToken() {}
+
+  async registerStudent({
+    username,
+    password,
+    firstName,
+    lastName,
+    postalAddress,
+    emailAddress,
+    phoneNum,
+  }: {
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    postalAddress: string;
+    emailAddress: string;
+    phoneNum: string;
+  }): Promise<void> {
+    try {
+      await this.connection.execute(
+        `INSERT INTO users (username, password, first_name, last_name, postal_address, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,0,"student")`,
+        [username, password, firstName, lastName, postalAddress, emailAddress, phoneNum]
+      );
+    } catch (error) {
+      if (error.code === "ER_DUP_ENTRY") {
+        throw new error("Username already exists");
+      }
+
+      throw new error(error.message);
+    }
+  }
+
+  async checkUsename({ username }: { username: string }) {
+    const results = await this.connection.execute(`SELECT * FROM users WHERE Username=?`, [username]);
+
+    return results[0].length === 0;
+  }
 }
 
 export default MySqlDB;
