@@ -8,8 +8,25 @@ import book5 from "../assets/book_5.jpg";
 import book6 from "../assets/book_7.png";
 import book7 from "../assets/book_8.png";
 import '../styles/myBooks.css'
+import socket from "../Socket";
+import {useState, useEffect} from 'react'
 
 function BookTable() {
+  const [returnedBooks, setReturnedBooks] = useState([]);
+
+  useEffect(() => {
+
+      socket.emit("getReturnedBooks");
+
+      socket.on("returnedBooks", (data) => {
+          setReturnedBooks(data);
+      });
+
+      return () => {
+
+          socket.off("returnedBooks");
+      };
+  }, []);
   return (
     <>
       <Navbar></Navbar>

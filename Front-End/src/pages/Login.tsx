@@ -62,7 +62,7 @@ function Login() {
     <AnimatedPage>
       <div
         className="relative w-full h-screen bg-gradient-to-r from-white via-blue-900 to-slate-900"
-        data-name="login"
+        data-name="/"
       >
         <div className="flex justify-center items-center h-full">
           <form

@@ -18,8 +18,23 @@ import bookImg13 from "../assets/book_13.png";
 import bookImg14 from "../assets/book_14.png";
 import bookImg15 from "../assets/book_15.png";
 import '../styles/Library.css'
+import socket from "../Socket";
+import {useState, useEffect} from 'react'
 
 function Library() {
+  const [books, setBooks] = useState([]);
+
+    useEffect(() => {
+       // to get the books that can be borrowed
+        socket.emit("getAvailableBooks");
+
+        socket.on("availableBooks", (data) => {
+            setBooks(data);
+        });
+
+        
+    }, []);
+
   return (
     <div className="library" data-name="library">
         <Navbar></Navbar>

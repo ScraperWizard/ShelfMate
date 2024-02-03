@@ -4,7 +4,26 @@ import {
   NotificationProvider,
   Notification,
 } from "../context/NotificationProvider";
+import { useState } from "react";
+import {useNavigate} from 'react-router-dom'
+import socket from "../Socket";
 export default function Signup() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    password: "",
+    email: "",
+    postal: "",
+    telephone_number: "",
+  });
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     //Sign up Page
@@ -46,15 +65,21 @@ export default function Signup() {
         message: "Please fill in all fields",
       };
       showNotification(notification);
-
       return;
     }
+    socket.emit("signup", formData);
 
-    const successNotification: Notification = {
-      type: "success",
-      message: "Signup successful!",
-    };
-    showNotification(successNotification);
+    socket.once("signup-response", (response) => {
+      if (response.success) {
+        showNotification({ type: "success", message: "Signup successful!" });
+      } else {
+        showNotification({
+          type: "error",
+          message: response.message || "Signup failed. Please try again later.",
+        });
+        navigate('/');
+      }
+    });
   };
 
   return (
@@ -64,9 +89,8 @@ export default function Signup() {
         data-name="signup"
       >
         <div className="flex justify-center items-center h-full pb-0 pb-40 pt-20">
-          
           <form
-            className="max-w-[400px] w-full mx-auto bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative max-h-[1200px]" 
+            className="max-w-[400px] w-full mx-auto bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative max-h-[1200px]"
             onSubmit={handleSubmit}
           >
             <h2 className="text-4xl font-bold text-center py-4 text-white hover:text-slate-600">
