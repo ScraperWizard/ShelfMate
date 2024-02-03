@@ -6,15 +6,13 @@ import {
   Notification,
 } from "../context/NotificationProvider";
 import socket from "../Socket";
-import { redirect, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 
 function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isSignedIN, setAuth] = useState(false);
   const { login } = useAuth();
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -42,7 +40,7 @@ function Login() {
           telephone_number: message.mobile_num,
         };
         console.log(userData)
-        setAuth(true);
+      
 
         
         login(userData);// another reminder for myself this is where the user information is set

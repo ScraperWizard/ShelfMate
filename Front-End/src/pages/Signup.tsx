@@ -1,10 +1,10 @@
 import AnimatedPage from "../Animation/AnimatedPage";
-import {
-  showNotification,
-  NotificationProvider,
-  Notification,
-} from "../context/NotificationProvider";
-import { useState } from "react";
+// import {
+//   showNotification,
+//   NotificationProvider,
+//   Notification,
+// } from "../context/NotificationProvider";
+import { useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom'
 import socket from "../Socket";
 export default function Signup() {
@@ -13,9 +13,9 @@ export default function Signup() {
     lastName: "",
     username: "",
     password: "",
-    email: "",
-    postal: "",
-    telephone_number: "",
+    emailAddress: "",
+    postalAddress: "",
+    phoneNum: "",
   });
   const navigate = useNavigate();
 
@@ -39,15 +39,15 @@ export default function Signup() {
     const password = (
       event.currentTarget.elements.namedItem("password") as HTMLInputElement
     )?.value;
-    const email = (
-      event.currentTarget.elements.namedItem("email") as HTMLInputElement
+    const emailAddress = (
+      event.currentTarget.elements.namedItem("emailAddress") as HTMLInputElement
     )?.value;
-    const postal = (
-      event.currentTarget.elements.namedItem("postal") as HTMLInputElement
+    const postalAddress = (
+      event.currentTarget.elements.namedItem("postalAddress") as HTMLInputElement
     )?.value;
-    const telephone_number = (
+    const phoneNum = (
       event.currentTarget.elements.namedItem(
-        "telephone-number"
+        "phoneNum"
       ) as HTMLInputElement
     )?.value;
 
@@ -56,27 +56,18 @@ export default function Signup() {
       !lastName ||
       !username ||
       !password ||
-      !email ||
-      !postal ||
-      !telephone_number
+      !emailAddress ||
+      !postalAddress ||
+      !phoneNum
     ) {
-      const notification: Notification = {
-        type: "error",
-        message: "Please fill in all fields",
-      };
-      showNotification(notification);
+     
+
       return;
     }
-    socket.emit("signup", formData);
+    socket.emit("register", formData);
 
-    socket.once("signup-response", (response) => {
-      if (response.success) {
-        showNotification({ type: "success", message: "Signup successful!" });
-      } else {
-        showNotification({
-          type: "error",
-          message: response.message || "Signup failed. Please try again later.",
-        });
+    socket.once("register-account-response", (response) => {
+      if (response == null) {
         navigate('/');
       }
     });
@@ -123,13 +114,13 @@ export default function Signup() {
             </div>
             <div className="flex flex-col mb-2">
               <label className="text-slate-400 hover:text-sky-400">
-                Enter your email :{" "}
+                Enter your emailAddress :{" "}
               </label>
               <input
                 className="border relative bg-gray-100 p-2"
                 type="text"
-                placeholder="email"
-                name="email"
+                placeholder="emailAddress"
+                name="emailAddress"
                 onChange={handleChange}
               />
             </div>
@@ -159,13 +150,13 @@ export default function Signup() {
             </div>
             <div className="flex flex-col mb-2">
               <label className="text-slate-400 hover:text-sky-400">
-                Enter Your postal :{" "}
+                Enter Your postalAddress :{" "}
               </label>
               <input
                 className="border relative bg-gray-100 p-2"
                 type="text"
-                placeholder="postal"
-                name="postal"
+                placeholder="postalAddress"
+                name="postalAddress"
                 onChange={handleChange}
               />
             </div>
@@ -177,7 +168,7 @@ export default function Signup() {
                 className="border relative bg-gray-100 p-2"
                 type="text"
                 placeholder="telephone-number"
-                name="telephone-number"
+                name="phoneNum"
                 onChange={handleChange}
               />
             </div>
@@ -197,7 +188,7 @@ export default function Signup() {
           </form>
         </div>
       </div>
-      <NotificationProvider></NotificationProvider>
+  
     </AnimatedPage>
   );
 }
