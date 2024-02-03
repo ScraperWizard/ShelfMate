@@ -106,6 +106,7 @@ export default function Signup() {
                 type="text"
                 placeholder="username"
                 name="firstName"
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col mb-2">
@@ -117,6 +118,7 @@ export default function Signup() {
                 type="text"
                 placeholder="last name"
                 name="lastName"
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col mb-2">
@@ -128,6 +130,7 @@ export default function Signup() {
                 type="text"
                 placeholder="email"
                 name="email"
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col mb-2">
@@ -139,6 +142,7 @@ export default function Signup() {
                 type="text"
                 placeholder="username"
                 name="username"
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col mb-2">
@@ -150,6 +154,7 @@ export default function Signup() {
                 type="password"
                 placeholder="password"
                 name="password"
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col mb-2">
@@ -161,6 +166,7 @@ export default function Signup() {
                 type="text"
                 placeholder="postal"
                 name="postal"
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col ">
@@ -172,6 +178,7 @@ export default function Signup() {
                 type="text"
                 placeholder="telephone-number"
                 name="telephone-number"
+                onChange={handleChange}
               />
             </div>
             <button
