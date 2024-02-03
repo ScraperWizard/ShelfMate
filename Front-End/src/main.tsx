@@ -19,8 +19,9 @@ import { AuthProvider } from "./context/AuthProvider.tsx";
 import About from "./pages/About.tsx";
 import Library from "./pages/Library.tsx";
 import BookTable from "./components/BookTable.tsx";
-import MeetingRoomsPage from "./pages/MeetingRoomsPage.tsx";
+import MeetingRoomsPage from "./pages/BookingRoomsPage.tsx";
 import Contact from "./pages/Contact.tsx";
+import ReserveRooms from "./pages/ReservedRooms.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="/library" element={<Library></Library>}></Route>
         <Route path="/book-table" element={<BookTable></BookTable>}></Route>
         <Route path="/meeting-room" element={<MeetingRoomsPage></MeetingRoomsPage>}></Route>
+        <Route path="/reserver-rooms" element={<ReserveRooms></ReserveRooms>}></Route>
         <Route path="/contact" element={<Contact></Contact>}></Route>
       </Routes>
       {/* <MeetingRoomsPage></MeetingRoomsPage> */}
