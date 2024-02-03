@@ -5,13 +5,9 @@ import { Server } from "socket.io";
 import Client from "../Components/Client/Client.js";
 import CommandRouter from "../Applications/Commands/Router.js";
 import DatabaseRouter from "../Applications/Database/Router.js";
-// import db from "../Applications/Database/Database.js"
-// import CommandRouter from "./Components/Commands/CommandRouter.js";
-// import { connectToDatabase } from "./Components/Database/Database.js";
 const app = express();
 const DBRouter = new DatabaseRouter();
 const webServer = http.createServer(app);
-// await connectToDatabase();
 const io = new Server(webServer, {
     cors: {
         methods: ["GET", "POST"],
