@@ -17,6 +17,7 @@ type Book = {
   image: string;
   genre: string;
   title: string;
+  copies: string;
 };
 function BookTable() {
   const [borrowedBooks, setBorrowedBooks] = useState<Book[]>([]);
@@ -40,7 +41,9 @@ function BookTable() {
     socket.emit("return-book", { bookId, borrower: user?.username });
 
     setBorrowedBooks((prevBooks) =>
-      prevBooks.filter((book) => book.id !== bookId)
+      prevBooks.map((book) =>
+        book.id === bookId ? { ...book, copies: book.copies + 1 } : book
+      )
     );
   };
   return (

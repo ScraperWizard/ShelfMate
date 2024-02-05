@@ -27,15 +27,16 @@ type Book = {
   image: string;
   genre: string;
   title: string;
+  copies: number;
 };
 
 function Library() {
   const [books, setBooks] = useState<Book[]>([]);
   const { user } = useAuth();
+
   useEffect(() => {
-    if (user) {
-     
-      socket.emit("get-library-books", { username: user.username });
+    
+      socket.emit("get-library-books");
 
       socket.on("library-books-response", (response: Book[]) => {
         setBooks(response);
@@ -44,14 +45,19 @@ function Library() {
       return () => {
         socket.off("library-books-response");
       };
-    }
-  }, [user]);
+    
+  }, []);
 
   const handleBorrow = (bookId: number) => {
     socket.emit("borrow-book", { bookId, borrower: user?.username });
 
-    setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+    setBooks((prevBooks) =>
+      prevBooks.map((book) =>
+        book.id === bookId ? { ...book, copies: book.copies - 1 } : book
+      )
+    );
   };
+
   return (
     <div className="library" data-name="library">
       <Navbar></Navbar>
