@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+// AuthContext.tsx
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface UserData {
   username: string;
@@ -13,25 +14,33 @@ interface UserData {
 
 interface AuthContextProps {
   user: UserData | undefined;
-  login: (userData: UserData) => void;
-   logout: () => void;
+  setUser: (userData: UserData | undefined) => void;
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserData | undefined>(undefined);
 
-  const login = (userData: UserData) => {
+  useEffect(() => {
+    const storedData = localStorage.getItem("userData");
+    if (storedData) {
+      const parsedData: UserData = JSON.parse(storedData);
+      setUser(parsedData);
+    }
+  }, []);
+
+  const updateUser = (userData: UserData | undefined) => {
+    if (userData === undefined) {
+      localStorage.removeItem("userData");
+    } else {
+      localStorage.setItem("userData", JSON.stringify(userData));
+    }
     setUser(userData);
-  };
- // Remainder to me: I created this function so that it sets the user informmation to null after logging out or something like that
-  const logout = () => {
-    setUser(undefined);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser: updateUser }}>
       {children}
     </AuthContext.Provider>
   );
@@ -40,7 +49,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
 
-  if (!context) { 
+  if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
 

@@ -1,64 +1,80 @@
-import React, { useState } from 'react';
-import MeetingRoom from '../components/MeetingRoom';
-import Navbar from '../components/Navbar'
-import { Link } from 'react-router-dom';
-
+import React, { useState } from "react";
+import MeetingRoom from "../components/MeetingRoom";
+import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import socket from "../Socket";
+import { useAuth } from "../context/AuthProvider";
 const ReserveRooms: React.FC = () => {
-    const [meetingRooms, setMeetingRooms] = useState([
-        {
-            id: 1,
-            title: "Room 101",
-            date: "2024-02-05",
-            details: "This room is suitable for small meetings.",
-            booked: false
-        },
-        {
-            id: 2,
-            title: "Room 202",
-            date: "2024-02-06",
-            details: "This room is suitable for medium-sized meetings.",
-            booked: false
-        }
-    ]);
+  const [meetingRooms, setMeetingRooms] = useState([
+    {
+      id: 1,
+      title: "Room 101",
+      date: "2024-02-05",
+      details: "This room is suitable for small meetings.",
+      status: "cancel",
+    },
+    {
+      id: 2,
+      title: "Room 202",
+      date: "2024-02-06",
+      details: "This room is suitable for medium-sized meetings.",
+      status: "cancel",
+    },
+  ]);
 
-    const handleBookRoom = (id: number) => {
-        const updatedMeetingRooms = meetingRooms.map(room => {
-            if (room.id === id) {
-                return {
-                    ...room,
-                    booked: true
-                };
-            }
-            return room;
-        });
-        setMeetingRooms(updatedMeetingRooms);
-    };
+  const { user } = useAuth();
 
-    return (
-        <>
-        <Navbar></Navbar>
-        <div className="container mx-auto flex flex-col items-center h-screen mt-10" data-name="reserver-rooms">
-            {/* <h1 className="text-3xl font-bold mb-4">Meeting Rooms</h1> */}
-            <div className="mb-4">
-                <Link to="/meeting-rooms" className="mr-4  bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Book Room</Link>
-                <Link to="/reserved-rooms" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Reserved Rooms</Link>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {meetingRooms.map(room => (
-                    <MeetingRoom 
-                        key={room.id}
-                        id={room.id}
-                        title={room.title}
-                        date={room.date}
-                        details={room.details}
-                        onBook={() => handleBookRoom(room.id)}
-                    />
-                ))}
-            </div>
+  useEffect(() => {
+    if (user) {
+      socket.emit("get-reserved-rooms", { username: user.username });
+
+      socket.on("reserved-rooms-response", (response) => {
+        setMeetingRooms(response);
+      });
+
+      return () => {
+        socket.off("reserved-rooms-response");
+      };
+    }
+  }, [user]);
+
+  return (
+    <>
+      <Navbar></Navbar>
+      <div
+        className="container mx-auto flex flex-col items-center h-screen mt-10 px-12"
+        data-name="reserver-rooms"
+      >
+        <div className="mb-4">
+          <Link
+            to="/meeting-room"
+            className="mr-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-all"
+          >
+            Book Room
+          </Link>
+          <Link
+            to="/reserver-rooms"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-all"
+          >
+            Reserved Rooms
+          </Link>
         </div>
-        </>
-        
-    );
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {meetingRooms.map((room) => (
+            <MeetingRoom
+              key={room.id}
+              id={room.id}
+              title={room.title}
+              date={room.date}
+              details={room.details}
+              status={room.status}
+            />
+          ))}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default ReserveRooms;

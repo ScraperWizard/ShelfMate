@@ -74,8 +74,7 @@ function BookTable() {
             </div>
           ))}
 
-
-        {/* this is like a placeholder done by yaman and I will remove it as soon as I check everything is right */}
+          {/* this is like a placeholder done by yaman and I will remove it as soon as I check everything is right */}
           <div className="myBooksCard">
             <div className="myBooksImg">
               <img src={book1} className="Img" />

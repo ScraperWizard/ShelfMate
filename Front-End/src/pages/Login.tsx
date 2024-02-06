@@ -13,7 +13,7 @@ function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { setUser } = useAuth();
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
@@ -43,7 +43,7 @@ function Login() {
       
 
         
-        login(userData);// another reminder for myself this is where the user information is set
+        setUser(userData);// another reminder for myself this is where the user information is set
         
          navigate("/home");
         showNotification({

@@ -1,11 +1,18 @@
 import React from "react";
 import Navbar from '../components/Navbar'
 import '../styles/About.css'
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 function About() {
+  const context = useContext(AuthContext);
+  console.log(context?.user?.username); 
+
+  
   return (
     <div className="ABOUTME" data-name="about">
         <Navbar></Navbar>
+       
       <div className="Desc">
         <article>
           <h1 className="h1">About Us</h1>

@@ -24,9 +24,11 @@ import Contact from "./pages/Contact.tsx";
 import ReserveRooms from "./pages/ReservedRooms.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
+  
   <BrowserRouter>
-    <AuthProvider>
+    
       <NotificationProvider />
+      <AuthProvider>
       <Routes>
         <Route path="/" element={<Login></Login>}></Route>
         <Route path="/signup" element={<Signup></Signup>}></Route>
@@ -38,7 +40,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="/reserver-rooms" element={<ReserveRooms></ReserveRooms>}></Route>
         <Route path="/contact" element={<Contact></Contact>}></Route>
       </Routes>
-      {/* <MeetingRoomsPage></MeetingRoomsPage> */}
-    </AuthProvider>
+      </AuthProvider>
+ 
+   
   </BrowserRouter>
+  
 );
