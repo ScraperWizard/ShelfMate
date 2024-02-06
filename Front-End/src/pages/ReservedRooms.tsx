@@ -13,6 +13,7 @@ const ReserveRooms: React.FC = () => {
       date: "2024-02-05",
       details: "This room is suitable for small meetings.",
       status: "cancel",
+      capacity: 4,
     },
     {
       id: 2,
@@ -20,6 +21,7 @@ const ReserveRooms: React.FC = () => {
       date: "2024-02-06",
       details: "This room is suitable for medium-sized meetings.",
       status: "cancel",
+      capacity: 4,
     },
   ]);
 
@@ -29,8 +31,12 @@ const ReserveRooms: React.FC = () => {
     if (user) {
       socket.emit("get-reserved-rooms", { username: user.username });
 
-      socket.on("reserved-rooms-response", (response) => {
-        setMeetingRooms(response);
+      socket.on("cancel-room-response", (roomId: number) => {
+        setMeetingRooms((prevRooms) =>
+          prevRooms.map((room) =>
+            room.id === roomId ? { ...room, status: "cancel", capacity: room.capacity + 1 } : room
+          )
+        );
       });
 
       return () => {
@@ -61,16 +67,17 @@ const ReserveRooms: React.FC = () => {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {meetingRooms.map((room) => (
-            <MeetingRoom
-              key={room.id}
-              id={room.id}
-              title={room.title}
-              date={room.date}
-              details={room.details}
-              status={room.status}
-            />
-          ))}
+        {meetingRooms.map((room) => (
+          <MeetingRoom
+            key={room.id}
+            id={room.id}
+            title={room.title}
+            date={room.date}
+            details={room.details}
+            status={room.status}
+            capacity={room.capacity}
+          />
+        ))}
         </div>
       </div>
     </>
