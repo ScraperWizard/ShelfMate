@@ -1,36 +1,65 @@
 import { ServerCommandBuilder } from "../Applications/Commands/Builder.js";
-import { UserAccessLevels } from "../Applications/Commands/Context.js";
-import { Database } from "Applications/Database/Database.js";
-import Client from "../Components/Client/Client.js";
+import { UserAccessLevels, CommandExecuteArguments } from "../Applications/Commands/Context.js";
+
+import { v4 as uuidv4 } from "uuid";
 
 const command = new ServerCommandBuilder("authenticate")
   .setAccessLevel(UserAccessLevels.UNAUTHENTICATED)
   .setOutgoingChannel("autheticate-response")
   .setIncomingValidationSchema({
-    type: "object",
-    properties: {
-      username: { type: "string" },
-      password: { type: "string" },
-    },
-    required: ["username", "password"],
+    oneOf: [
+      {
+        type: "object",
+        properties: {
+          username: { type: "string" },
+          password: { type: "string" },
+        },
+        required: ["username", "password"],
+        additionalProperties: false,
+      },
+      {
+        type: "object",
+        properties: {
+          accessToken: { type: "string" },
+        },
+        required: ["accessToken"],
+        additionalProperties: false,
+      },
+    ],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
-async function callback(Client: Client, data: any, Database: Database) {
-  const { username, password } = data;
-  const results = await Database.authenticateUser(username, password);
+async function callback({ Client, Data, Database }: CommandExecuteArguments) {
+  const { username, password, accessToken } = Data;
+  let UserData: any;
 
-  if (results == null) {
+  if (accessToken) {
+    UserData = await Database.getUserByAccessToken(accessToken);
+  } else {
+    UserData = await Database.authenticateUser({ username, password });
+
+    if (UserData) {
+      const newAccessToken = uuidv4();
+      await Database.addAccessToken({ id: UserData.id, newAccessToken });
+      UserData.accessToken = newAccessToken;
+    }
+  }
+
+  if (!UserData) {
     return {
+      notification: {
+        type: "error",
+        message: "Invalid username or password!",
+      },
       error: "Invalid username or password!",
     };
   }
 
-  Client.setName(results[0].Username);
+  Client.setName(UserData.username);
 
-  return results[0];
+  return UserData;
 }
 
 export default command;

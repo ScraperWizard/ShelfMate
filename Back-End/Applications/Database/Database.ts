@@ -1,9 +1,30 @@
-// import DBJsonEntry from "../../database.env.json" asserts {type: JSON}
-
 abstract class Database {
   state: DatabaseState;
-  abstract authenticateUser(Username: string, Password: string): Promise<Object> | null;
+  abstract authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> | null;
+  abstract getUserByAccessToken({ accessToken }: { accessToken: string }): Promise<Object> | null;
+  abstract generateJsonWebToken({ username }: { username: string }): Promise<Object> | null;
   abstract getAvailableBooks(): Promise<Object> | null;
+  abstract addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }): Promise<void> | null;
+  abstract getUserIdByName({ username }: { username: string }): Promise<number> | null;
+  abstract removeAccessTokenByUserId({ id }: { id: number }): Promise<void> | null;
+  abstract registerStudent({
+    username,
+    password,
+    firstName,
+    lastName,
+    postalAddress,
+    emailAddress,
+    phoneNum,
+  }: {
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    postalAddress: string;
+    emailAddress: string;
+    phoneNum: string;
+  }): Promise<void> | null;
+  abstract checkUsename({ username }: { username: string }): Promise<Object> | null;
 }
 
 enum DatabaseState {
@@ -12,8 +33,6 @@ enum DatabaseState {
   ERROR,
 }
 
-function createDatabaseObject() {
-
-}
+function createDatabaseObject() {}
 
 export { Database, DatabaseState };

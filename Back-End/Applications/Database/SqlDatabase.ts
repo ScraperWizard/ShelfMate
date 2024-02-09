@@ -1,6 +1,7 @@
 import { Database, DatabaseState } from "./Database.js";
-import * as DBConnectionConfig from "../../database.env.json" assert { type: "json" };
 import mysql from "mysql2/promise";
+import jwt from "jsonwebtoken";
+import { register } from "ts-node";
 
 class MySqlDB implements Database {
   private connection: any;
@@ -41,20 +42,90 @@ class MySqlDB implements Database {
     return this.state;
   }
 
-  async authenticateUser(Username: string, Password: string): Promise<Object> {
-    const [results] = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [Username, Password]);
+  async authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> {
+    const results = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [username, password]);
 
-    if (results == null) {
-      return {
-        error: "Invalid username or password!",
-      };
+    if (results[0].length === 0) {
+      return false;
     } else {
-      return results[0];
+      return results[0][0];
     }
   }
 
-  async getAvailableBooks(): Promise<Object> | null {
+  async getUserByAccessToken({ accessToken }: { accessToken: string }) {
+    const results = await this.connection.execute(`SELECT * FROM access_tokens WHERE token=?`, [accessToken]);
+
+    if (results[0].length === 0) {
+      return false;
+    } else {
+      return results[0][0];
+    }
+  }
+
+  async generateJsonWebToken({ username }: { username: string }): Promise<Object> | null {
+    // await this.connection.execute(`INSERT INTO access_tokens (token) VALUES (?)`, []);
     return null;
+  }
+
+  async getAvailableBooks(): Promise<Object> | null {
+    const results = await this.connection.execute(`SELECT * FROM book NATRUAL JOIN inventory WHERE borrower IS NULL`);
+
+    if (results[0].length === 0) {
+      return false;
+    } else {
+      return results[0][0];
+    }
+  }
+
+  async addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }) {
+    await this.connection.execute(`INSERT INTO access_tokens (token, id) VALUES (?,?)`, [newAccessToken, id]);
+  }
+
+  async getUserIdByName({ username }: { username: string }): Promise<number> | null {
+    const results = await this.connection.execute(`SELECT * FROM users WHERE Username=?`, [username]);
+
+    return results[0][0].id;
+  }
+
+  async removeAccessTokenByUserId({ id }: { id: number }) {
+    await this.connection.execute(`DELETE FROM access_tokens WHERE id=?`, [id]);
+  }
+
+  async registerStudent({
+    username,
+    password,
+    firstName,
+    lastName,
+    postalAddress,
+    emailAddress,
+    phoneNum,
+  }: {
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    postalAddress: string;
+    emailAddress: string;
+    phoneNum: string;
+  }): Promise<void> {
+    try {
+      await this.connection.execute(
+        `INSERT INTO users (username, password, first_name, last_name, postal_address, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,0,"student")`,
+        [username, password, firstName, lastName, postalAddress, emailAddress, phoneNum]
+      );
+    } catch (error) {
+      if (error.code === "ER_DUP_ENTRY") {
+        throw new error("Username already exists");
+      }
+
+      throw new error(error.message);
+    }
+  }
+
+  async checkUsename({ username }: { username: string }) {
+    const results = await this.connection.execute(`SELECT * FROM users WHERE Username=?`, [username]);
+
+    return results[0].length === 0;
   }
 }
 

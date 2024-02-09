@@ -1,3 +1,5 @@
+import Client from "Components/Client/Client.js"
+import { Database } from "Applications/Database/Database.js"
 enum UserAccessLevels {
     UNAUTHENTICATED = 0,
     STUDENT = 1,
@@ -24,9 +26,16 @@ enum StaticCommandErrorNames {
     UNAUTHORIZED = "USER_NOT_AUTHORIZED"
 }
 
+type CommandExecuteArguments = {
+    Client?: Client,
+    Data?: any,
+    Database?: Database
+}
+
 export {
     UserAccessLevels,
     StaticCommandNames,
     Command,
-    StaticCommandErrorNames
+    StaticCommandErrorNames,
+    CommandExecuteArguments
 }

@@ -9,28 +9,27 @@ class CommandRouter {
         this.Data = Data;
         this.ValidationService = createValidationService();
         this.CommandExecutionFunction = Command.getCommand();
-        this.Database = DBRouter.getRoutedDatabaseConnection(Client.getAccessLevel());
+        this.Database = DBRouter.getRoutedDatabaseConnection(Client.getAccessLevel().toString());
     }
-    route() {
+    async route() {
         if (!this.validateIncomingData()) {
             return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA);
         }
-        if (!this.validateCommandUserAccessLevel()) {
+        if (this.validateCommandUserAccessLevel()) {
             return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA);
         }
-        const CommandData = this.executeCommand();
+        const CommandData = await this.executeCommand();
         this.emitNotificationIfCommandRequires(CommandData);
-        if (!this.validateOutgoingData(CommandData)) {
-            return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_OUTGOING_DATA);
-        }
+        // if (!this.validateOutgoingData(CommandData)) {
+        //   return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_OUTGOING_DATA);
+        // }
         this.Socket.emit(this.Command.getOutgoingChannel(), CommandData);
     }
     validateIncomingData() {
-        const incomingParser = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
-        return incomingParser(this.Data);
+        const incomingDataValidate = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
+        return incomingDataValidate(this.Data);
     }
     sendErrorMessageToClient(errorMessage) {
-        console.log("Sending error message to client: ", errorMessage);
         this.Socket.emit(this.Command.getOutgoingChannel(), { error: errorMessage });
         this.Socket.emit(StaticCommandNames.NOTIFICATION, {
             type: NotificationTypes.ERROR,
@@ -41,15 +40,15 @@ class CommandRouter {
         return this.Command.getUserAccessLevel() > this.Client.getAccessLevel();
     }
     async executeCommand() {
-        return await this.CommandExecutionFunction({
+        const ExecuteArguments = {
             Client: this.Client,
             Data: this.Data,
             Database: this.Database,
-        });
+        };
+        return await this.CommandExecutionFunction(ExecuteArguments);
     }
     validateOutgoingData(CommandData) {
-        const outgoingParser = this.Command.getOutgoingValidationSchema();
-        return this.ValidationService.validate(outgoingParser, CommandData);
+        return this.ValidationService.validate(this.Command.getOutgoingValidationSchema(), CommandData);
     }
     emitNotificationIfCommandRequires(CommandData) {
         if (CommandData?.notification) {
