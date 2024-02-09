@@ -81,6 +81,16 @@ class MySqlDB implements Database {
     await this.connection.execute(`INSERT INTO accesstokens (accesstoken, userid) VALUES (?,?)`, [newAccessToken, id]);
   }
 
+  async getUserIdByName({ username }: { username: string }): Promise<number> | null {
+    const results = await this.connection.execute(`SELECT * FROM users WHERE Username=?`, [username]);
+
+    return results[0][0].id;
+  }
+
+  async removeAccessTokenByUserId({ id }: { id: number }) {
+    await this.connection.execute(`DELETE FROM accesstokens WHERE userid=?`, [id]);
+  }
+
   async registerStudent({
     username,
     password,
