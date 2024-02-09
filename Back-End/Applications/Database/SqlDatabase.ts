@@ -77,6 +77,26 @@ class MySqlDB implements Database {
     }
   }
 
+  async isBookBorrowed(barcode: number, borrower: number): Promise<boolean> {
+    
+    const [rows, fields] = await this.connection.execute(
+        'SELECT * FROM inventory WHERE barcode = ? AND borrower = ?',
+        [barcode, borrower]
+    );
+
+   
+    return rows.length > 0;
+}
+
+async returnBook(barcode: number, borrower: number): Promise<void> {
+    
+    const results = await this.connection.execute(
+        'UPDATE inventory SET borrower = NULL WHERE barcode = ? AND borrower = ?',
+        [barcode, borrower]
+    );
+}
+
+
   async addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }) {
     await this.connection.execute(`INSERT INTO accesstokens (accesstoken, userid) VALUES (?,?)`, [newAccessToken, id]);
   }

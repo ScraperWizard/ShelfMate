@@ -1,10 +1,30 @@
 abstract class Database {
   state: DatabaseState;
-  abstract authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> | null;
-  abstract getUserByAccessToken({ accessToken }: { accessToken: string }): Promise<Object> | null;
-  abstract generateJsonWebToken({ username }: { username: string }): Promise<Object> | null;
+  abstract authenticateUser({
+    username,
+    password,
+  }: {
+    username: string;
+    password: string;
+  }): Promise<Object> | null;
+  abstract getUserByAccessToken({
+    accessToken,
+  }: {
+    accessToken: string;
+  }): Promise<Object> | null;
+  abstract generateJsonWebToken({
+    username,
+  }: {
+    username: string;
+  }): Promise<Object> | null;
   abstract getAvailableBooks(): Promise<Object> | null;
-  abstract addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }): Promise<void> | null;
+  abstract addAccessToken({
+    id,
+    newAccessToken,
+  }: {
+    id: string;
+    newAccessToken: string;
+  }): Promise<void> | null;
   abstract registerStudent({
     username,
     password,
@@ -22,7 +42,13 @@ abstract class Database {
     emailAddress: string;
     phoneNum: string;
   }): Promise<void> | null;
-  abstract checkUsename({ username }: { username: string }): Promise<Object> | null;
+  abstract checkUsename({
+    username,
+  }: {
+    username: string;
+  }): Promise<Object> | null;
+  abstract returnBook(barcode, borrower): Promise<void> ;
+  abstract isBookBorrowed(barcode: number, borrower: number): Promise<boolean>;
 }
 
 enum DatabaseState {
