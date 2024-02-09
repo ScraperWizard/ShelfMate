@@ -18,13 +18,9 @@ abstract class Database {
     username: string;
   }): Promise<Object> | null;
   abstract getAvailableBooks(): Promise<Object> | null;
-  abstract addAccessToken({
-    id,
-    newAccessToken,
-  }: {
-    id: string;
-    newAccessToken: string;
-  }): Promise<void> | null;
+  abstract addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }): Promise<void> | null;
+  abstract getUserIdByName({ username }: { username: string }): Promise<number> | null;
+  abstract removeAccessTokenByUserId({ id }: { id: number }): Promise<void> | null;
   abstract registerStudent({
     username,
     password,

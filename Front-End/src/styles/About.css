@@ -30,7 +30,7 @@ article .h1{
     font-size: 50px;
     font-weight: 500;
     text-transform: uppercase;
-    color: #089da1;
+    color: #3b82f6 ;
 }
 article .h1::after{
     content: "";
@@ -45,8 +45,8 @@ article .h1::after{
     margin: auto;
     display: block;
     margin-top: 20px;
-    height: 130px;
-    width: 180px;
+    height: 200px;
+    width: 300px;
     border-radius: 50%;
     border: 3px solid white;
 }
@@ -64,7 +64,7 @@ article h5{
     font-size: 32px;
     font-weight: 500;
     margin-top: 30px;
-    color:#089da1;
+    color:#3b82f6 ;
 }
 
 .Desc article nav .p{
