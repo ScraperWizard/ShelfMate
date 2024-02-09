@@ -77,7 +77,9 @@ class MySqlDB implements Database {
     }
   }
 
-  async getUserFromAccessToken() {}
+  async addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }) {
+    await this.connection.execute(`INSERT INTO accesstokens (accesstoken, userid) VALUES (?,?)`, [newAccessToken, id]);
+  }
 
   async registerStudent({
     username,

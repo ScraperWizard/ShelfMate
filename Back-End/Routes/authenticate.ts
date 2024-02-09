@@ -1,6 +1,8 @@
 import { ServerCommandBuilder } from "../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../Applications/Commands/Context.js";
 
+import { v4 as uuidv4 } from "uuid";
+
 const command = new ServerCommandBuilder("authenticate")
   .setAccessLevel(UserAccessLevels.UNAUTHENTICATED)
   .setOutgoingChannel("autheticate-response")
@@ -37,6 +39,12 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     UserData = await Database.getUserByAccessToken(accessToken);
   } else {
     UserData = await Database.authenticateUser({ username, password });
+
+    if (UserData) {
+      const newAccessToken = uuidv4();
+      await Database.addAccessToken({ id: UserData.id, newAccessToken });
+      UserData.accessToken = newAccessToken;
+    }
   }
 
   if (!UserData) {
