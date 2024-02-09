@@ -53,7 +53,7 @@ class MySqlDB implements Database {
   }
 
   async getUserByAccessToken({ accessToken }: { accessToken: string }) {
-    const results = await this.connection.execute(`SELECT * FROM accesstokens WHERE AccessToken=?`, [accessToken]);
+    const results = await this.connection.execute(`SELECT * FROM access_tokens WHERE token=?`, [accessToken]);
 
     if (results[0].length === 0) {
       return false;
@@ -63,7 +63,7 @@ class MySqlDB implements Database {
   }
 
   async generateJsonWebToken({ username }: { username: string }): Promise<Object> | null {
-    await this.connection.execute(`INSERT INTO accesstokens (accesstoken) VALUES (?)`, []);
+    // await this.connection.execute(`INSERT INTO access_tokens (token) VALUES (?)`, []);
     return null;
   }
 
@@ -78,7 +78,7 @@ class MySqlDB implements Database {
   }
 
   async addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }) {
-    await this.connection.execute(`INSERT INTO accesstokens (accesstoken, userid) VALUES (?,?)`, [newAccessToken, id]);
+    await this.connection.execute(`INSERT INTO access_tokens (token, id) VALUES (?,?)`, [newAccessToken, id]);
   }
 
   async getUserIdByName({ username }: { username: string }): Promise<number> | null {
@@ -88,7 +88,7 @@ class MySqlDB implements Database {
   }
 
   async removeAccessTokenByUserId({ id }: { id: number }) {
-    await this.connection.execute(`DELETE FROM accesstokens WHERE userid=?`, [id]);
+    await this.connection.execute(`DELETE FROM access_tokens WHERE id=?`, [id]);
   }
 
   async registerStudent({
