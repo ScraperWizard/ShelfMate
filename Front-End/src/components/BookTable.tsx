@@ -1,4 +1,4 @@
-import React from "react";
+
 import Navbar from "../components/Navbar";
 import book1 from "../assets/book_1.jpg";
 import book2 from "../assets/book_2.jpg";

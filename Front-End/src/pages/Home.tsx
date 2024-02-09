@@ -1,4 +1,4 @@
-import React from "react";
+
 import Navbar from "../components/Navbar";
 import tableImg from "../assets/table.png";
 import "../styles/Home.css";

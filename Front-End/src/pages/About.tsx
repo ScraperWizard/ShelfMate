@@ -1,4 +1,4 @@
-import React from "react";
+
 import Navbar from '../components/Navbar'
 import '../styles/About.css'
 import { useContext } from "react";

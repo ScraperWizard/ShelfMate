@@ -38,10 +38,6 @@ const ReserveRooms: React.FC = () => {
           )
         );
       });
-
-      return () => {
-        socket.off("reserved-rooms-response");
-      };
     }
   }, [user]);
 

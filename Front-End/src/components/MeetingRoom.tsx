@@ -27,7 +27,8 @@ const MeetingRoom: React.FC<MeetingRoomProps> = ({
     <div className="max-w-lg w-full lg:flex hover:shadow-lg transform hover:scale-105 transition-all" onClick={handleImageClick}>
       {isImageClicked ? ( 
         <div className="p-4">
-          <div className="text-gray-900 font-bold text-xl mb-2" >{title}</div>
+          {/* i just added the id here as a placeholder since i will use it later */}
+          <div className="text-gray-900 font-bold text-xl mb-2" >{title} {id}</div> 
           <p className="text-gray-700 text-base">{details}</p>
         </div>
       ) : (

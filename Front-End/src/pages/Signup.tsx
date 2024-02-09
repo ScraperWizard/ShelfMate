@@ -4,7 +4,7 @@ import AnimatedPage from "../Animation/AnimatedPage";
 //   NotificationProvider,
 //   Notification,
 // } from "../context/NotificationProvider";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {useNavigate} from 'react-router-dom'
 import socket from "../Socket";
 export default function Signup() {

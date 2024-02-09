@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import AnimatedPage from "../Animation/AnimatedPage";
-import { showNotification, NotificationProvider, Notification } from "../context/NotificationProvider";
+import { showNotification, Notification } from "../context/NotificationProvider";
 import socket from "../Socket";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";

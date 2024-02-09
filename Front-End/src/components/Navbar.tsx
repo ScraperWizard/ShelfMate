@@ -1,23 +1,23 @@
-import { Fragment, useState } from "react";
-import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
+import {  useState } from "react";
+import { Dialog, Disclosure, Popover,  } from "@headlessui/react";
 import imgLib from "../assets/LibraryLogo.png";
 import {
-  ArrowPathIcon,
+  // ArrowPathIcon,
   Bars3Icon,
   ChartPieIcon,
   CursorArrowRaysIcon,
   FingerPrintIcon,
-  SquaresPlusIcon,
+  // SquaresPlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
-  PhoneIcon,
-  PlayCircleIcon,
+  // PhoneIcon,
+  // PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import "../styles/Options.css";
-import { color } from "framer-motion";
-import { useAuth } from "../context/AuthProvider";
+// import { color } from "framer-motion";
+// import { useAuth } from "../context/AuthProvider";
 import { AuthContext } from "../context/AuthProvider";
 import { useContext } from "react";
 import { AuthProvider } from "../context/AuthProvider";

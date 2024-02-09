@@ -1,4 +1,4 @@
-import React from "react";
+
 import Navbar from "../components/Navbar";
 import arrivalImg1 from "../assets/arrival_1.jpg";
 import arrivalImg2 from "../assets/arrival_2.jpg";
