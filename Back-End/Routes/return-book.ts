@@ -19,11 +19,11 @@ const command = new ServerCommandBuilder("return-book")
         const bookId = Data.bookId;
 
         // Check if the book is currently borrowed by the user
-        const isBorrowed = await Database.isBookBorrowed(bookId, Data.id);
+        const isBorrowed = await Database.isBookBorrowed(bookId, Client.getId());
 
         if (isBorrowed) {
             // Book is borrowed by the user, proceed to return the book
-            await Database.returnBook(bookId, Data.id);
+            await Database.returnBook(bookId, Client.getId()); 
             return {
                 notification: {
                   type: "success",
@@ -41,7 +41,6 @@ const command = new ServerCommandBuilder("return-book")
               };
         }
     } catch (error) {
-        
         console.error("Error returning book:", error);
         return {
             notification: {
