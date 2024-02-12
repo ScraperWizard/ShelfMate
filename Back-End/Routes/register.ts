@@ -27,7 +27,6 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
   try {
     await Database.registerStudent({ username, password, firstName, lastName, postalAddress, emailAddress, phoneNum });
     Client.setName(username);
-
     return {
       notification: {
         type: "success",

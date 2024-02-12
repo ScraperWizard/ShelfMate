@@ -15,6 +15,7 @@ async function callback({ Client, Database }: CommandExecuteArguments) {
   if (userId) {
     await Database.removeAccessTokenByUserId({ id: userId });
     Client.setName("");
+    Client.setId(-1);
   }
 
   return {

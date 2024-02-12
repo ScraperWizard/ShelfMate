@@ -1,6 +1,5 @@
 import { ServerCommandBuilder } from "../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../Applications/Commands/Context.js";
-
 import { v4 as uuidv4 } from "uuid";
 
 const command = new ServerCommandBuilder("authenticate")
