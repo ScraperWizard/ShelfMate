@@ -28,7 +28,7 @@ class CommandRouter {
     }
 
     if (this.validateCommandUserAccessLevel()) {
-      return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA);
+      return this.sendErrorMessageToClient(StaticCommandErrorNames.UNAUTHORIZED);
     }
 
     const CommandData = await this.executeCommand();
@@ -42,6 +42,10 @@ class CommandRouter {
   }
 
   private validateIncomingData(): Boolean {
+    if(this.Data == undefined) {
+      return true;
+    }
+    
     const incomingDataValidate = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
 
     return incomingDataValidate(this.Data);

@@ -16,7 +16,7 @@ class CommandRouter {
             return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA);
         }
         if (this.validateCommandUserAccessLevel()) {
-            return this.sendErrorMessageToClient(StaticCommandErrorNames.INVALID_CLIENT_INCOMING_DATA);
+            return this.sendErrorMessageToClient(StaticCommandErrorNames.UNAUTHORIZED);
         }
         const CommandData = await this.executeCommand();
         this.emitNotificationIfCommandRequires(CommandData);
@@ -26,6 +26,7 @@ class CommandRouter {
         this.Socket.emit(this.Command.getOutgoingChannel(), CommandData);
     }
     validateIncomingData() {
+        console.log(this.Command.getIncomingValidationSchema(), this.Data);
         const incomingDataValidate = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
         return incomingDataValidate(this.Data);
     }

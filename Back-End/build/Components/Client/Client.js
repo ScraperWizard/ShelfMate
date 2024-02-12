@@ -19,6 +19,12 @@ class Client {
     setAccessLevel(value) {
         this.accessLevel = value;
     }
+    setId(value) {
+        this.id = value;
+    }
+    getId() {
+        return this.id;
+    }
 }
 export default Client;
 //# sourceMappingURL=Client.js.map
