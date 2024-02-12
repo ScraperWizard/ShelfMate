@@ -4,6 +4,7 @@ class Client {
     private name: string;
     private socketId: string;
     private accessLevel: UserAccessLevels = UserAccessLevels.UNAUTHENTICATED;
+    private id: number;
 
     constructor(socketId: string) {
         this.socketId = socketId;
@@ -27,6 +28,14 @@ class Client {
 
     setAccessLevel(value: UserAccessLevels) {
         this.accessLevel = value;
+    }
+
+    setId(value: number) {
+      this.id = value;
+    }
+
+    getId(): number {
+      return this.id;
     }
 }
 

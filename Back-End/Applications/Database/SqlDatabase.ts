@@ -68,14 +68,34 @@ class MySqlDB implements Database {
   }
 
   async getAvailableBooks(): Promise<Object> | null {
-    const results = await this.connection.execute(`SELECT * FROM book NATRUAL JOIN inventory WHERE borrower IS NULL`);
+    const results = await this.connection.execute(`SELECT * FROM book NATURAL JOIN inventory WHERE borrower IS NULL`);
 
     if (results[0].length === 0) {
-      return false;
+      return null;
     } else {
-      return results[0][0];
+      return results[0];
     }
   }
+
+  async isBookBorrowed(barcode: number, borrower: number): Promise<boolean> {
+    
+    const [rows, fields] = await this.connection.execute(
+        'SELECT * FROM inventory WHERE barcode = ? AND borrower = ?',
+        [barcode, borrower]
+    );
+
+   
+    return rows.length > 0;
+}
+
+async returnBook(barcode: number, borrower: number): Promise<void> {
+    
+    const results = await this.connection.execute(
+        'UPDATE inventory SET borrower = NULL WHERE barcode = ? AND borrower = ?',
+        [barcode, borrower]
+    );
+}
+
 
   async addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }) {
     await this.connection.execute(`INSERT INTO access_tokens (token, id) VALUES (?,?)`, [newAccessToken, id]);

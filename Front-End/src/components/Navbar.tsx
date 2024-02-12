@@ -122,7 +122,7 @@ export default function Example() {
             </Link>
             <a className="dropdown">
               <a
-                className="dropbtn"
+                className="dropbtn cursor-pointer"
                 style={{ color: "black", fontWeight: "550" }}
               >
                 Library
