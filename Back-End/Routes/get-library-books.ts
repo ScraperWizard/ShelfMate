@@ -4,9 +4,9 @@ const command = new ServerCommandBuilder("get-library-books")
   .setAccessLevel(UserAccessLevels.STUDENT)
   .setOutgoingChannel("library-books-response")
   .setIncomingValidationSchema({
-  type: "object",
-  additionalProperties: false,
-  properties: {}
+    type: "object",
+    additionalProperties: false,
+    properties: {},
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
