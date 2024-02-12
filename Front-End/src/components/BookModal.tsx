@@ -1,27 +1,33 @@
 import React from "react";
 
-type Book = {
-  id: number;
-  image: string;
-  genre: string;
-  title: string;
-  copies: number;
-};
-
-type Props = {
-  book: Book;
+// Define prop types separately
+interface BookModalProps {
+  isVisible: boolean;
   onClose: () => void;
-};
+  children: any;
+}
 
-const BookModal: React.FC<Props> = ({ book, onClose }) => {
+// Destructure props inside the function body
+const BookModal = ({ isVisible, onClose, children }: BookModalProps) => {
+  if (!isVisible) return null;
+
+  const handleClose = (e: any) => {
+    if (e.target.id === "wrapper") onClose();
+  };
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
-        <h2>{book.title}</h2>
-        <p>Genre: {book.genre}</p>
-        <p>Copies available: {book.copies}</p>
-        <img src={book.image} alt={book.title} />
+    <div
+      className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center"
+      id="wrapper"
+      onClick={handleClose}
+    >
+      <div className="w-[600px] flex flex-col">
+        <button
+          className="text-white text-xl place-self-end"
+          onClick={() => onClose()}
+        >
+          X
+        </button>
+        <div className="bg-white p-2 rounded">{children}</div>
       </div>
     </div>
   );
