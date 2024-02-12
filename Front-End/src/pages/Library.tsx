@@ -48,15 +48,15 @@ function Library() {
     
   }, []);
 
-  const handleBorrow = (bookId: number) => {
-    socket.emit("borrow-book", { bookId, borrower: accessToken?.username });
+  // const handleBorrow = (bookId: number) => {
+  //   socket.emit("borrow-book", { bookId, borrower: accessToken?.username });
 
-    setBooks((prevBooks) =>
-      prevBooks.map((book) =>
-        book.id === bookId ? { ...book, copies: book.copies - 1 } : book
-      )
-    );
-  };
+  //   setBooks((prevBooks) =>
+  //     prevBooks.map((book) =>
+  //       book.id === bookId ? { ...book, copies: book.copies - 1 } : book
+  //     )
+  //   );
+  // };
 
   return (
     <div className="library" data-name="library">
@@ -80,7 +80,7 @@ function Library() {
               </div>
               <a href="#" className="borrowBtn" onClick={(e) => {
                   e.preventDefault();
-                  handleBorrow(book.id);
+                  // handleBorrow(book.id);
                 }}>
                 Borrow
               </a>
