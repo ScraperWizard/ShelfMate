@@ -25,17 +25,7 @@ function Login() {
 
     socket.once("autheticate-response", (message) => {
       if (message?.id) {
-        // userData = {
-        //   // username: message.username,
-        //   // password: message.password,
-        //   // id: message.id,
-        //   // first_name: message.first_name,
-        //   // last_name: message.last_name,
-        //   // postal: message.postal_address,
-        //   // email: message.email_adress,
-        //   // telephone_number: message.mobile_num,
-        //   accessToken: message.accessToken,
-        // };
+  
         console.log('mewssage', message)
         console.log(userData);
 
