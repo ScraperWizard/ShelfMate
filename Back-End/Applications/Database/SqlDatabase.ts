@@ -68,12 +68,12 @@ class MySqlDB implements Database {
   }
 
   async getAvailableBooks(): Promise<Object> | null {
-    const results = await this.connection.execute(`SELECT * FROM book NATRUAL JOIN inventory WHERE borrower IS NULL`);
+    const results = await this.connection.execute(`SELECT * FROM book NATURAL JOIN inventory WHERE borrower IS NULL`);
 
     if (results[0].length === 0) {
-      return false;
+      return null;
     } else {
-      return results[0][0];
+      return results[0];
     }
   }
 
