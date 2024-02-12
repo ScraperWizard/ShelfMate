@@ -22,6 +22,7 @@ import BookTable from "./components/BookTable.tsx";
 import MeetingRoomsPage from "./pages/BookingRoomsPage.tsx";
 import Contact from "./pages/Contact.tsx";
 import ReserveRooms from "./pages/ReservedRooms.tsx";
+import ChangePass from "./pages/ChangePass.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   
@@ -32,6 +33,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<Login></Login>}></Route>
         <Route path="/signup" element={<Signup></Signup>}></Route>
+        <Route path="/change-pass" element={<ChangePass></ChangePass>}></Route>
         <Route path="/home" element={<Home></Home>}></Route>
         <Route path="/about" element={<About></About>}></Route>
         <Route path="/library" element={<Library></Library>}></Route>

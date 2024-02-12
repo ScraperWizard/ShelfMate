@@ -1,46 +1,33 @@
-// AuthContext.tsx
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
-interface UserData {
-  username: string;
-  password: string;
-  id: string;
-  first_name: string;
-  last_name: string;
-  postal: string;
-  email: string;
-  telephone_number: string;
-}
-
 interface AuthContextProps {
-  user: UserData | undefined;
-  setUser: (userData: UserData | undefined) => void;
+  accessToken: string | undefined;
+  setAccessToken: (token: string | undefined) => void;
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserData | undefined>(undefined);
+  const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    const storedData = localStorage.getItem("userData");
-    if (storedData) {
-      const parsedData: UserData = JSON.parse(storedData);
-      setUser(parsedData);
+    const storedToken = localStorage.getItem("accessToken");
+    if (storedToken) {
+      setAccessToken(storedToken);
     }
   }, []);
 
-  const updateUser = (userData: UserData | undefined) => {
-    if (userData === undefined) {
-      localStorage.removeItem("userData");
+  const updateAccessToken = (token: string | undefined) => {
+    if (token === undefined) {
+      localStorage.removeItem("accessToken");
     } else {
-      localStorage.setItem("userData", JSON.stringify(userData));
+      localStorage.setItem("accessToken", token);
     }
-    setUser(userData);
+    setAccessToken(token);
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser: updateUser }}>
+    <AuthContext.Provider value={{ accessToken, setAccessToken: updateAccessToken }}>
       {children}
     </AuthContext.Provider>
   );

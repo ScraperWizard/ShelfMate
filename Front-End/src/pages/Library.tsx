@@ -32,7 +32,7 @@ type Book = {
 
 function Library() {
   const [books, setBooks] = useState<Book[]>([]);
-  const { user } = useAuth();
+  const { accessToken } = useAuth();
 
   useEffect(() => {
     
@@ -49,7 +49,7 @@ function Library() {
   }, []);
 
   const handleBorrow = (bookId: number) => {
-    socket.emit("borrow-book", { bookId, borrower: user?.username });
+    socket.emit("borrow-book", { bookId, borrower: accessToken?.username });
 
     setBooks((prevBooks) =>
       prevBooks.map((book) =>
@@ -64,7 +64,7 @@ function Library() {
       <h1>Library</h1>
       <div className="libraryBox">
         {/* this is where I will loop through each book  */}
-        {books.map((book) => (
+        {books.length > 0 && books.map((book) => (
           <div className="libraryCards" key={book.id}>
             <div className="libraryImage">
               <img src={book.image} className="Image" alt={book.title} />

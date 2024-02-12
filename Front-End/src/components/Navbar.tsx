@@ -136,7 +136,7 @@ export default function Example() {
             </a>
           </Popover.Group>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            {context?.user === undefined ? (
+            {context?.accessToken === undefined ? (
               <Link
                 to="/"
                 className="text-sm font-semibold leading-6 text-black-900"
@@ -145,7 +145,7 @@ export default function Example() {
               </Link>
             ) : (
               <Link
-                onClick={() => context.setUser(undefined)}
+                onClick={() => context.setAccessToken(undefined)}
                 to="/"
                 className="text-sm font-semibold leading-6 text-black-900"
               >
@@ -234,7 +234,7 @@ export default function Example() {
                   </Link>
                 </div>
                 <div className="py-6">
-                  {context?.user === undefined ? (
+                  {context?.accessToken === undefined ? (
                     <Link
                       to="/"
                       className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-black hover:bg-gray-50"
@@ -245,7 +245,7 @@ export default function Example() {
                     <Link
                       to="/"
                       className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-black hover:bg-gray-50"
-                      onClick={() => context.setUser(undefined)}
+                      onClick={() => context.setAccessToken(undefined)}
                     >
                       Log out
                     </Link>

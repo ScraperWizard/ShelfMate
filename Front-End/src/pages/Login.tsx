@@ -9,7 +9,7 @@ function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useAuth();
+  const { setAccessToken } = useAuth();
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
@@ -25,19 +25,21 @@ function Login() {
 
     socket.once("autheticate-response", (message) => {
       if (message?.id) {
-        userData = {
-          username: message.username,
-          password: message.password,
-          id: message.id,
-          first_name: message.first_name,
-          last_name: message.last_name,
-          postal: message.postal_address,
-          email: message.email_adress,
-          telephone_number: message.mobile_num,
-        };
+        // userData = {
+        //   // username: message.username,
+        //   // password: message.password,
+        //   // id: message.id,
+        //   // first_name: message.first_name,
+        //   // last_name: message.last_name,
+        //   // postal: message.postal_address,
+        //   // email: message.email_adress,
+        //   // telephone_number: message.mobile_num,
+        //   accessToken: message.accessToken,
+        // };
+        console.log('mewssage', message)
         console.log(userData);
 
-        setUser(userData); // another reminder for myself this is where the user information is set
+        setAccessToken(message.accessToken); // another reminder for myself this is where the user information is set
 
         navigate("/home");
         showNotification({
@@ -45,10 +47,11 @@ function Login() {
           message: "Authentication successful",
         } as Notification);
       }
-      // if (user != null) {}
-      // console.log(userData)
+      
     });
   };
+
+  
 
   return (
     <AnimatedPage>
@@ -74,13 +77,15 @@ function Login() {
               Remember Me
             </p>
 
-            <p className="text-center mt-8 text-slate-400 hover:text-sky-400">
+            <p className="text-center mt-6 text-slate-400 hover:text-sky-400">
+              forgot password?? <a href="/change-pass">change password</a>
+            </p>
+
+            <p className="text-center mt-6 text-slate-400 hover:text-sky-400">
               Not a member? <a href="/signup">Sign up now</a>
             </p>
 
-            <p className="text-center mt-8 text-slate-400 hover:text-sky-400">
-              Not a member? <a href="/home">go home</a>
-            </p>
+            
           </form>
         </div>
       </div>
