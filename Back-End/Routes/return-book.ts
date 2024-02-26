@@ -19,7 +19,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     const bookId = Data.bookId;
 
     // Check if the book is currently borrowed by the user
-    const isBorrowed = await Database.isBookBorrowed(bookId, Client.getId());
+    const isBorrowed = await Database.isBookBorrowedByUser(bookId, Client.getId());
 
     if (isBorrowed) {
       // Book is borrowed by the user, proceed to return the book

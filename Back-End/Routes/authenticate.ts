@@ -58,6 +58,8 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
 
   Client.setName(UserData.username);
   Client.setId(UserData.id);
+  Client.setAccessLevelByHumanName(UserData.user_type);
+  console.log(Client.getAccessLevel())
   return UserData;
 }
 

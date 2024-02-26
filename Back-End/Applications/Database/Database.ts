@@ -44,7 +44,9 @@ abstract class Database {
     username: string;
   }): Promise<Object> | null;
   abstract returnBook(barcode, borrower): Promise<void> ;
-  abstract isBookBorrowed(barcode: number, borrower: number): Promise<boolean>;
+  abstract isBookBorrowedByUser(barcode: number, borrower: number): Promise<boolean>;
+  abstract isBookBorrowed(barcode: number): Promise<boolean>
+  abstract borrowBook(barcode: number, borrower: number): Promise<void>
 }
 
 enum DatabaseState {

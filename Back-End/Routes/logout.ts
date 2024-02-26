@@ -16,6 +16,7 @@ async function callback({ Client, Database }: CommandExecuteArguments) {
     await Database.removeAccessTokenByUserId({ id: userId });
     Client.setName("");
     Client.setId(-1);
+    Client.setAccessLevel(UserAccessLevels.UNAUTHENTICATED);
   }
 
   return {

@@ -77,25 +77,25 @@ class MySqlDB implements Database {
     }
   }
 
-  async isBookBorrowed(barcode: number, borrower: number): Promise<boolean> {
-    
-    const [rows, fields] = await this.connection.execute(
-        'SELECT * FROM inventory WHERE barcode = ? AND borrower = ?',
-        [barcode, borrower]
-    );
+  async isBookBorrowedByUser(barcode: number, borrower: number): Promise<boolean> {
+    const [rows, fields] = await this.connection.execute("SELECT * FROM inventory WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
 
-   
     return rows.length > 0;
-}
+  }
 
-async returnBook(barcode: number, borrower: number): Promise<void> {
-    
-    const results = await this.connection.execute(
-        'UPDATE inventory SET borrower = NULL WHERE barcode = ? AND borrower = ?',
-        [barcode, borrower]
-    );
-}
+  async isBookBorrowed(barcode: number): Promise<boolean> {
+    const [rows] = await this.connection.execute("SELECT * FROM inventory WHERE barcode = ?", [barcode]);
 
+    return rows.length > 0 && rows[0].borrower !== null;
+  }
+
+  async returnBook(barcode: number, borrower: number): Promise<void> {
+    await this.connection.execute("UPDATE inventory SET borrower = NULL WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
+  }
+
+  async borrowBook(barcode: number, borrower: number): Promise<void> {
+    await this.connection.execute("UPDATE inventory SET borrower = ? WHERE barcode = ? AND borrower IS NULL", [borrower, barcode]);
+  }
 
   async addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }) {
     await this.connection.execute(`INSERT INTO access_tokens (token, id) VALUES (?,?)`, [newAccessToken, id]);
