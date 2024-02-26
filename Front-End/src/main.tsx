@@ -29,33 +29,33 @@ import { ThemeProvider } from "./context/ThemeContext.tsx";
 import { SidebarProvider } from "./context/SidebarContext.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   
-  <BrowserRouter>
+  // <BrowserRouter>
     
-      <NotificationProvider />
-      <AuthProvider>
-       <Routes>
-        <Route path="/" element={<Login></Login>}></Route>
-        <Route path="/signup" element={<Signup></Signup>}></Route>
-        <Route path="/change-pass" element={<ChangePass></ChangePass>}></Route>
-        <Route path="/home" element={<Home></Home>}></Route>
-        <Route path="/Librarian-page" element={<LibrarianPage></LibrarianPage>}></Route>
-        <Route path="/about" element={<About></About>}></Route>
-        <Route path="/library" element={<Library></Library>}></Route>
-        <Route path="/book-table" element={<BookTable></BookTable>}></Route>
-        <Route path="/meeting-room" element={<MeetingRoomsPage></MeetingRoomsPage>}></Route>
-        <Route path="/reserver-rooms" element={<ReserveRooms></ReserveRooms>}></Route>
-        <Route path="/contact" element={<Contact></Contact>}></Route>
-      </Routes> 
+  //     <NotificationProvider />
+  //     <AuthProvider>
+  //      <Routes>
+  //       <Route path="/" element={<Login></Login>}></Route>
+  //       <Route path="/signup" element={<Signup></Signup>}></Route>
+  //       <Route path="/change-pass" element={<ChangePass></ChangePass>}></Route>
+  //       <Route path="/home" element={<Home></Home>}></Route>
+  //       <Route path="/Librarian-page" element={<LibrarianPage></LibrarianPage>}></Route>
+  //       <Route path="/about" element={<About></About>}></Route>
+  //       <Route path="/library" element={<Library></Library>}></Route>
+  //       <Route path="/book-table" element={<BookTable></BookTable>}></Route>
+  //       <Route path="/meeting-room" element={<MeetingRoomsPage></MeetingRoomsPage>}></Route>
+  //       <Route path="/reserver-rooms" element={<ReserveRooms></ReserveRooms>}></Route>
+  //       <Route path="/contact" element={<Contact></Contact>}></Route>
+  //     </Routes> 
      
-      </AuthProvider>
+  //     </AuthProvider>
  
    
-  </BrowserRouter>
-  // <ThemeProvider>
-  //   <SidebarProvider>
-  //   <App></App>
-  //   </SidebarProvider>
-  // </ThemeProvider>
+  // </BrowserRouter>
+  <ThemeProvider>
+    <SidebarProvider>
+    <App></App>
+    </SidebarProvider>
+  </ThemeProvider>
   
   
 );
