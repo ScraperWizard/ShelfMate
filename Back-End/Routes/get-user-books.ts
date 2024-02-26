@@ -1,8 +1,8 @@
 import { ServerCommandBuilder } from "../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../Applications/Commands/Context.js";
-const command = new ServerCommandBuilder("get-logs")
-  .setAccessLevel(UserAccessLevels.ADMIN)
-  .setOutgoingChannel("logs-response")
+const command = new ServerCommandBuilder("get-user-books")
+  .setAccessLevel(UserAccessLevels.STUDENT)
+  .setOutgoingChannel("user-books-response")
   .setIncomingValidationSchema({
     type: "object",
     additionalProperties: false,

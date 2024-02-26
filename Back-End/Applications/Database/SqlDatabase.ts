@@ -97,6 +97,16 @@ class MySqlDB implements Database {
     await this.connection.execute("UPDATE inventory SET borrower = ? WHERE barcode = ? AND borrower IS NULL", [borrower, barcode]);
   }
 
+  async getBooksBorrowedByUserId({ id }: { id: number }): Promise<Object> | null {
+    const results = await this.connection.execute(`SELECT * FROM book NATURAL JOIN inventory WHERE borrower=?`, [id]);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0];
+    }
+  }
+  
   async addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }) {
     await this.connection.execute(`INSERT INTO access_tokens (token, id) VALUES (?,?)`, [newAccessToken, id]);
   }
