@@ -169,8 +169,8 @@ class MySqlDB implements Database {
     return results[0].length === 0;
   }
 
-  async createLog({event, details, initiator}: {event:string, details:string, initiator:number}):Promise<void> {
-    await this.connection.execute(`INSERT INTO Logs (event,details,initiator) VALUES (?,?,?)`, [event , details, initiator])
+  async createLog({ event, details, initiator }: { event: string; details: string; initiator: number }): Promise<void> {
+    await this.connection.execute(`INSERT (event,details,initiator) VALUES (?,?,?)`, [event, details, initiator]);
   }
 }
 
