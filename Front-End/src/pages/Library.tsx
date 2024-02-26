@@ -1,4 +1,3 @@
-
 import Navbar from "../components/Navbar";
 import arrivalImg1 from "../assets/arrival_1.jpg";
 import arrivalImg2 from "../assets/arrival_2.jpg";
@@ -20,7 +19,7 @@ import bookImg15 from "../assets/book_15.png";
 import "../styles/Library.css";
 import socket from "../Socket";
 import { useState, useEffect } from "react";
-import {useAuth} from '../context/AuthProvider'
+import { useAuth } from "../context/AuthProvider";
 
 type Book = {
   id: number;
@@ -41,17 +40,15 @@ function Library() {
   const { accessToken } = useAuth();
 
   useEffect(() => {
-    
-      socket.emit("get-library-books", {"yousef": "yousef"});
+    socket.emit("get-library-books");
 
-      socket.on("library-books-response", (response: Book[]) => {
-        setBooks(response);
-      });
+    socket.on("library-books-response", (response: Book[]) => {
+      setBooks(response);
+    });
 
-      return () => {
-        socket.off("library-books-response");
-      };
-    
+    return () => {
+      socket.off("library-books-response");
+    };
   }, []);
 
   // const handleBorrow = (bookId: number) => {
@@ -70,6 +67,34 @@ function Library() {
       <h1>Library</h1>
       <div className="libraryBox">
         {/* this is where I will loop through each book  */}
+        {books.length > 0 &&
+          books.map((book) => (
+            <div className="libraryCards" key={book.id}>
+              <div className="libraryImage">
+                <img src={book.image} className="Image" alt={book.title} />
+              </div>
+              <div className="libraryTag">
+                <p>{book.genre}</p>
+                <div className="libraryIcons">
+                  <i className="fa-solid fa-star"></i>
+                  <i className="fa-solid fa-star"></i>
+                  <i className="fa-solid fa-star"></i>
+                  <i className="fa-solid fa-star"></i>
+                  <i className="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <a
+                  href="#"
+                  className="borrowBtn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // handleBorrow(book.id);
+                  }}
+                >
+                  Borrow
+                </a>
+              </div>
+            </div>
+          ))}
         {books.length > 0 && books.map((book) => (
           <div className="libraryCards" key={book.id}>
             <div className="libraryImage">

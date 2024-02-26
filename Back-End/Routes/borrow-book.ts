@@ -15,9 +15,26 @@ const command = new ServerCommandBuilder("borrow-book")
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
-  // await Database.isBookAvaliable(Data.bookId);
+  const isBookAvailable = await Database.isBookBorrowed(Data.isBookBorrowed);
 
-//   return books;
+  if(!isBookAvailable) {
+    return {
+      notification: {
+        type: "error",
+        message: "Book is not available!",
+      },
+      error: true,
+    };
+  }
+
+  await Database.borrowBook(Data.bookId, Client.getId());
+
+  return {
+    notification: {
+      type: "success",
+      message: "Book is borrowed!",
+    },
+  };
 }
 
 export default command;

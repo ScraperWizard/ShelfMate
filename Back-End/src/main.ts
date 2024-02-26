@@ -38,7 +38,4 @@ webServer.listen(process.env.PORT || 4000, async () => {
   console.log(`Server is running on PORT ${process.env.PORT || 4000}...`);
 });
 
-
-export function start() {
-
-}
+export function start() {}
