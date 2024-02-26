@@ -23,10 +23,10 @@ import { useAuth } from "../context/AuthProvider";
 
 type Book = {
   id: number;
-  // image: string;
-  // genre: string;
+ image: string;
+  genre: string;
   title: string;
-  // copies: number;
+  copies: number;
   author: string;
   barcode: number;
   language: string;
@@ -44,6 +44,7 @@ function Library() {
 
     socket.on("library-books-response", (response: Book[]) => {
       setBooks(response);
+      console.log(response)
     });
 
     return () => {
@@ -74,7 +75,7 @@ function Library() {
                 <img src={book.image} className="Image" alt={book.title} />
               </div>
               <div className="libraryTag">
-                <p>{book.genre}</p>
+                <p>{book.title}</p>
                 <div className="libraryIcons">
                   <i className="fa-solid fa-star"></i>
                   <i className="fa-solid fa-star"></i>
@@ -95,29 +96,7 @@ function Library() {
               </div>
             </div>
           ))}
-        {books.length > 0 && books.map((book) => (
-          <div className="libraryCards" key={book.id}>
-            <div className="libraryImage">
-              {/* <img src={book.image} className="Image" alt={book.title} /> */}
-            </div>
-            <div className="libraryTag">
-              {/* <p>{book.genre}</p> */}
-              <div className="libraryIcons">
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star"></i>
-                <i className="fa-solid fa-star-half-stroke"></i>
-              </div>
-              <a href="#" className="borrowBtn" onClick={(e) => {
-                  e.preventDefault();
-                  // handleBorrow(book.id);
-                }}>
-                Borrow
-              </a>
-            </div>
-          </div>
-        ))}
+        
 
         {/* this is like a placeholder done by yaman I will remove it as soon as I make sure that everything works right */}
 
