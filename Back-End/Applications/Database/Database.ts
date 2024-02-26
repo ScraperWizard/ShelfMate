@@ -1,22 +1,8 @@
 abstract class Database {
   state: DatabaseState;
-  abstract authenticateUser({
-    username,
-    password,
-  }: {
-    username: string;
-    password: string;
-  }): Promise<Object> | null;
-  abstract getUserByAccessToken({
-    accessToken,
-  }: {
-    accessToken: string;
-  }): Promise<Object> | null;
-  abstract generateJsonWebToken({
-    username,
-  }: {
-    username: string;
-  }): Promise<Object> | null;
+  abstract authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> | null;
+  abstract getUserByAccessToken({ accessToken }: { accessToken: string }): Promise<Object> | null;
+  abstract generateJsonWebToken({ username }: { username: string }): Promise<Object> | null;
   abstract getAvailableBooks(): Promise<Object> | null;
   abstract addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }): Promise<void> | null;
   abstract getUserIdByName({ username }: { username: string }): Promise<number> | null;
@@ -38,17 +24,13 @@ abstract class Database {
     emailAddress: string;
     phoneNum: string;
   }): Promise<void> | null;
-  abstract checkUsename({
-    username,
-  }: {
-    username: string;
-  }): Promise<Object> | null;
-  abstract returnBook(barcode, borrower): Promise<void> ;
+  abstract checkUsename({ username }: { username: string }): Promise<Object> | null;
+  abstract returnBook(barcode, borrower): Promise<void>;
   abstract isBookBorrowedByUser(barcode: number, borrower: number): Promise<boolean>;
-  abstract isBookBorrowed(barcode: number): Promise<boolean>
-  abstract borrowBook(barcode: number, borrower: number): Promise<void>
+  abstract isBookBorrowed(barcode: number): Promise<boolean>;
+  abstract borrowBook(barcode: number, borrower: number): Promise<void>;
   abstract getBooksBorrowedByUserId({ id }: { id: number }): Promise<Object> | null;
-  abstract createLog({event, details, initiator}: {event:string, details:string, initiator:string}): Promise<void>
+  abstract createLog({ event, details, initiator }: { event: string; details: string; initiator: number }): Promise<void>;
   abstract getLogs(): Promise<void>;
 }
 
