@@ -24,14 +24,16 @@ import Contact from "./pages/Contact.tsx";
 import ReserveRooms from "./pages/ReservedRooms.tsx";
 import ChangePass from "./pages/ChangePass.tsx";
 import LibrarianPage from "./pages/ManageBooks.tsx";
-
+import App from "./App.tsx";
+import { ThemeProvider } from "./context/ThemeContext.tsx";
+import { SidebarProvider } from "./context/SidebarContext.tsx";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   
   <BrowserRouter>
     
       <NotificationProvider />
       <AuthProvider>
-      <Routes>
+       <Routes>
         <Route path="/" element={<Login></Login>}></Route>
         <Route path="/signup" element={<Signup></Signup>}></Route>
         <Route path="/change-pass" element={<ChangePass></ChangePass>}></Route>
@@ -43,10 +45,17 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="/meeting-room" element={<MeetingRoomsPage></MeetingRoomsPage>}></Route>
         <Route path="/reserver-rooms" element={<ReserveRooms></ReserveRooms>}></Route>
         <Route path="/contact" element={<Contact></Contact>}></Route>
-      </Routes>
+      </Routes> 
+     
       </AuthProvider>
  
    
   </BrowserRouter>
+  // <ThemeProvider>
+  //   <SidebarProvider>
+  //   <App></App>
+  //   </SidebarProvider>
+  // </ThemeProvider>
+  
   
 );

@@ -24,10 +24,16 @@ import {useAuth} from '../context/AuthProvider'
 
 type Book = {
   id: number;
-  image: string;
-  genre: string;
+  // image: string;
+  // genre: string;
   title: string;
-  copies: number;
+  // copies: number;
+  author: string;
+  barcode: number;
+  language: string;
+  year_of_prod: number;
+  publisher: string;
+  subjects: string;
 };
 
 function Library() {
@@ -36,7 +42,7 @@ function Library() {
 
   useEffect(() => {
     
-      socket.emit("get-library-books");
+      socket.emit("get-library-books", {"yousef": "yousef"});
 
       socket.on("library-books-response", (response: Book[]) => {
         setBooks(response);
@@ -67,10 +73,10 @@ function Library() {
         {books.length > 0 && books.map((book) => (
           <div className="libraryCards" key={book.id}>
             <div className="libraryImage">
-              <img src={book.image} className="Image" alt={book.title} />
+              {/* <img src={book.image} className="Image" alt={book.title} /> */}
             </div>
             <div className="libraryTag">
-              <p>{book.genre}</p>
+              {/* <p>{book.genre}</p> */}
               <div className="libraryIcons">
                 <i className="fa-solid fa-star"></i>
                 <i className="fa-solid fa-star"></i>
