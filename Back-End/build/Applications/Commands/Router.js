@@ -26,7 +26,9 @@ class CommandRouter {
         this.Socket.emit(this.Command.getOutgoingChannel(), CommandData);
     }
     validateIncomingData() {
-        console.log(this.Command.getIncomingValidationSchema(), this.Data);
+        if (this.Data == undefined) {
+            return true;
+        }
         const incomingDataValidate = this.ValidationService.compile(this.Command.getIncomingValidationSchema());
         return incomingDataValidate(this.Data);
     }
