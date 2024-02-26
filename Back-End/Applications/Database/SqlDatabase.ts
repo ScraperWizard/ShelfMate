@@ -157,6 +157,10 @@ class MySqlDB implements Database {
 
     return results[0].length === 0;
   }
+
+  async createLog({event, details, initiator}: {event:string, details:string, initiator:string}):Promise<void> {
+    await this.connection.execute(`INSERT (event,details,initiator) VALUES (?,?,?)`, [event , details, initiator])
+  }
 }
 
 export default MySqlDB;
