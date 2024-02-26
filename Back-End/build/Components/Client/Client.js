@@ -25,6 +25,14 @@ class Client {
     getId() {
         return this.id;
     }
+    setAccessLevelByHumanName(userType) {
+        const accessLevels = {
+            student: 1,
+            librarian: 2,
+            admin: 3,
+        };
+        this.accessLevel = accessLevels[userType];
+    }
 }
 export default Client;
 //# sourceMappingURL=Client.js.map
