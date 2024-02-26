@@ -40,9 +40,9 @@ class Client {
 
   setAccessLevelByHumanName(userType: string): void {
     const accessLevels = {
-      student: 0,
-      librarian: 1,
-      admin: 2,
+      student: 1,
+      librarian: 2,
+      admin: 3,
     };
 
     this.accessLevel = accessLevels[userType];
