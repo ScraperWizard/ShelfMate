@@ -48,6 +48,7 @@ abstract class Database {
   abstract isBookBorrowed(barcode: number): Promise<boolean>
   abstract borrowBook(barcode: number, borrower: number): Promise<void>
   abstract getBooksBorrowedByUserId({ id }: { id: number }): Promise<Object> | null;
+  abstract getLogs(): Promise<void>;
 }
 
 enum DatabaseState {

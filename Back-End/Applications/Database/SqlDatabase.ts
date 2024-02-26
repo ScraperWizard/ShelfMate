@@ -106,7 +106,13 @@ class MySqlDB implements Database {
       return results[0];
     }
   }
-  
+
+  async getLogs(): Promise<void> {
+    const results = await this.connection.execute(`SELECT * FROM logs`);
+
+    return results[0];
+  }
+
   async addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }) {
     await this.connection.execute(`INSERT INTO access_tokens (token, id) VALUES (?,?)`, [newAccessToken, id]);
   }
