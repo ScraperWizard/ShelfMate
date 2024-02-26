@@ -1,5 +1,5 @@
-import { ServerCommandBuilder } from "../Applications/Commands/Builder.js";
-import { UserAccessLevels, CommandExecuteArguments } from "../Applications/Commands/Context.js";
+import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
+import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 const command = new ServerCommandBuilder("get-library-books")
   .setAccessLevel(UserAccessLevels.STUDENT)
   .setOutgoingChannel("library-books-response")
