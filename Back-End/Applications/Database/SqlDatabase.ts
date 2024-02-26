@@ -44,7 +44,8 @@ class MySqlDB implements Database {
 
   async authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> {
     const results = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [username, password]);
-
+    this.createLog({ event: "login", details: `User ${username} logged in`, initiator: results[0][0].id });
+    
     if (results[0].length === 0) {
       return false;
     } else {
@@ -91,10 +92,12 @@ class MySqlDB implements Database {
 
   async returnBook(barcode: number, borrower: number): Promise<void> {
     await this.connection.execute("UPDATE inventory SET borrower = NULL WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
+    this.createLog({ event: "return", details: `User ${borrower} returned book ${barcode}`, initiator: borrower })
   }
 
   async borrowBook(barcode: number, borrower: number): Promise<void> {
     await this.connection.execute("UPDATE inventory SET borrower = ? WHERE barcode = ? AND borrower IS NULL", [borrower, barcode]);
+    this.createLog({ event: "borrow", details: `User ${borrower} borrowed book ${barcode}`, initiator: borrower });
   }
 
   async getBooksBorrowedByUserId({ id }: { id: number }): Promise<Object> | null {
@@ -106,7 +109,13 @@ class MySqlDB implements Database {
       return results[0];
     }
   }
-  
+
+  async getLogs(): Promise<void> {
+    const results = await this.connection.execute(`SELECT * FROM logs`);
+
+    return results[0];
+  }
+
   async addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }) {
     await this.connection.execute(`INSERT INTO access_tokens (token, id) VALUES (?,?)`, [newAccessToken, id]);
   }
@@ -143,6 +152,8 @@ class MySqlDB implements Database {
         `INSERT INTO users (username, password, first_name, last_name, postal_address, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,0,"student")`,
         [username, password, firstName, lastName, postalAddress, emailAddress, phoneNum]
       );
+
+      this.createLog({ event: "register", details: `User ${username} registered`, initiator: -1 });
     } catch (error) {
       if (error.code === "ER_DUP_ENTRY") {
         throw new error("Username already exists");
@@ -156,6 +167,10 @@ class MySqlDB implements Database {
     const results = await this.connection.execute(`SELECT * FROM users WHERE Username=?`, [username]);
 
     return results[0].length === 0;
+  }
+
+  async createLog({ event, details, initiator }: { event: string; details: string; initiator: number }): Promise<void> {
+    await this.connection.execute(`INSERT (event,details,initiator) VALUES (?,?,?)`, [event, details, initiator]);
   }
 }
 
