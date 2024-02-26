@@ -165,7 +165,7 @@ class MySqlDB implements Database {
   }
 
   async createLog({event, details, initiator}: {event:string, details:string, initiator:string}):Promise<void> {
-    await this.connection.execute(`INSERT (event,details,initiator) VALUES (?,?,?)`, [event , details, initiator])
+    await this.connection.execute(`INSERT INTO Logs (event,details,initiator) VALUES (?,?,?)`, [event , details, initiator])
   }
 }
 
