@@ -50,6 +50,7 @@ class ServerCommandBuilder {
   incomingValidationSchema: object;
   outgoingValidationSchema: object;
   outgoingChannel: string;
+  
   constructor(name: string) {
     this.name = name;
   }

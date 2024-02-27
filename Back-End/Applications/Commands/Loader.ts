@@ -18,9 +18,11 @@ async function loadCommands(dir: string) {
     } else if (path.extname(file.name) === '.js') {
       const commandModule = await import(res.replace("C:", "file:\\C:"));
       const command = commandModule.default;
-      const commandName = path.basename(file.name, '.js');
-      commands[commandName] = command;
-      console.log("Loaded command: " + commandName);
+      if(command) {
+        const commandName = path.basename(file.name, '.js');
+        commands[command.getName()] = command;
+        console.log("Loaded command: " + command.getName());
+      }
     }
   }
 }
