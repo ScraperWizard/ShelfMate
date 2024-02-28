@@ -56,7 +56,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <MdOutlineBarChart size={20} />
                 </span>
-                <span className="menu-link-text">Statistics</span>
+                <span className="menu-link-text">nothing</span>
               </Link>
             </li>
             <li className="menu-item">
@@ -64,7 +64,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <MdOutlineAttachMoney size={20} />
                 </span>
-                <span className="menu-link-text">Payment</span>
+                <span className="menu-link-text">nothing</span>
               </Link>
             </li>
             <li className="menu-item">
@@ -72,7 +72,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <MdOutlineCurrencyExchange size={18} />
                 </span>
-                <span className="menu-link-text">Transactions</span>
+                <span className="menu-link-text">nothing</span>
               </Link>
             </li>
             <li className="menu-item">
@@ -80,7 +80,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <MdOutlineShoppingBag size={20} />
                 </span>
-                <span className="menu-link-text">Products</span>
+                <span className="menu-link-text">nothing</span>
               </Link>
             </li>
             <li className="menu-item">
@@ -88,7 +88,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <MdOutlinePeople size={20} />
                 </span>
-                <span className="menu-link-text">Customer</span>
+                <span className="menu-link-text">nothing</span>
               </Link>
             </li>
             <li className="menu-item">
@@ -96,7 +96,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <MdOutlineMessage size={18} />
                 </span>
-                <span className="menu-link-text">Messages</span>
+                <span className="menu-link-text">nothing</span>
               </Link>
             </li>
           </ul>
@@ -108,7 +108,7 @@ const Sidebar = () => {
                 <span className="menu-link-icon">
                   <MdOutlineSettings size={20} />
                 </span>
-                <span className="menu-link-text">Settings</span>
+                <span className="menu-link-text">nothing</span>
               </Link>
             </li>
             <li className="menu-item">
