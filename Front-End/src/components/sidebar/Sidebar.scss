@@ -25,21 +25,18 @@
       outline: 1px solid rgba(0, 0, 0, 0.02);
       outline-offset: -1px;
     }
-  
-    // toggling this class helps to hide/unhide the sidebar
     &.sidebar-show{
       @media(max-width: 768px){
           transform: translateX(0);
       }
     }
   
-    // showing icons only on sidebar
+
     @media(max-width: 1200px){
       width: auto;
       padding: 20px 6px;
     }
   
-    // hiding full on small screen
     @media(max-width: 768px){
       width: 260px;
       transform: translateX(-100%);

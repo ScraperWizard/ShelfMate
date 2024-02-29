@@ -18,7 +18,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     );
   };
 
-  // Store the theme in local storage whenever it changes
   useEffect(() => {
     window.localStorage.setItem("themeMode", theme);
   }, [theme]);

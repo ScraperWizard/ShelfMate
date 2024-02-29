@@ -1,31 +1,28 @@
 // google fonts
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
 
-/*** Common variables ***/
 :root {
-  // colors
   --blue-color: #475be8;
   --green-color: #4ce13f;
   --orange-color: #f29a2e;
   --red-color: #ef0606;
   --dark-color: #292929;
   --light-color: #ffffff;
-  // typography
+
   --font-family-lato: "Lato", sans-serif;
   --font-family-manrope: "Manrope", sans-serif;
   --font-size: 16px;
   --line-height: 1.6;
   --font-weight: 400;
-  // transition
+
   --default-transition: all 300ms ease-in-out;
-  // chart
+  
   --chart-primary-color: #475be8;
   --chart-secondary-color: #e6e6e6;
-  // box shadow
+
   --light-shadow1: rgba(0, 0, 0, 0.02) 0px 4px 12px;
 }
 
-// color mode toggle mixins
 @mixin lightMode {
   --primary-color: #475be8;
   --secondary-color: #fff;
@@ -77,15 +74,13 @@
   font-family: inherit;
 }
 
-// color mode toggle in body
 body {
   font-family: var(--font-family-lato);
   font-size: var(--font-size);
   font-weight: var(--font-weight);
-  // by default light mode is on
+
   @include lightMode();
 
-  // add dark-mode class on the body if dark mode is set true
   &.dark-mode {
     @include darkMode();
   }
@@ -161,7 +156,6 @@ ul {
   }
 }
 
-// content
 .content-area {
   & > section {
     margin-bottom: 16px;

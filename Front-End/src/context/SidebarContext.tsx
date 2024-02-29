@@ -12,7 +12,11 @@ export const SidebarContext = createContext<SidebarContextType>({
   closeSidebar: () => {},
 });
 
-export const SidebarProvider: React.FC = ({ children }: any) => {
+interface SidebarProviderProps {
+  children: ReactNode;
+}
+
+export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const openSidebar = () => {
     setSidebarOpen(true);
