@@ -17,21 +17,21 @@ function Login() {
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
-  let userData = undefined;
-
+  let userType = undefined;
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     socket.emit("authenticate", { username, password });
 
     socket.once("autheticate-response", (message) => {
       if (message?.id) {
-  
-        console.log('mewssage', message)
-        console.log(userData);
+        console.log(message);
 
         setAccessToken(message.accessToken); // another reminder for myself this is where the user information is set
-
-        navigate("/home");
+        
+        userType = message.user_type;
+        if(userType === "student") navigate("/home");
+        else if(userType === "librarian") navigate("/Librarian-page");
+        else if(userType == "admin") navigate("/admin");
         showNotification({
           type: "success",
           message: "Authentication successful",

@@ -47,8 +47,8 @@
 
 @mixin darkMode {
   --primary-color: #475be8;
-  --secondary-color: #2e2e48;
-  --background-color: #383854;
+  --secondary-color: #475be8;
+  --background-color: rgb(80, 80, 219);
   --side-link-hover-color: #525270;
   --side-text-color: #e1e1e1;
   --logo-color: #fff;

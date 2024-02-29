@@ -3,7 +3,7 @@ import { ThemeContext } from '../../context/ThemeContext';
 import { LIGHT_THEME } from '../../constants/themeConstants';
 import LogoBlue from '../../assets/logo_blue.svg';
 import LogoWhite from '../../assets/logo_white.svg';
-import { MdOutlineAttachMoney, MdOutlineBarChart, MdOutlineClose, MdOutlineCurrencyExchange, MdOutlineGridView, MdOutlineLogout, MdOutlineMessage, MdOutlinePeople, MdOutlineSettings, MdOutlineShoppingBag } from 'react-icons/md';
+import { MdOutlineLogout, MdOutlineMessage, MdOutlinePeople, MdOutlineSettings, MdOutlineShoppingBag } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import './Sidebar.scss';
 import { SidebarContext } from '../../context/SidebarContext';
@@ -16,7 +16,7 @@ const Sidebar = () => {
     if (
       navbarRef.current &&
       (navbarRef.current as HTMLElement).contains(event.target) &&
-      event.target.className !== "sidebar-oepn-btn"
+      event.target.className !== "sidebar-open-btn"
     ) {
       closeSidebar();
     }

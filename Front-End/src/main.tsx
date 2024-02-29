@@ -45,6 +45,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="/meeting-room" element={<MeetingRoomsPage></MeetingRoomsPage>}></Route>
         <Route path="/reserver-rooms" element={<ReserveRooms></ReserveRooms>}></Route>
         <Route path="/contact" element={<Contact></Contact>}></Route>
+        <Route path="/admin" element={<App></App>}></Route>
       </Routes> 
      
       </AuthProvider>
