@@ -1,10 +1,13 @@
-import React from 'react'
+
+import DashTop from '../../components/dashboard/dashTop/DashTop'
+
+
 
 
 const Dashboard = () => {
   return (
-    <div className='content-area' data-name="admin">
-      
+    <div className='content-area'>
+      <DashTop></DashTop>
     </div>
   )
 }

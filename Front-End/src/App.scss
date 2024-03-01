@@ -1,8 +1,8 @@
-// google fonts
+
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
 
 :root {
-  --blue-color: #475be8;
+  --blue-color: #3b82f6;
   --green-color: #4ce13f;
   --orange-color: #f29a2e;
   --red-color: #ef0606;
@@ -24,7 +24,7 @@
 }
 
 @mixin lightMode {
-  --primary-color: #475be8;
+  --primary-color: #3b82f6;
   --secondary-color: #fff;
   --background-color: #fafafa;
   --side-link-hover-color: #f6f6f6;
@@ -46,9 +46,9 @@
 }
 
 @mixin darkMode {
-  --primary-color: #475be8;
-  --secondary-color: #475be8;
-  --background-color: rgb(80, 80, 219);
+  --primary-color: #465c65;
+  --secondary-color: #15182a;
+  --background-color: rgb(255, 255, 255);
   --side-link-hover-color: #525270;
   --side-text-color: #e1e1e1;
   --logo-color: #fff;
@@ -101,7 +101,6 @@ ul {
   list-style-type: none;
 }
 
-// theme toggle button
 .theme-toggle-btn {
   background-color: var(--bg-color-inverted);
   position: fixed;
