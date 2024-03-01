@@ -106,8 +106,18 @@ class MySqlDB implements Database {
     if (results[0].length === 0) {
       return null;
     } else {
+      return results[0];  
+    }
+  }
+  async getMeetingRooms(): Promise <object>| null{
+    const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
       return results[0];
     }
+
   }
 
   async getLogs(): Promise<void> {
