@@ -32,6 +32,7 @@ abstract class Database {
   abstract getBooksBorrowedByUserId({ id }: { id: number }): Promise<Object> | null;
   abstract createLog({ event, details, initiator }: { event: string; details: string; initiator: number }): Promise<void>;
   abstract getLogs(): Promise<void>;
+  abstract getMeetingRooms(): Promise <object>| null
 }
 
 enum DatabaseState {
