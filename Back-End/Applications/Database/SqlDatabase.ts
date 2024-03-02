@@ -117,25 +117,25 @@ class MySqlDB implements Database {
     author,
     language,
     year_of_prod,
-   publisher,
+    publisher,
     subjects,
     no_of_pages,
     price,
     rack,
     image,
-   isbn,
+    isbn,
   } : {
     title: string;
     author: string;
     language: string;
     year_of_prod: number;
-   publisher: string;
+    publisher: string;
     subjects: string;
     no_of_pages: number;
     price: number;
     rack: number;
     image: string;
-   isbn: string;
+    isbn: string;
   }): Promise <void>{
     
     try{
@@ -155,7 +155,7 @@ class MySqlDB implements Database {
         author,
         language,
         year_of_prod,
-       publisher,
+        publisher,
         subjects,
         no_of_pages,
         price,
@@ -172,10 +172,11 @@ class MySqlDB implements Database {
     }
 
   }
-  async deleteItem({barcode,id}:{barcode: number,id:number}): Promise<void>{
+  async deleteItem({barcode}:{barcode: number}): Promise<void>{
     try{
         const id = await this.getUserIdByName({ username: this.username });
-        const type =await this.connection.execute(`SELECT type FROM inventory WHERE barcode=${barcode};`);
+        const typeResult =await this.connection.execute(`SELECT type FROM inventory WHERE barcode=${barcode};`);
+        const type=typeResult[0][0].type
         if(type=='book'){
           await this.connection.execute(`DELETE FROM book WHERE barcode=${barcode}; DELETE FROM inventory WHERE barcode=${barcode};`);
           this.createLog({event:"delete item",details:`User ${this.username} deleted ${barcode}`,initiator:id});
@@ -188,6 +189,46 @@ class MySqlDB implements Database {
     } catch (error){
         throw new error(error.message)
     }
+  }
+
+  async updateItem({
+    title,
+    author,
+    barcode,
+    language,
+    year_of_prod,
+    publisher,
+    subjects,
+    no_of_pages,
+    price,
+    rack,
+    image,
+    isbn,
+    editon_num,
+    editor
+  } : {
+    title: string;
+    author: string;
+    barcode: number;
+    language: string;
+    year_of_prod: number;
+    publisher: string;
+    subjects: string;
+    no_of_pages: number;
+    price: number;
+    rack: number;
+    image: string;
+    isbn: string;
+    editon_num:number;
+    editor:string;
+  }): Promise <void>{
+
+    const id = await this.getUserIdByName({ username: this.username });
+    const type =await this.connection.execute(`SELECT type FROM inventory WHERE barcode=${barcode};`);
+    if(type=='book'){
+
+    } 
+
   }
   async getMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
