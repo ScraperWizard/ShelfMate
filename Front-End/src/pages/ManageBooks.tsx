@@ -124,6 +124,11 @@ function Library() {
       return;
     }
     console.log(formData)
+    formData.price = Number(formData.price);
+    formData.no_of_pages = Number(formData.no_of_pages);
+    formData.year_of_prod = Number(formData.year_of_prod);
+    formData.rack = Number(formData.rack);
+    
     socket.emit("add-book", formData);
 
     socket.once("add-book-response", (response) => {
