@@ -27,6 +27,7 @@ const command = new ServerCommandBuilder("add-book")
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
+  console.log("Data recieved");
   const { title,author,language,year_of_prod,publisher,subjects,no_of_pages,price,rack,image,isbn } = Data;
   const id = await Database.getUserIdByName({ username: this.username });
   try {
@@ -38,6 +39,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       },
       error: false,
     };
+    
   } catch (error) {
     let errorObject = {
       notification: {
@@ -50,7 +52,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     if (error.message === "Book already exists") {
       errorObject.notification.message = "Book already exists!";
     }
-
+    console.log("second Error");
     return errorObject
   }
 }

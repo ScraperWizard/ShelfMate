@@ -64,6 +64,7 @@ export default function Signup() {
 
       return;
     }
+    
     socket.emit("register", formData);
 
     socket.once("register-account-response", (response) => {
