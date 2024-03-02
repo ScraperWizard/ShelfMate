@@ -22,7 +22,7 @@ function Library() {
   const [books, setBooks] = useState<Book[]>([]);
   const { accessToken } = useAuth();
 
-  useEffect(() => {
+ useEffect (() => {
     socket.emit("get-library-books");
 
     socket.on("library-books-response", (response: Book[]) => {

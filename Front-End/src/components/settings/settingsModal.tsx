@@ -37,7 +37,6 @@ function SettingsPanel({ children }: any) {
             </Link>
           </ul>
         </div>
-
         <div className="col-span-8 overflow-hidden rounded-xl sm:bg-gray-50 sm:px-8 sm:shadow">
           {children}
         </div>
