@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import MHDYAMAN from "../assets/MHDYAMAN.jpg";
 import YOUSEF from "../assets/YOUSEF.jpg";
-import WAFIQ from "../assets/WAFIQAKRAM.jpg";
+import WAFIQ from "../assets/WAFIQ2.jpg";
 import ABDULRAHMAN from "../assets/Abdulrahman_Photo.png";
 
 
