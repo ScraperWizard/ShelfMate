@@ -2,6 +2,7 @@ import { Database, DatabaseState } from "./Database.js";
 import mysql from "mysql2/promise";
 import jwt from "jsonwebtoken";
 import { register } from "ts-node";
+import { error } from "ajv/dist/vocabularies/applicator/dependencies.js";
 
 class MySqlDB implements Database {
   private connection: any;
@@ -44,11 +45,12 @@ class MySqlDB implements Database {
 
   async authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> {
     const results = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [username, password]);
-    this.createLog({ event: "login", details: `User ${username} logged in`, initiator: results[0][0].id });
+   
     
     if (results[0].length === 0) {
       return false;
     } else {
+      this.createLog({ event: "login", details: `User ${username} logged in`, initiator: results[0][0].id });
       return results[0][0];
     }
   }
@@ -110,8 +112,82 @@ class MySqlDB implements Database {
     }
   }
 
-  async addBook({}){
+  async addBook({
+    title,
+    author,
+    language,
+    year_of_prod,
+   publisher,
+    subjects,
+    no_of_pages,
+    price,
+    rack,
+    image,
+   isbn,
+  } : {
+    title: string;
+    author: string;
+    language: string;
+    year_of_prod: number;
+   publisher: string;
+    subjects: string;
+    no_of_pages: number;
+    price: number;
+    rack: number;
+    image: string;
+   isbn: string;
+  }): Promise <void>{
+    
+    try{
+      await this.connection.execute(`INSERT INTO inventory ( 
+        title,
+        author,
+        language,
+        year_of_prod,
+       publisher,
+        subjects,
+        no_of_pages,
+        price,
+        rack,
+        image,
+       type) VAlUE(?,?,?,?,?,?,?,?,?,?,book);`,
+       [title,
+        author,
+        language,
+        year_of_prod,
+       publisher,
+        subjects,
+        no_of_pages,
+        price,
+        rack,
+        image]);
+        await this.connection.execute(`INSERT INTO book(isbn) VALUES (${isbn});`);
+        const id = await this.getUserIdByName({ username: this.username });
+        this.createLog({event:"add book",details:`User ${this.username} added ${title} book`,initiator:id})
+    }catch(error){
+      if (error.code === "ER_DUP_ENTRY") {
+        throw new error("Book already exists");
+      }
+      throw new error(error.message);
+    }
 
+  }
+  async deleteItem({barcode,id}:{barcode: number,id:number}): Promise<void>{
+    try{
+        const id = await this.getUserIdByName({ username: this.username });
+        const type =await this.connection.execute(`SELECT type FROM inventory WHERE barcode=${barcode};`);
+        if(type=='book'){
+          await this.connection.execute(`DELETE FROM book WHERE barcode=${barcode}; DELETE FROM inventory WHERE barcode=${barcode};`);
+          this.createLog({event:"delete item",details:`User ${this.username} deleted ${barcode}`,initiator:id});
+        }
+        else if(type=='magazine'){
+          await this.connection.execute(`DELETE FROM magazine WHERE barcode=${barcode}; DELETE FROM inventory WHERE barcode=${barcode};`);
+          this.createLog({event:"delete item",details:`User ${this.username} deleted ${barcode}`,initiator:id});
+        }
+
+    } catch (error){
+        throw new error(error.message)
+    }
   }
   async getMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
