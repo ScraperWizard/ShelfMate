@@ -58,7 +58,7 @@ abstract class Database {
     image: string;
    isbn: string;
   }): Promise <void>;
-  
+  abstract deleteItem({barcode}:{barcode: number}): Promise<void>
 }
 
 enum DatabaseState {

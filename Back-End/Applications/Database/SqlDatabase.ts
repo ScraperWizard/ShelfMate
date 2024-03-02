@@ -2,6 +2,7 @@ import { Database, DatabaseState } from "./Database.js";
 import mysql from "mysql2/promise";
 import jwt from "jsonwebtoken";
 import { register } from "ts-node";
+import { error } from "ajv/dist/vocabularies/applicator/dependencies.js";
 
 class MySqlDB implements Database {
   private connection: any;
@@ -161,7 +162,7 @@ class MySqlDB implements Database {
         rack,
         image]);
         await this.connection.execute(`INSERT INTO book(isbn) VALUES (${isbn});`);
-        this.createLog({event:"add book",details:`User ${this.username}`,initiator:1})
+        this.createLog({event:"add book",details:`User ${this.username} added ${title} book`,initiator:1})
     }catch(error){
       if (error.code === "ER_DUP_ENTRY") {
         throw new error("Book already exists");
@@ -169,6 +170,22 @@ class MySqlDB implements Database {
       throw new error(error.message);
     }
 
+  }
+  async deleteItem({barcode}:{barcode: number}): Promise<void>{
+    try{
+        const type =await this.connection.execute(`SELECT type FROM inventory WHERE barcode=${barcode};`);
+        if(type=='book'){
+          await this.connection.execute(`DELETE FROM book WHERE barcode=${barcode}; DELETE FROM inventory WHERE barcode=${barcode};`);
+          this.createLog({event:"delete item",details:`User ${this.username} deleted ${barcode}`,initiator:1});
+        }
+        else if(type=='magazine'){
+          await this.connection.execute(`DELETE FROM magazine WHERE barcode=${barcode}; DELETE FROM inventory WHERE barcode=${barcode};`);
+          this.createLog({event:"delete item",details:`User ${this.username} deleted ${barcode}`,initiator:1});
+        }
+
+    } catch (error){
+        throw new error(error.message)
+    }
   }
   async getMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
