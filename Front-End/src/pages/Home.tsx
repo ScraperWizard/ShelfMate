@@ -44,7 +44,7 @@ function Home() {
         <div className="services_box">
           <div className="services_card">
             <i className="fa-solid fa-lightbulb"></i>
-            <h3>Digital Delights</h3>
+            <h3><strong>Digital Delights</strong></h3>
             <p>
               Dive into a diverse array of books, from classic literature to
               cutting-edge research. Our shelves are brimming with knowledge,
@@ -54,7 +54,7 @@ function Home() {
 
           <div className="services_card">
             <i className="fa-solid fa-mug-hot"></i>
-            <h3>Meeting Rooms</h3>
+            <h3><strong>Meeting Rooms</strong></h3>
             <p>
               Need a quiet space for collaboration? Our meeting rooms are
               available for reservation, providing you with a conducive
@@ -65,7 +65,7 @@ function Home() {
 
           <div className="services_card">
             <i className="fa-solid fa-book"></i>
-            <h3>Borrow a Book</h3>
+            <h3><strong>Borrow a Book</strong></h3>
             <p>
               Immerse yourself in captivating stories and enrich your mind with
               our vast collection of books. Whether it's fiction, non-fiction,

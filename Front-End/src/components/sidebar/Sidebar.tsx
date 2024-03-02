@@ -7,6 +7,7 @@ import { MdOutlineClose, MdOutlineLogout, MdOutlineMessage, MdOutlinePeople, MdO
 import { Link } from 'react-router-dom';
 import './Sidebar.scss';
 import { SidebarContext } from '../../context/SidebarContext';
+import { AuthContext } from '../../context/AuthProvider';
 const Sidebar = () => {
   const {theme} = useContext(ThemeContext);
   const {isSidebarOpen, closeSidebar} = useContext(SidebarContext);
@@ -15,6 +16,7 @@ const Sidebar = () => {
   const handleLinkClick = (link: string) => {
     setActiveLink(link);
   }
+  const context = useContext(AuthContext);
 
   const handleClickOutside = (event: any) => {
     if (
@@ -48,14 +50,7 @@ const Sidebar = () => {
       <div className="sidebar-body">
         <div className="sidebar-menu">
           <ul className="menu-list">
-            <li className="menu-item">
-              <Link to="/admin/manage-user" className={`menu-link ${activeLink === 'manageUser' ? 'active' : ''}`} onClick={() => handleLinkClick('manageUser')}>
-                <span className="menu-link-icon">
-                <MdOutlinePeople size={20} />
-                </span>
-                <span className="menu-link-text">Users Management</span>
-              </Link>
-            </li>
+            
             <li className="menu-item"
             
             >
@@ -112,7 +107,7 @@ const Sidebar = () => {
           <div className="sidebar-menu sidebar-menu2">
           <ul className="menu-list">
             <li className="menu-item">
-              <Link to="/" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
+              <Link to="/admin/Settings" className={`menu-link ${activeLink === 'Settings' ? 'active' : ''}`} onClick={() => handleLinkClick('Settings')}>
                 <span className="menu-link-icon">
                   <MdOutlineSettings size={20} />
                 </span>
@@ -120,12 +115,23 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
-                <span className="menu-link-icon">
-                  <MdOutlineLogout size={20} />
-                </span>
-                <span className="menu-link-text">Logout</span>
-              </Link>
+              {
+                context?.accessToken === undefined ? (
+                  <Link to="/" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
+                    <span className="menu-link-icon">
+                      <MdOutlineLogout size={20} />
+                    </span>
+                    <span className="menu-link-text">Login</span>
+                  </Link>
+                ) : (
+                  <Link to="/" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
+                    <span className="menu-link-icon">
+                      <MdOutlineLogout size={20} />
+                    </span>
+                    <span className="menu-link-text"  onClick={() => context.setAccessToken(undefined)}>Logout</span>
+                  </Link>
+                )
+              }
             </li>
           </ul>
         </div>
