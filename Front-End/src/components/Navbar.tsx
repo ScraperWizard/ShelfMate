@@ -26,28 +26,28 @@ import {Link} from 'react-router-dom'
 const LibraryCards = [
   {
     name: "Book Store",
-    description: "Get a better understanding of where your traffic is coming from.",
+    description: "The Book Store section offers a diverse collection of books, spanning various genres and topics. Explore now!",
     to: "/library",
     icon: MdOutlineBook,
   },
   {
-    name: "Meeting room",
-    description: "Check the aviablity of the meeting room and reserve it.",
+    name: "Meeting Rooms",
+    description: "Whether you need a space for collaborative work, or group discussions, our Meeting Room feature ensures a hassle-free booking process.",
     to: "/meeting-room",
     icon: MdOutlineMeetingRoom,
   },
   {
-    name: "My books",
-    description: "Check your reserved books and cancel them if you want.",
+    name: "My Books",
+    description: "Easily access information about your current reads and track reading progress.",
     to: "/book-table",
     icon: MdOutlineReadMore,
   },
-  {
-    name: "Magazines",
-    description: "Check the aviablity of the magazines and reserve it.",
-    to: "/magazine",
-    icon: MdOutlineWebStories,
-  }
+  // {
+  //   name: "Magazines",
+  //   description: "Check the aviablity of the magazines and reserve it.",
+  //   to: "/magazine",
+  //   icon: MdOutlineWebStories,
+  // }
 
 ];
 
@@ -61,19 +61,19 @@ export default function Example() {
 
   return (
     <AuthProvider>
-      <header className="bg-gradient-to-r from-blue-50 via-blue-300 to-blue-500">
+      <header className="bg-gradient-to-r from-blue-50 via-blue-300 to-blue-500 " >
         <nav
           className="mx-auto flex max-w-7xl items-center justify-between p-0 lg:px-8"
           aria-label="Global"
         >
-          <div className="flex lg:flex-1">
-            <Link to="#" className="-m-1.5 p-1.5">
+          <div className="h-24 flex lg:flex-1">
+            <Link to="#" className=" -m-9 p-1">
               <span className="sr-only">Your Company</span>
               <img
-                className="h-8 w-auto"
+                className="w-auto"
                 src={imgLib}
                 alt=""
-                style={{ width: "170px", height: "170px" }}
+                style={{ width: "180px", height: "250px", paddingBottom:"80px" }}
               />
             </Link>
           </div>
@@ -92,17 +92,17 @@ export default function Example() {
             </button>
           </div>
            <Popover.Group className="hidden lg:flex lg:gap-x-12">
-           <Link to="/home" className="text-sm font-semibold leading-6 text-gray-900">
+           <Link to="/home" className="text-md font-semibold leading-6 text-gray-900">
             Home
           </Link>
-          <Link to="/about" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link to="/about" className="text-md font-semibold leading-6 text-gray-900">
             About us
           </Link>
-          <Link to="/contact" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link to="/contact" className="text-md font-semibold leading-6 text-gray-900">
             Contact
           </Link>
           <Popover className="relative">
-            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+            <Popover.Button className="flex items-center gap-x-1 text-md font-semibold leading-6 text-gray-900">
               Library
               <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
             </Popover.Button>
@@ -148,7 +148,7 @@ export default function Example() {
             {context?.accessToken === undefined ? (
               <Link
                 to="/"
-                className="text-sm font-semibold leading-6 text-black-900"
+                className="text-md font-semibold leading-6 text-black-900"
               >
                 Log in <span aria-hidden="true">&rarr;</span>
               </Link>
@@ -156,7 +156,7 @@ export default function Example() {
               <Link
                 onClick={() => context.setAccessToken(undefined)}
                 to="/"
-                className="text-sm font-semibold leading-6 text-black-900"
+                className="text-md font-semibold leading-6 text-black-900"
               >
                 Log out <span aria-hidden="true">&rarr;</span>
               </Link>

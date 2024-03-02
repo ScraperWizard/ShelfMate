@@ -3,6 +3,11 @@ import Navbar from '../components/Navbar'
 import '../styles/About.css'
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
+import MHDYAMAN from "../assets/MHDYAMAN.jpg";
+import YOUSEF from "../assets/YOUSEF.jpg";
+import WAFIQ from "../assets/WAFIQAKRAM.jpg";
+import ABDULRAHMAN from "../assets/Abdulrahman_Photo.png";
+
 
 function About() {
   const context = useContext(AuthContext);
@@ -16,39 +21,47 @@ function About() {
       <div className="Desc">
         <article>
           <h1 className="h1">About Us</h1>
-          <img src="#" width="30%" className="img"/>
+          <h2 className="OURNAMES"><span>Mohammad</span> Yaman - <span>Front End</span> Engineer</h2>
+          <img src={MHDYAMAN} width="30%" className="img"/>
           <p className="p">
             <br />
-            At Book Library, we are a passionate team of four developers who
-            share a common goal: to explore the realms of Artificial
-            Intelligence and contribute to the ever-evolving landscape of
-            technology. Hailing from diverse backgrounds, we converged at The
-            British University in Dubai, where our shared enthusiasm for A.I.
-            became the driving force behind this collaborative endeavor.
+            Engineer Yaman is a creative and detail-oriented professional with a passion for crafting seamless user experiences. Proficient in HTML, CSS, and JavaScript, Engineer Yaman specializes in translating design concepts into visually appealing web applications.
           </p>
         </article>
       </div>
 
       <div className="Desc">
         <article>
-          <h1 className="h1">Our Vision</h1>
+          <h2 className="OURNAMES"><span>Yousef</span> Al Sakkaf - <span>Front End</span> Engineer</h2>
+          <img src={YOUSEF} width="30%" className="img"/>
           <p className="p">
             <br />
-            Our vision is clear - to create a comprehensive library that not
-            only serves as a valuable resource for fellow AI enthusiasts but
-            also as a platform for learning, collaboration, and innovation. We
-            believe in the transformative power of knowledge and its ability to
-            shape a brighter future. By building this library, we aim to empower
-            individuals to understand, engage with, and harness the potential of
-            Artificial Intelligence.
+            Engineer Yousef brings a blend of technical expertise and design sensibility to the team. With a strong foundation in modern front-end frameworks such as React or Vue.js, Engineer Yousef excels in building dynamic and interactive user interfaces
           </p>
-
-          <h5>BOOK LIBRARY</h5>
-          <nav>
-            <p className="p">Where your Dreams Come True</p>
-          </nav>
         </article>
       </div>
+
+      <div className="Desc">
+        <article>
+          <h2 className="OURNAMES"><span>Abdulrahman</span> Al Ali - <span>Back End</span> Engineer</h2>
+          <img src={ABDULRAHMAN} width="30%" className="img"/>
+          <p className="p">
+            <br />
+            Engineer Abdulrahman is a skilled architect of server-side systems and APIs. Proficient in languages like Node.js, Python, or Java, Engineer Abdulrahman designs and implements robust and scalable backend solutions to support our web applications. Engineer Abdulrahman is well-versed in database management and server optimization</p>
+        </article>
+      </div>
+
+      <div className="Desc">
+        <article>
+          <h2 className="OURNAMES"><span>Wafiq</span> Akram - <span>Database</span> Manager</h2>
+          <img src={WAFIQ} width="30%" className="img"/>
+          <p className="p">
+            <br />
+            Engineer Wafiq is a seasoned professional responsible for overseeing the organization and efficiency of our data infrastructure. With expertise in database design, optimization, and maintenance, Engineer Wafiq ensures seamless data operations and performant support for our applications.</p>
+        </article>
+      </div>
+
+    
     </div>
   );
 }
