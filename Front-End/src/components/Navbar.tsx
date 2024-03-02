@@ -1,64 +1,55 @@
-import {  useState } from "react";
-import { Dialog, Disclosure, Popover,  } from "@headlessui/react";
+import { Fragment, useState } from 'react'
+import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
 import imgLib from "../assets/LibraryLogo.png";
 import {
-  // ArrowPathIcon,
   Bars3Icon,
   ChartPieIcon,
   CursorArrowRaysIcon,
   FingerPrintIcon,
-  // SquaresPlusIcon,
+  
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import {MdOutlineBook, MdOutlineMeetingRoom, MdOutlineWebStories, MdOutlineReadMore} from 'react-icons/md';
 import {
   ChevronDownIcon,
-  // PhoneIcon,
-  // PlayCircleIcon,
+  PhoneIcon,
+  PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import "../styles/Options.css";
-// import { color } from "framer-motion";
-// import { useAuth } from "../context/AuthProvider";
+
 import { AuthContext } from "../context/AuthProvider";
 import { useContext } from "react";
 import { AuthProvider } from "../context/AuthProvider";
 import {Link} from 'react-router-dom'
-const products = [
+
+
+const LibraryCards = [
   {
     name: "Book Store",
-    description: "Get Link better understanding of your traffic",
+    description: "Get a better understanding of where your traffic is coming from.",
     to: "/library",
-    icon: ChartPieIcon,
+    icon: MdOutlineBook,
   },
   {
     name: "Meeting room",
-    description: "Speak directly to your customers",
+    description: "Check the aviablity of the meeting room and reserve it.",
     to: "/meeting-room",
-    icon: CursorArrowRaysIcon,
+    icon: MdOutlineMeetingRoom,
   },
   {
     name: "My books",
-    description: "Your customers data will be safe and secure",
+    description: "Check your reserved books and cancel them if you want.",
     to: "/book-table",
-    icon: FingerPrintIcon,
+    icon: MdOutlineReadMore,
   },
   {
-    //   name: "Integrations",
-    //   description: "Connect with third-party tools",
-    //   to: "#",
-    //   icon: SquaresPlusIcon,
-    // },
-    // {
-    //   name: "Automations",
-    //   description: "Build strategic funnels that will convert",
-    //   to: "#",
-    //   icon: ArrowPathIcon,
-  },
-];
+    name: "Magazines",
+    description: "Check the aviablity of the magazines and reserve it.",
+    to: "/magazine",
+    icon: MdOutlineWebStories,
+  }
 
-// const callsToAction = [
-//   // { name: "Watch demo", to: "#", icon: PlayCircleIcon },
-//   // { name: "Contact sales", to: "#", icon: PhoneIcon },
-// ];
+];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -66,7 +57,6 @@ function classNames(...classes: string[]) {
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const { user, setUser } = useAuth();
   const context = useContext(AuthContext);
 
   return (
@@ -101,40 +91,59 @@ export default function Example() {
               />
             </button>
           </div>
-          <Popover.Group className="hidden lg:flex lg:gap-x-12">
-            <Link
-              to="/home"
-              className="text-sm font-semibold leading-6 text-black-900"
+           <Popover.Group className="hidden lg:flex lg:gap-x-12">
+           <Link to="/home" className="text-sm font-semibold leading-6 text-gray-900">
+            Home
+          </Link>
+          <Link to="/about" className="text-sm font-semibold leading-6 text-gray-900">
+            About us
+          </Link>
+          <Link to="/contact" className="text-sm font-semibold leading-6 text-gray-900">
+            Contact
+          </Link>
+          <Popover className="relative">
+            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+              Library
+              <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+            </Popover.Button>
+
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-200"
+              enterFrom="opacity-0 translate-y-1"
+              enterTo="opacity-100 translate-y-0"
+              leave="transition ease-in duration-150"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-1"
             >
-              Home
-            </Link>
-            <Link
-              to="/about"
-              className="text-sm font-semibold leading-6 text-black-900"
-            >
-              About us
-            </Link>
-            <Link
-              to="/contact"
-              className="text-sm font-semibold leading-6 text-black-900"
-            >
-              Contact
-            </Link>
-            <a className="dropdown">
-              <a
-                className="dropbtn cursor-pointer"
-                style={{ color: "black", fontWeight: "550" }}
-              >
-                Library
-                <i className="fa fa-caret-down"></i>
-              </a>
-              <div className="dropdown-content">
-                <Link to="/library">Book store</Link>
-                <Link to="/meeting-room">Meeting room</Link>
-                <Link to="/book-table">My books</Link>
-              </div>
-            </a>
-          </Popover.Group>
+              <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                
+                
+                <div className="p-4">
+                  {LibraryCards.map((item) => (
+                    <div
+                      key={item.name}
+                      className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
+                    >
+                      <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                        <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
+                      </div>
+                      <div className="flex-auto">
+                        <Link to={item.to} className="block font-semibold text-gray-900">
+                          {item.name}
+                          <span className="absolute inset-0" />
+                        </Link>
+                        <p className="mt-1 text-gray-600">{item.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Popover.Panel>
+            </Transition>
+          </Popover>
+
+         
+        </Popover.Group>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {context?.accessToken === undefined ? (
               <Link
@@ -151,15 +160,8 @@ export default function Example() {
               >
                 Log out <span aria-hidden="true">&rarr;</span>
               </Link>
-              // access the username here
             )}
-            {/* {console.log(user ===undefined ? "need login" : "already logged in")} */}
-            {/* <Link
-            to="/"
-            className="text-sm font-semibold leading-6 text-black-900"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </Link> */}
+            
           </div>
         </nav>
         <Dialog
@@ -200,15 +202,13 @@ export default function Example() {
                           />
                         </Disclosure.Button>
                         <Disclosure.Panel className="mt-2 space-y-2">
-                          {[...products].map((item) => (
-                            <Disclosure.Button
-                              key={item.name}
-                              as="a"
-                              href={item.to}
+                          {LibraryCards.map((item) => (
+                            <Link
+                              to={item.to}
                               className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                             >
                               {item.name}
-                            </Disclosure.Button>
+                            </Link>
                           ))}
                         </Disclosure.Panel>
                       </>
