@@ -36,8 +36,7 @@ function About() {
           <img src={YOUSEF} width="30%" className="img"/>
           <p className="p">
             <br />
-            Engineer Yousef brings a blend of technical expertise and design sensibility to the team. With a strong foundation in modern front-end frameworks such as React or Vue.js, Engineer Yousef excels in building dynamic and interactive user interfaces
-          </p>
+            Engineer Yousef brings a blend of technical expertise and design sensibility to the team. With a strong foundation in modern front-end frameworks such as React or Vue.js, Engineer Yousef excels in building dynamic and interactive user interfaces.</p>
         </article>
       </div>
 
@@ -47,7 +46,7 @@ function About() {
           <img src={ABDULRAHMAN} width="30%" className="img"/>
           <p className="p">
             <br />
-            Engineer Abdulrahman is a skilled architect of server-side systems and APIs. Proficient in languages like Node.js, Python, or Java, Engineer Abdulrahman designs and implements robust and scalable backend solutions to support our web applications. Engineer Abdulrahman is well-versed in database management and server optimization</p>
+            Engineer Abdulrahman is a skilled architect of server-side systems and APIs. Proficient in languages like Node.js, Python, or Java, Engineer Abdulrahman designs and implements robust and scalable backend solutions to support our web applications. Engineer Abdulrahman is well-versed in database management and server optimization.</p>
         </article>
       </div>
 
