@@ -45,7 +45,8 @@ abstract class Database {
     rack,
     image,
    isbn,
-   id
+   id,
+   username
   } : {
     title: string;
     author: string;
@@ -59,8 +60,9 @@ abstract class Database {
     image: string;
    isbn: string;
    id:number
+   username:string
   }): Promise <void>;
-  abstract deleteItem({barcode,id}:{barcode: number,id:number}): Promise<void>
+  abstract deleteItem({barcode,id,username}:{barcode: number,id:number,username:string}): Promise<void>
 }
 
 enum DatabaseState {
