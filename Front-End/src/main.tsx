@@ -26,6 +26,7 @@ import dash from "./assets/sun.svg";
 import random from "./assets/moon.svg";
 import ManageBooks from "./pages/admin/ManageBooks.tsx";
 import ManageUser from "./pages/users/ManageUser.tsx";
+import MagazinesLibrary from "./pages/MagazinesLibrary.tsx";
 
 function Root() {
   return (
@@ -46,6 +47,7 @@ function Root() {
                 ></Route>
                 <Route path="/about" element={<About />}></Route>
                 <Route path="/library" element={<Library />}></Route>
+                <Route path="/magazine" element={<MagazinesLibrary/>}></Route>
                 <Route path="/book-table" element={<BookTable />}></Route>
                 <Route
                   path="/meeting-room"

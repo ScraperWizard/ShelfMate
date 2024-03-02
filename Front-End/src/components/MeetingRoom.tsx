@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 
 interface MeetingRoomProps {
-  id: number;
-  title: string;
-  date: string;
-  details: string;
-  status: string;
-  capacity: number;
+  Reserver_SID: any;
+  availablity: number,
+  capacity: number,
+  equipment: string,
+  id: number,
+  maintinance_end: string,
+  maintenance_start: string,
 }
 
 const MeetingRoom: React.FC<MeetingRoomProps> = ({
   id,
-  title,
-  date,
-  details,
-  status,
+  Reserver_SID,
+  availablity,
   capacity,
+  equipment,
+  maintinance_end,
+  maintenance_start
 }) => {
   const [isImageClicked, setIsImageClicked] = useState(false);
 
@@ -27,9 +29,9 @@ const MeetingRoom: React.FC<MeetingRoomProps> = ({
     <div className="max-w-lg w-full lg:flex hover:shadow-lg transform hover:scale-105 transition-all" onClick={handleImageClick}>
       {isImageClicked ? ( 
         <div className="p-4">
-          {/* i just added the id here as a placeholder since i will use it later */}
-          <div className="text-gray-900 font-bold text-xl mb-2" >{title} {id}</div> 
-          <p className="text-gray-700 text-base">{details}</p>
+          
+          <div className="text-gray-900 font-bold text-xl mb-2" >{equipment} {id}</div> 
+          <p className="text-gray-700 text-base">{capacity}</p>
         </div>
       ) : (
         <>
@@ -44,15 +46,16 @@ const MeetingRoom: React.FC<MeetingRoomProps> = ({
           <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
             <div className="mb-8">
               <p className="text-sm text-gray-600 flex items-center">
-                Date: {date}
+                Date: {maintenance_start}
+                deadline: {maintinance_end}
               </p>
-              <div className="text-gray-900 font-bold text-xl mb-2">{title}</div>
-              <p className="text-gray-700 text-base">{details}</p>
+              <div className="text-gray-900 font-bold text-xl mb-2">{equipment}</div>
+              <p className="text-gray-700 text-base">{equipment}</p>
             </div>
             <div className="flex items-center">
-              {status === "book" && capacity > 0 ? (
+              {availablity === 1 && capacity > 0 ? (
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                  {status}
+                  Available
                 </button>
               ) : (
                 <button
