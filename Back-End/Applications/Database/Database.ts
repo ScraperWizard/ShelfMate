@@ -32,7 +32,33 @@ abstract class Database {
   abstract getBooksBorrowedByUserId({ id }: { id: number }): Promise<Object> | null;
   abstract createLog({ event, details, initiator }: { event: string; details: string; initiator: number }): Promise<void>;
   abstract getLogs(): Promise<void>;
-  abstract getMeetingRooms(): Promise <object>| null
+  abstract getMeetingRooms(): Promise <object>| null;
+  abstract addBook({
+    title,
+    author,
+    language,
+    year_of_prod,
+   publisher,
+    subjects,
+    no_of_pages,
+    price,
+    rack,
+    image,
+   isbn,
+  } : {
+    title: string;
+    author: string;
+    language: string;
+    year_of_prod: number;
+   publisher: string;
+    subjects: string;
+    no_of_pages: number;
+    price: number;
+    rack: number;
+    image: string;
+   isbn: string;
+  }): Promise <void>;
+  
 }
 
 enum DatabaseState {

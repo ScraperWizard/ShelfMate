@@ -44,11 +44,12 @@ class MySqlDB implements Database {
 
   async authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> {
     const results = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [username, password]);
-    this.createLog({ event: "login", details: `User ${username} logged in`, initiator: results[0][0].id });
+   
     
     if (results[0].length === 0) {
       return false;
     } else {
+      this.createLog({ event: "login", details: `User ${username} logged in`, initiator: results[0][0].id });
       return results[0][0];
     }
   }
@@ -110,7 +111,63 @@ class MySqlDB implements Database {
     }
   }
 
-  async addBook({}){
+  async addBook({
+    title,
+    author,
+    language,
+    year_of_prod,
+   publisher,
+    subjects,
+    no_of_pages,
+    price,
+    rack,
+    image,
+   isbn,
+  } : {
+    title: string;
+    author: string;
+    language: string;
+    year_of_prod: number;
+   publisher: string;
+    subjects: string;
+    no_of_pages: number;
+    price: number;
+    rack: number;
+    image: string;
+   isbn: string;
+  }): Promise <void>{
+    
+    try{
+      await this.connection.execute(`INSERT INTO inventory ( 
+        title,
+        author,
+        language,
+        year_of_prod,
+       publisher,
+        subjects,
+        no_of_pages,
+        price,
+        rack,
+        image,
+       type) VAlUE(?,?,?,?,?,?,?,?,?,?,book);`,
+       [title,
+        author,
+        language,
+        year_of_prod,
+       publisher,
+        subjects,
+        no_of_pages,
+        price,
+        rack,
+        image]);
+        await this.connection.execute(`INSERT INTO book(isbn) VALUES (${isbn});`);
+        this.createLog({event:"add book",details:`User ${this.username}`,initiator:1})
+    }catch(error){
+      if (error.code === "ER_DUP_ENTRY") {
+        throw new error("Book already exists");
+      }
+      throw new error(error.message);
+    }
 
   }
   async getMeetingRooms(): Promise <object>| null{
