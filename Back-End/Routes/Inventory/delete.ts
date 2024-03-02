@@ -7,7 +7,7 @@ const command = new ServerCommandBuilder("delete-item")
   .setIncomingValidationSchema({
     type: "object",
     properties: {
-      barcode: {type: "number"}
+      barcode: {type: "number"},
     },
     required: ["barcode"],
   })
