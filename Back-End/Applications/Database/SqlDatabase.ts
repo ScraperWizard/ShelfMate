@@ -124,6 +124,7 @@ class MySqlDB implements Database {
     rack,
     image,
     isbn,
+    id,
   } : {
     title: string;
     author: string;
@@ -136,6 +137,7 @@ class MySqlDB implements Database {
     rack: number;
     image: string;
     isbn: string;
+    id:number
   }): Promise <void>{
     
     try{
@@ -162,32 +164,33 @@ class MySqlDB implements Database {
         rack,
         image]);
         await this.connection.execute(`INSERT INTO book(isbn) VALUES (${isbn});`);
-        const id = await this.getUserIdByName({ username: this.username });
         this.createLog({event:"add book",details:`User ${this.username} added ${title} book`,initiator:id})
     }catch(error){
       if (error.code === "ER_DUP_ENTRY") {
-        throw new error("Book already exists");
+        throw new Error("Book already exists");
       }
-      throw new error(error.message);
+      throw new Error(error.message);
     }
 
   }
-  async deleteItem({barcode}:{barcode: number}): Promise<void>{
+  async deleteItem({barcode,id}:{barcode: number,id:number}): Promise<void>{
     try{
-        const id = await this.getUserIdByName({ username: this.username });
+        
         const typeResult =await this.connection.execute(`SELECT type FROM inventory WHERE barcode=${barcode};`);
-        const type=typeResult[0][0].type
+        const type=typeResult[0][0].type;
         if(type=='book'){
-          await this.connection.execute(`DELETE FROM book WHERE barcode=${barcode}; DELETE FROM inventory WHERE barcode=${barcode};`);
+          await this.connection.execute(`DELETE FROM book WHERE barcode=${barcode}`);
+          await this.connection.execute(`DELETE FROM inventory WHERE barcode=${barcode}`);
           this.createLog({event:"delete item",details:`User ${this.username} deleted ${barcode}`,initiator:id});
         }
-        else if(type=='magazine'){
-          await this.connection.execute(`DELETE FROM magazine WHERE barcode=${barcode}; DELETE FROM inventory WHERE barcode=${barcode};`);
+        else if(type=="magazine"){
+          await this.connection.execute(`DELETE FROM magazine WHERE barcode=${barcode}`);
+          await this.connection.execute(`DELETE FROM inventory WHERE barcode=${barcode};`);
           this.createLog({event:"delete item",details:`User ${this.username} deleted ${barcode}`,initiator:id});
         }
-
+        
     } catch (error){
-        throw new error(error.message)
+        throw new Error(error.message)
     }
   }
 

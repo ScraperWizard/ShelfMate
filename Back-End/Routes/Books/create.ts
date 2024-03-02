@@ -28,9 +28,9 @@ const command = new ServerCommandBuilder("add-book")
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
   const { title,author,language,year_of_prod,publisher,subjects,no_of_pages,price,rack,image,isbn } = Data;
-
+  const id = await Database.getUserIdByName({ username: this.username });
   try {
-    await Database.addBook({title,author,language,year_of_prod,publisher,subjects,no_of_pages,price,rack,image,isbn });
+    await Database.addBook({...Data,id});
     return {
       notification: {
         type: "success",

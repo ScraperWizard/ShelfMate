@@ -16,10 +16,12 @@ const command = new ServerCommandBuilder("delete-item")
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
+    const id = await Database.getUserIdByName({ username: Client.getName()});
   const {barcode} = Data;
+    
 
   try {
-    await Database.deleteItem({barcode});
+    await Database.deleteItem({barcode,id});
     return {
       notification: {
         type: "success",
@@ -35,7 +37,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       },
       error: true,
     };
-
+    console.log(error);
     return errorObject
   }
 }
