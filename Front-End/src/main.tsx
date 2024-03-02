@@ -47,7 +47,7 @@ function Root() {
                 ></Route>
                 <Route path="/about" element={<About />}></Route>
                 <Route path="/library" element={<Library />}></Route>
-                <Route path="/magazine" element={<MagazinesLibrary/>}></Route>
+                <Route path="/magazine" element={<MagazinesLibrary />}></Route>
                 <Route path="/book-table" element={<BookTable />}></Route>
                 <Route
                   path="/meeting-room"
@@ -61,8 +61,14 @@ function Root() {
 
                 <Route element={<BaseLayout />} path="/admin">
                   {/* <Route path="" element={<Dashboard />}></Route> */}
-                  <Route path="/admin/manage-books" element={<ManageBooks />}></Route>
-                  <Route path="/admin/manage-user" element={<ManageUser/>}></Route>
+                  <Route
+                    path="/admin/manage-books"
+                    element={<ManageBooks />}
+                  ></Route>
+                  <Route
+                    path="/admin/manage-user"
+                    element={<ManageUser />}
+                  ></Route>
                   <Route path="*" element={<PageNotFound />}></Route>
                   {/* <Route element={<CustomComponentWithButtonAndImage />} /> */}
                 </Route>
@@ -93,7 +99,6 @@ export const CustomComponentWithButtonAndImage = () => {
           className="theme-icon"
         />
       </button>
-
     </>
   );
 };

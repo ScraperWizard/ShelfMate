@@ -16,6 +16,8 @@ type Book = {
   year_of_prod: number;
   publisher: string;
   subjects: string;
+
+  //  all of these attributes will changed right after wafiq and anoos finish from backend
 };
 
 function MagazinesLibrary() {
@@ -23,15 +25,15 @@ function MagazinesLibrary() {
   const { accessToken } = useAuth();
 
   useEffect(() => {
-    socket.emit("get-library-books");
+    socket.emit("get-library-magazines");
 
-    socket.on("library-books-response", (response: Book[]) => {
+    socket.on("library-magazines-response", (response: Book[]) => {
       setBooks(response);
       console.log(response)
     });
 
     return () => {
-      socket.off("library-books-response");
+      socket.off("library-magazines-response");
     };
   }, []);
 

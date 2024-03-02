@@ -5,41 +5,40 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import socket from "../Socket";
 import { useAuth } from "../context/AuthProvider";
-const ReserveRooms: React.FC = () => {
-  const [meetingRooms, setMeetingRooms] = useState([
-    {
-      id: 1,
-      title: "Room 101",
-      date: "2024-02-05",
-      details: "This room is suitable for small meetings.",
-      status: "cancel",
-      capacity: 4,
-    },
-    {
-      id: 2,
-      title: "Room 202",
-      date: "2024-02-06",
-      details: "This room is suitable for medium-sized meetings.",
-      status: "cancel",
-      capacity: 4,
-    },
-  ]);
 
-  const { user } = useAuth();
+interface Room {
+  Reserver_SID: any;
+  availablity: number;
+  capacity: number;
+  equipment: string;
+  id: number;
+  maintinance_end: string;
+  maintenance_start: string;
+}
+
+const ReserveRooms: React.FC = () => {
+  const [meetingRooms, setMeetingRooms] = useState<Room[]>([]);
+
+  const { accessToken } = useAuth();
 
   useEffect(() => {
-    if (user) {
-      socket.emit("get-reserved-rooms", { username: user.username });
+    if (accessToken) {
+      socket.emit("get-reserved-rooms", { userToken: accessToken });
 
-      socket.on("cancel-room-response", (roomId: number) => {
-        setMeetingRooms((prevRooms) =>
-          prevRooms.map((room) =>
-            room.id === roomId ? { ...room, status: "cancel", capacity: room.capacity + 1 } : room
-          )
-        );
+      socket.on("cancel-room-response", (response) => {
+        const filteredRooms = response.map((room: Room) => ({
+          id: room.id,
+          availablity: room.availablity,
+          capacity: room.capacity,
+          equipment: room.equipment,
+          maintinance_end: room.maintinance_end,
+          maintenance_start: room.maintenance_start,
+        }));
+
+        setMeetingRooms(filteredRooms);
       });
     }
-  }, [user]);
+  }, [accessToken]);
 
   return (
     <>
@@ -63,17 +62,17 @@ const ReserveRooms: React.FC = () => {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {meetingRooms.map((room) => (
-          <MeetingRoom
-            key={room.id}
-            id={room.id}
-            title={room.title}
-            date={room.date}
-            details={room.details}
-            status={room.status}
-            capacity={room.capacity}
-          />
-        ))}
+          {meetingRooms.map((room) => (
+            <MeetingRoom
+              id={room.id}
+              Reserver_SID={room.Reserver_SID}
+              maintinance_end={room.maintinance_end}
+              maintenance_start={room.maintenance_start}
+              equipment={room.equipment}
+              availablity={room.availablity}
+              capacity={room.capacity}
+            />
+          ))}
         </div>
       </div>
     </>

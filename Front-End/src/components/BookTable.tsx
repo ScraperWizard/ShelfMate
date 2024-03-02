@@ -21,11 +21,10 @@ type Book = {
 };
 function BookTable() {
   const [borrowedBooks, setBorrowedBooks] = useState<Book[]>([]);
-  const { user } = useAuth();
-
+  const { accessToken } = useAuth();
   useEffect(() => {
-    if (user) {
-      socket.emit("get-borrowed-books", { username: user.username });
+    if (accessToken) {
+      socket.emit("get-borrowed-books", { UserToken: accessToken });
 
       socket.on("borrowed-books-response", (response: Book[]) => {
         setBorrowedBooks(response);
@@ -35,10 +34,10 @@ function BookTable() {
         socket.off("borrowed-books-response");
       };
     }
-  }, [user]);
+  }, [accessToken]);
 
   const handleReturn = (bookId: number) => {
-    socket.emit("return-book", { bookId, borrower: user?.username });
+    socket.emit("return-book", { accessToken });
 
     setBorrowedBooks((prevBooks) =>
       prevBooks.map((book) =>
