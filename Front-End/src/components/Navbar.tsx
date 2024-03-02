@@ -3,17 +3,12 @@ import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
 import imgLib from "../assets/LibraryLogo.png";
 import {
   Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  
+ 
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import {MdOutlineBook, MdOutlineMeetingRoom, MdOutlineWebStories, MdOutlineReadMore} from 'react-icons/md';
 import {
-  ChevronDownIcon,
-  PhoneIcon,
-  PlayCircleIcon,
+  ChevronDownIcon
 } from "@heroicons/react/20/solid";
 import "../styles/Options.css";
 
@@ -26,7 +21,7 @@ import {Link} from 'react-router-dom'
 const LibraryCards = [
   {
     name: "Book Store",
-    description: "Get a better understanding of where your traffic is coming from.",
+    description: "Get a better understanding of where your books is",
     to: "/library",
     icon: MdOutlineBook,
   },

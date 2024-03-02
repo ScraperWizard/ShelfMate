@@ -25,8 +25,9 @@ import { DARK_THEME, LIGHT_THEME } from "./constants/themeConstants.tsx";
 import dash from "./assets/sun.svg";
 import random from "./assets/moon.svg";
 import ManageBooks from "./pages/admin/ManageBooks.tsx";
-import ManageUser from "./pages/users/ManageUser.tsx";
 import MagazinesLibrary from "./pages/MagazinesLibrary.tsx";
+import Settings from "./pages/settings/Account.tsx";
+import UserSettings from "./pages/settings/Users.tsx";
 
 function Root() {
   return (
@@ -65,10 +66,20 @@ function Root() {
                     path="/admin/manage-books"
                     element={<ManageBooks />}
                   ></Route>
-                  <Route
+                  {/* <Route
                     path="/admin/manage-user"
                     element={<ManageUser />}
-                  ></Route>
+                  ></Route> */}
+                  <Route
+                  path="/admin/Settings"
+                  element={<Settings />}
+                  >
+                    
+                  </Route>
+                  <Route
+                    path="/admin/manage-user"
+                    element={<UserSettings />}
+                    ></Route>
                   <Route path="*" element={<PageNotFound />}></Route>
                   {/* <Route element={<CustomComponentWithButtonAndImage />} /> */}
                 </Route>
