@@ -63,6 +63,39 @@ abstract class Database {
    username:string
   }): Promise <void>;
   abstract deleteItem({barcode,id,username}:{barcode: number,id:number,username:string}): Promise<void>
+  abstract updateBook({
+    title,
+    author,
+    barcode,
+    language,
+    year_of_prod,
+    publisher,
+    subjects,
+    no_of_pages,
+    price,
+    rack,
+    image,
+    type,
+    isbn,
+    id,
+    username,
+  } : {
+    title: string;
+    author: string;
+    barcode: number;
+    language: string;
+    year_of_prod: number;
+    publisher: string;
+    subjects: string;
+    no_of_pages: number;
+    price: number;
+    rack: number;
+    image: string;
+    type:string
+    isbn: string;
+    id:number,
+    username:string;
+  }): Promise <void>
 }
 
 enum DatabaseState {

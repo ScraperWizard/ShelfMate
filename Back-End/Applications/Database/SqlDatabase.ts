@@ -177,6 +177,9 @@ class MySqlDB implements Database {
       if (error.code === "ER_DUP_ENTRY") {
         throw new Error("Book already exists");
       }
+      else if(isbn.length>13){
+        throw new Error("isbn can't be longer than 13 charecters")
+      }
        else throw new Error(error.message);
        console.log(error.message);
        console.log(error)
@@ -204,7 +207,7 @@ class MySqlDB implements Database {
     }
   }
 
-  async updateItem({
+  async updateBook({
     title,
     author,
     barcode,
@@ -216,9 +219,10 @@ class MySqlDB implements Database {
     price,
     rack,
     image,
+    type,
     isbn,
-    editon_num,
-    editor
+    id,
+    username,
   } : {
     title: string;
     author: string;
@@ -231,16 +235,44 @@ class MySqlDB implements Database {
     price: number;
     rack: number;
     image: string;
+    type:string
     isbn: string;
-    editon_num:number;
-    editor:string;
+    id:number,
+    username:string;
   }): Promise <void>{
-
-    const id = await this.getUserIdByName({ username: this.username });
-    const type =await this.connection.execute(`SELECT type FROM inventory WHERE barcode=${barcode};`);
-    if(type=='book'){
-
-    } 
+    const book= await this.connection.execute(`SELECT * FROM inventory WHERE bacode=${barcode}`);
+    try{     
+      await this.connection.execute(`
+      UPDATE inventory
+      SET
+          title = '${title}',
+          author = '${author}',
+          language = '${language}',
+          year_of_prod = ${year_of_prod},
+          publisher = '${publisher}',
+          subjects = '${subjects}',
+          no_of_pages = ${no_of_pages},
+          price = ${price},
+          rack = ${rack},
+          image = '${image}',
+      WHERE
+          barcode = ${barcode}
+      `);
+      await this.connection.execute(`UPDATE book SET isbn=${isbn} WHERE barcode=${barcode}`);
+    }
+    catch(error){
+      if(type=="magazine"){
+        throw new Error("type mismatch");
+      }
+      else if(book[0].length===0){
+        throw new Error("Barcode invalid");
+      }
+      else{
+        throw new Error(error.message);
+      }
+      console.log(error.message)
+      console.log(error);
+    }
 
   }
   async getMeetingRooms(): Promise <object>| null{
