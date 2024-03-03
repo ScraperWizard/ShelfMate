@@ -112,6 +112,22 @@ function addRooms() {
 
               <div className="mb-4">
                 <label
+                  htmlFor="maintenance_start"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                 maintenance_start
+                </label>
+                <input
+                  type="number"
+                  id="maintenance_start"
+                  name="maintenance_start"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  
+                />
+              </div>
+
+              <div className="mb-4">
+                <label
                   htmlFor="maintinance_end"
                   className="block text-gray-700 font-bold mb-2"
                 >
@@ -126,23 +142,9 @@ function addRooms() {
                 />
               </div>
 
-              {/* no_of_pages */}
+              
 
-              <div className="mb-4">
-                <label
-                  htmlFor="maintenance_start"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Number of pages
-                </label>
-                <input
-                  type="number"
-                  id="maintenance_start"
-                  name="maintenance_start"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  
-                />
-              </div>
+             
 
               <div className="mb-4 button">
                 <button
