@@ -143,7 +143,10 @@ class MySqlDB implements Database {
   }): Promise <void>{
     
     try{
-      const barcode= await this.connection.execute(`SELECT max(barcode) AS max FROM inventory;`)[0][0].max +1;
+      const barcodeQ= await this.connection.execute(`SELECT max(barcode) AS max FROM inventory;`);
+      let barcode=barcodeQ[0][0].max;
+      barcode++;
+      
       await this.connection.execute(`INSERT INTO inventory ( 
         title,
         author,
