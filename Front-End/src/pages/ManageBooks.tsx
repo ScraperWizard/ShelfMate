@@ -33,7 +33,7 @@ type magazine = {
   publisher: string;
   subjects: string;
   price: number;
-  edition_num: number;
+  edition_num: string;
   editor: string;
 };
 
@@ -66,7 +66,7 @@ function Library() {
     price: 0,
     rack: 0,
     image: "",
-    edition_num: 0,
+    edition_num: "",
     editor: "",
   })
 
@@ -137,11 +137,11 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
   newMagazineData.no_of_pages = Number(newMagazineData.no_of_pages);
   newMagazineData.year_of_prod = Number(newMagazineData.year_of_prod);
   newMagazineData.rack = Number(newMagazineData.rack);
-  newMagazineData.edition_num = Number(newMagazineData.edition_num);
+  
 
-  socket.emit("update-book", newMagazineData);
+  socket.emit("add-magazine", newMagazineData);
 
-  socket.once("update-book-response", (response) => {
+  socket.once("add-magazine-response", (response) => {
     console.log(response);
     socket.emit("get-library-books");
 
