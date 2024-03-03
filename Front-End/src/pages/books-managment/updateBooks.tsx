@@ -28,6 +28,7 @@ function UpdateBooks() {
     rack: 0,
     image: "",
     isbn: "",
+    barcode: 0,
   });
 
   const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,6 +71,9 @@ function UpdateBooks() {
     const isbn = (
       event.currentTarget.elements.namedItem("isbn") as HTMLInputElement
     )?.value;
+    const barcode = (
+      event.currentTarget.elements.namedItem("barcode") as HTMLInputElement
+    )?.value;
 
     if (
       !title ||
@@ -82,7 +86,8 @@ function UpdateBooks() {
       !price ||
       !rack ||
       !image ||
-      !isbn
+      !isbn || 
+      !barcode
     ) {
       console.log("fields' values are missing");
       return;
@@ -92,6 +97,7 @@ function UpdateBooks() {
     updateData.no_of_pages = Number(updateData.no_of_pages);
     updateData.year_of_prod = Number(updateData.year_of_prod);
     updateData.rack = Number(updateData.rack);
+    updateData.barcode = Number(updateData.barcode);
 
     socket.emit("update-book", updateData);
 
@@ -150,6 +156,22 @@ function UpdateBooks() {
               />
             </div>
 
+            {/* barcode */}
+            <div className="mb-4">
+                <label
+                  htmlFor="barcode"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  barcode
+                </label>
+                <input
+                  type="text"
+                  id="barcode"
+                  name="barcode"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleUpdate}
+                />
+              </div>
             {/* language */}
             <div className="mb-4">
               <label
