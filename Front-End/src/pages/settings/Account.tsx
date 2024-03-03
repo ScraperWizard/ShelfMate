@@ -1,6 +1,8 @@
 import SettingsPanel from "../../components/settings/settingsModal";
+import { useAuth } from "../../context/AuthProvider";
 
 function Settings() {
+  const {username} = useAuth();
   return (
     <div data-name="Settings">
       <SettingsPanel>
@@ -11,7 +13,7 @@ function Settings() {
         <p className="py-2 text-xl font-semibold">Your username</p>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <p className="text-gray-600">
-            Your username is <strong>Blank for now</strong>
+            Your username is <strong>{username}</strong>
           </p>
           <button className="inline-flex text-blue-600 underline decoration-2 bg-inherit">
             Change

@@ -7,12 +7,13 @@ import { useAuth } from "../context/AuthProvider";
 
 function Login() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [username, setUsernameLocal] = useState("");
   const [password, setPassword] = useState("");
-  const { setAccessToken } = useAuth();
-  const {setUserType} = useAuth();
+  const { setAccessToken, setUserType, setUsername } = useAuth();
+  
+  
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
+    setUsernameLocal(event.target.value);
   };
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +30,7 @@ function Login() {
 
         setAccessToken(message.accessToken); // another reminder for myself this is where the user information is set
         setUserType(message.user_type);
+        setUsername(message.username);
         userType = message.user_type;
         if(userType === "student") navigate("/home");
         else if(userType === "librarian") navigate("/Librarian-page");

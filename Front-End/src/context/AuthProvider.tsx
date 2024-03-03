@@ -2,23 +2,28 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 
 interface AuthContextProps {
   accessToken: string | undefined;
-  userType: string | undefined; 
+  userType: string | undefined;
+  username: string | undefined;
   setAccessToken: (token: string | undefined) => void;
   setUserType: (type: string | undefined) => void;
+  setUsername: (username: string | undefined) => void;
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
-  const [userType, setUserType] = useState<string | undefined>(undefined); 
+  const [userType, setUserType] = useState<string | undefined>(undefined);
+  const [username, setUsername] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("accessToken");
     const storedUserType = localStorage.getItem("userType");
-    if (storedToken && storedUserType) {
+    const storedUsername = localStorage.getItem("username");
+    if (storedToken && storedUserType && storedUsername) {
       setAccessToken(storedToken);
-      setUserType(storedUserType); 
+      setUserType(storedUserType);
+      setUsername(storedUsername); 
     }
   }, []);
 
@@ -40,8 +45,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUserType(type);
   };
 
+  const updateUsername = (username: string | undefined) => {
+    if (username === undefined) {
+      localStorage.removeItem("username");
+    } else {
+      localStorage.setItem("username", username);
+    }
+    setUsername(username);
+  };
+
   return (
-    <AuthContext.Provider value={{ accessToken, userType, setAccessToken: updateAccessToken, setUserType: updateUserType }}>
+    <AuthContext.Provider value={{ accessToken, userType, username, setAccessToken: updateAccessToken, setUserType: updateUserType, setUsername: updateUsername }}>
       {children}
     </AuthContext.Provider>
   );
