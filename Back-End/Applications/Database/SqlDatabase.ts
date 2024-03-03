@@ -238,7 +238,7 @@ class MySqlDB implements Database {
     id:number,
     username:string;
   }): Promise <void>{
-    const book= await this.connection.execute(`SELECT * FROM inventory WHERE barcode=${barcode}`);
+    const book= await this.connection.execute(`SELECT * FROM inventory WHERE barcode=?`,[barcode]);
     const type =book[0][0].type;
     try{     
       await this.connection.execute(`
@@ -253,11 +253,12 @@ class MySqlDB implements Database {
           no_of_pages = ${no_of_pages},
           price = ${price},
           rack = ${rack},
-          image = '${image}',
+          image = '${image}'
       WHERE
           barcode = ${barcode}
       `);
-      await this.connection.execute(`UPDATE book SET isbn=${isbn} WHERE barcode=${barcode}`);
+      await this.connection.execute(`UPDATE book SET isbn=? WHERE barcode=?`,[isbn,barcode]);
+      this.createLog({event:"update book",details:`User ${username} updated ${barcode} book`,initiator:id})
     }
     catch(error){
       if(type=="magazine"){
@@ -337,7 +338,7 @@ class MySqlDB implements Database {
         rack,
         image,"magazine"]);
         await this.connection.execute(`INSERT INTO magazine(barcode, edition_num, editor) VALUES (${barcode},${edition_num},'${editor}')`);
-        this.createLog({event:"add book",details:`User ${username} added ${title} magazine`,initiator:id})
+        this.createLog({event:"add Magazine",details:`User ${username} added ${barcode} magazine`,initiator:id})
     }catch(error){
       if (error.code === "ER_DUP_ENTRY") {
         throw new Error("magazine already exists");
@@ -353,6 +354,7 @@ class MySqlDB implements Database {
   async updateMagazine({
     title,
     author,
+    barcode,
     language,
     year_of_prod,
     publisher,
@@ -368,6 +370,7 @@ class MySqlDB implements Database {
   } : {
     title: string;
     author: string;
+    barcode: number;
     language: string;
     year_of_prod: number;
     publisher: string;
@@ -381,6 +384,42 @@ class MySqlDB implements Database {
     id:number,
     username:string
   }): Promise <void>{
+
+    const magazine= await this.connection.execute(`SELECT * FROM inventory WHERE barcode=${barcode}`);
+    const type =magazine[0][0].type;
+    try{     
+      await this.connection.execute(`
+      UPDATE inventory
+      SET
+          title = '${title}',
+          author = '${author}',
+          language = '${language}',
+          year_of_prod = ${year_of_prod},
+          publisher = '${publisher}',
+          subjects = '${subjects}',
+          no_of_pages = ${no_of_pages},
+          price = ${price},
+          rack = ${rack},
+          image = '${image}'
+      WHERE
+          barcode = ${barcode}
+      `);
+      await this.connection.execute(`UPDATE magazine SET edition_num=${edition_num},editor='${editor}' WHERE barcode=${barcode}`);
+      this.createLog({event:"update Magazine",details:`User ${username} updated ${barcode} magazine`,initiator:id})
+    }
+    catch(error){
+      if(type=="book"){
+        throw new Error("type mismatch");
+      }
+      else if(magazine[0].length===0){
+        throw new Error("Barcode invalid");
+      }
+      else{
+        throw new Error(error.message);
+      }
+      console.log(error.message)
+      console.log(error);
+    }
   }
   async getMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);

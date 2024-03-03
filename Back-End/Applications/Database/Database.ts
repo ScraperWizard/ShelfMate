@@ -126,6 +126,39 @@ abstract class Database {
     editor: string;
     id:number,
     username:string
+  }): Promise <void>;
+  abstract updateMagazine({
+    title,
+    author,
+    barcode,
+    language,
+    year_of_prod,
+    publisher,
+    subjects,
+    no_of_pages,
+    price,
+    rack,
+    image,
+    edition_num,
+    editor,
+    id,
+    username
+  } : {
+    title: string;
+    author: string;
+    barcode: number;
+    language: string;
+    year_of_prod: number;
+    publisher: string;
+    subjects: string;
+    no_of_pages: number;
+    price: number;
+    rack: number;
+    image: string;
+    edition_num:number
+    editor: string;
+    id:number,
+    username:string
   }): Promise <void>
 }
 
