@@ -138,7 +138,7 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
   newMagazineData.year_of_prod = Number(newMagazineData.year_of_prod);
   newMagazineData.rack = Number(newMagazineData.rack);
   
-
+  console.log('new mgaazine data', newMagazineData)
   socket.emit("add-magazine", newMagazineData);
 
   socket.once("add-magazine-response", (response) => {
