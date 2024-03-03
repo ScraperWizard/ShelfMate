@@ -10,6 +10,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { setAccessToken } = useAuth();
+  const {setUserType} = useAuth();
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
@@ -27,7 +28,7 @@ function Login() {
         console.log(message);
 
         setAccessToken(message.accessToken); // another reminder for myself this is where the user information is set
-        
+        setUserType(message.user_type);
         userType = message.user_type;
         if(userType === "student") navigate("/home");
         else if(userType === "librarian") navigate("/Librarian-page");

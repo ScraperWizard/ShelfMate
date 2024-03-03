@@ -14,7 +14,7 @@ export default function Signup() {
     username: "",
     password: "",
     emailAddress: "",
-    postalAddress: "",
+    Street_name: "",
     phoneNum: "",
   });
   const navigate = useNavigate();
@@ -42,8 +42,11 @@ export default function Signup() {
     const emailAddress = (
       event.currentTarget.elements.namedItem("emailAddress") as HTMLInputElement
     )?.value;
-    const postalAddress = (
-      event.currentTarget.elements.namedItem("postalAddress") as HTMLInputElement
+    const Street_name = (
+      event.currentTarget.elements.namedItem("Street_name") as HTMLInputElement
+    )?.value;
+    const Address = (
+      event.currentTarget.elements.namedItem("Address") as HTMLInputElement
     )?.value;
     const phoneNum = (
       event.currentTarget.elements.namedItem(
@@ -57,14 +60,15 @@ export default function Signup() {
       !username ||
       !password ||
       !emailAddress ||
-      !postalAddress ||
+      !Street_name ||
+      !Address ||
       !phoneNum
     ) {
      
 
       return;
     }
-    
+    console.log(formData);
     socket.emit("register", formData);
 
     socket.once("register-account-response", (response) => {
@@ -151,13 +155,25 @@ export default function Signup() {
             </div>
             <div className="flex flex-col mb-2">
               <label className="text-slate-400 hover:text-sky-400">
-                Enter Your postalAddress :{" "}
+                Enter Your street_name :{" "}
               </label>
               <input
                 className="border relative bg-gray-100 p-2"
                 type="text"
-                placeholder="postalAddress"
-                name="postalAddress"
+                placeholder="Street_name"
+                name="Street_name"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col mb-2">
+              <label className="text-slate-400 hover:text-sky-400">
+                Enter Your Address :{" "}
+              </label>
+              <input
+                className="border relative bg-gray-100 p-2"
+                type="text"
+                placeholder="Address"
+                name="Address"
                 onChange={handleChange}
               />
             </div>

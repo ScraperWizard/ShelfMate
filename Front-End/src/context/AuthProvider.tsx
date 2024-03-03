@@ -2,18 +2,23 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 
 interface AuthContextProps {
   accessToken: string | undefined;
+  userType: string | undefined; 
   setAccessToken: (token: string | undefined) => void;
+  setUserType: (type: string | undefined) => void;
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
+  const [userType, setUserType] = useState<string | undefined>(undefined); 
 
   useEffect(() => {
     const storedToken = localStorage.getItem("accessToken");
-    if (storedToken) {
+    const storedUserType = localStorage.getItem("userType");
+    if (storedToken && storedUserType) {
       setAccessToken(storedToken);
+      setUserType(storedUserType); 
     }
   }, []);
 
@@ -26,8 +31,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setAccessToken(token);
   };
 
+  const updateUserType = (type: string | undefined) => {
+    if (type === undefined) {
+      localStorage.removeItem("userType");
+    } else {
+      localStorage.setItem("userType", type);
+    }
+    setUserType(type);
+  };
+
   return (
-    <AuthContext.Provider value={{ accessToken, setAccessToken: updateAccessToken }}>
+    <AuthContext.Provider value={{ accessToken, userType, setAccessToken: updateAccessToken, setUserType: updateUserType }}>
       {children}
     </AuthContext.Provider>
   );

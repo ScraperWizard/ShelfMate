@@ -18,42 +18,54 @@ import { AuthProvider } from "../context/AuthProvider";
 import {Link} from 'react-router-dom'
 
 
-const LibraryCards = [
-  {
-    name: "Book Store",
-    description: "The Book Store section offers a diverse collection of books, spanning various genres and topics. Explore now!",
-    to: "/library",
-    icon: MdOutlineBook,
-  },
-  {
-    name: "Meeting Rooms",
-    description: "Whether you need a space for collaborative work, or group discussions, our Meeting Room feature ensures a hassle-free booking process.",
-    to: "/meeting-room",
-    icon: MdOutlineMeetingRoom,
-  },
-  {
-    name: "My Books",
-    description: "Easily access information about your current reads and track reading progress.",
-    to: "/book-table",
-    icon: MdOutlineReadMore,
-  },
-  // {
-  //   name: "Magazines",
-  //   description: "Check the aviablity of the magazines and reserve it.",
-  //   to: "/magazine",
-  //   icon: MdOutlineWebStories,
-  // }
 
-];
+
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function Navbar() {
+
+
+  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const context = useContext(AuthContext);
-
+  const LibraryCards = context?.userType !== undefined && context?.userType === "librarian" ?
+  [
+    {
+      name: "Library Management",
+      description: "Please refer to here in case you want to manage the library",
+      to: "/Librarian-page",
+      icon: MdOutlineBook,
+    }
+  ]:
+    [
+      {
+        name: "Book Store",
+        description: "The Book Store section offers a diverse collection of books, spanning various genres and topics. Explore now!",
+        to: "/library",
+        icon: MdOutlineBook,
+      },
+      {
+        name: "Meeting Rooms",
+        description: "Whether you need a space for collaborative work, or group discussions, our Meeting Room feature ensures a hassle-free booking process.",
+        to: "/meeting-room",
+        icon: MdOutlineMeetingRoom,
+      },
+      {
+        name: "My Books",
+        description: "Easily access information about your current reads and track reading progress.",
+        to: "/book-table",
+        icon: MdOutlineReadMore,
+      },
+      // {
+      //   name: "Magazines",
+      //   description: "Check the aviablity of the magazines and reserve it.",
+      //   to: "/magazine",
+      //   icon: MdOutlineWebStories,
+      // }
+    ]
   return (
     <AuthProvider>
       <header className="bg-gradient-to-r from-blue-50 via-blue-300 to-blue-500 " >
