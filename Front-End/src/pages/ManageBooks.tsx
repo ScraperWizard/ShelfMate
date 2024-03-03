@@ -21,6 +21,22 @@ type Book = {
   price: number;
 };
 
+type magazine = {
+  id: number;
+  image: string;
+  genre: string;
+  title: string;
+  copies: number;
+  author: string;
+  language: string;
+  year_of_prod: number;
+  publisher: string;
+  subjects: string;
+  price: number;
+  edition_num: number;
+  editor: string;
+};
+
 function Library() {
   const navigate = useNavigate();
   
@@ -39,10 +55,112 @@ function Library() {
     barcode: 0,
   });
 
+  const [newMagazineData, setNewMagazineData] = useState({
+    title: "",
+    author: "",
+    language: "",
+    year_of_prod: 0,
+    publisher: "",
+    subjects: "",
+    no_of_pages: 0,
+    price: 0,
+    rack: 0,
+    image: "",
+    edition_num: 0,
+    editor: "",
+  })
+
+
+  const handleNewMagazine = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewMagazineData({ ...newMagazineData, [name]: value });
+  };
+
+const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+  const title = (
+    event.currentTarget.elements.namedItem("title") as HTMLInputElement
+  )?.value;
+  const author = (
+    event.currentTarget.elements.namedItem("author") as HTMLInputElement
+  )?.value;
+  const language = (
+    event.currentTarget.elements.namedItem("language") as HTMLInputElement
+  )?.value;
+  const year_of_prod = (
+    event.currentTarget.elements.namedItem("year_of_prod") as HTMLInputElement
+  )?.value;
+  const publisher = (
+    event.currentTarget.elements.namedItem("publisher") as HTMLInputElement
+  )?.value;
+  const subjects = (
+    event.currentTarget.elements.namedItem("subjects") as HTMLInputElement
+  )?.value;
+  const no_of_pages = (
+    event.currentTarget.elements.namedItem("no_of_pages") as HTMLInputElement
+  )?.value;
+  const price = (
+    event.currentTarget.elements.namedItem("price") as HTMLInputElement
+  )?.value;
+  const rack = (
+    event.currentTarget.elements.namedItem("rack") as HTMLInputElement
+  )?.value;
+  const image = (
+    event.currentTarget.elements.namedItem("image") as HTMLInputElement
+  )?.value;
+  const edition_num = (
+    event.currentTarget.elements.namedItem("edition_num") as HTMLInputElement
+  )?.value;
+  const editor = (
+    event.currentTarget.elements.namedItem("editor") as HTMLInputElement
+  )?.value;
+
+  if (
+    !title ||
+    !author ||
+    !language ||
+    !year_of_prod ||
+    !publisher ||
+    !subjects ||
+    !no_of_pages ||
+    !price ||
+    !rack ||
+    !edition_num ||
+    !editor ||
+    !image
+  ) {
+    console.log("fields' values are missing");
+    return;
+  }
+  console.log(newMagazineData);
+  newMagazineData.price = Number(newMagazineData.price);
+  newMagazineData.no_of_pages = Number(newMagazineData.no_of_pages);
+  newMagazineData.year_of_prod = Number(newMagazineData.year_of_prod);
+  newMagazineData.rack = Number(newMagazineData.rack);
+  newMagazineData.edition_num = Number(newMagazineData.edition_num);
+
+  socket.emit("update-book", newMagazineData);
+
+  socket.once("update-book-response", (response) => {
+    console.log(response);
+    socket.emit("get-library-books");
+
+    socket.on("library-books-response", (message:Book[]) => {
+      setBooks(message);
+      console.log(message);
+    });
+
+    navigate("/Librarian-page");
+  });
+};
+
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+ 
 
   const [updateData, setUpdateData] = useState({
     title: "",
@@ -152,6 +270,7 @@ function Library() {
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
   const [showModal4, setShowModal4] = useState(false);
+  const [showModal5, setShowModal5] = useState(false);
   const handleView = (book: Book) => {
     setSelectedBook(book);
     setShowModal4(true);
@@ -263,9 +382,10 @@ function Library() {
     )?.value;
     if (!barcode) {
       console.log("barcode is missing");
-      return;
+      return 
     }
-    console.log(removeBook);
+
+    console.log("this is the first default value of the remove book", removeBook)
     socket.emit("delete-item", removeBook);
 
     socket.once("delete-item-response", (response) => {
@@ -280,6 +400,29 @@ function Library() {
     });
   };
 
+  const handleRemoveInView = () => {
+    
+    if (!removeBook) {
+      console.log("barcode is missing");
+      return 
+    }
+    console.log(removeBook);
+    
+    console.log("this is the value of the remove book", removeBook)
+
+    socket.emit("delete-item", removeBook);
+
+    socket.once("delete-item-response", (response) => {
+      console.log(response);
+
+      socket.emit("get-library-books");
+
+      socket.on("library-books-response", (message: Book[]) => {
+        setBooks(message);
+        console.log(message);
+      });
+    });
+  };
   return (
     <>
       <Fragment>
@@ -297,13 +440,25 @@ function Library() {
               className="mr-4  bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               onClick={() => setShowModal2(true)}
             >
-              Remove a book
+              Remove item
             </button>
             <button
               className="mr-4  bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               onClick={() => setShowModal3(true)}
             >
               Update a book
+            </button>
+            <button
+              className="mr-4  bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={() => setShowModal5(true)}
+            >
+              Add magazine
+            </button>
+            <button
+              className="mr-4  bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              // onClick={() => setShowModal3(true)}
+            >
+              Update magazine
             </button>
           </div>
           <div className="libraryBox">
@@ -909,8 +1064,254 @@ function Library() {
               <p>{selectedBook.price}</p>
             </div>
 
+            <div className="mb-4 button">
+                <button
+                  type="submit"
+                  className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline test"
+                  onClick={() => {
+                    setRemoveBook({ barcode: parseInt(selectedBook.barcode.toString()) });
+                    handleRemoveInView();
+                  }}
+                  
+                >
+                  remove
+                </button>
+            </div>
+
           </div>
           )}
+        </BookModal>
+
+        <BookModal isVisible={showModal5} onClose={() => setShowModal5(false)}>
+          <div
+            className="p-6"
+            style={{ maxHeight: "500px", overflowY: "auto" }}
+          >
+            <h3 className="text-xl font-semibold text-gray-900 mb-5">
+              Add a new magazine
+            </h3>
+            <form onSubmit={handleAddMagazine}>
+              <div className="mb-4">
+                <label
+                  htmlFor="title"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Title
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+              {/* author */}
+
+              <div className="mb-4">
+                <label
+                  htmlFor="author"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Author
+                </label>
+                <input
+                  type="text"
+                  id="author"
+                  name="author"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* language */}
+              <div className="mb-4">
+                <label
+                  htmlFor="language"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Language
+                </label>
+                <input
+                  type="text"
+                  id="language"
+                  name="language"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* year_of_prod */}
+
+              <div className="mb-4">
+                <label
+                  htmlFor="year_of_prod"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Year of production
+                </label>
+                <input
+                  type="number"
+                  id="year_of_prod"
+                  name="year_of_prod"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* publisher */}
+
+              <div className="mb-4">
+                <label
+                  htmlFor="publisher"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Publisher
+                </label>
+                <input
+                  type="text"
+                  id="publisher"
+                  name="publisher"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* subjects */}
+
+              <div className="mb-4">
+                <label
+                  htmlFor="subjects"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Subjects
+                </label>
+                <input
+                  type="text"
+                  id="subjects"
+                  name="subjects"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* no_of_pages */}
+
+              <div className="mb-4">
+                <label
+                  htmlFor="no_of_pages"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Number of pages
+                </label>
+                <input
+                  type="number"
+                  id="no_of_pages"
+                  name="no_of_pages"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* price */}
+
+              <div className="mb-4">
+                <label
+                  htmlFor="price"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Price
+                </label>
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* rack */}
+
+              <div className="mb-4">
+                <label
+                  htmlFor="rack"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Rack
+                </label>
+                <input
+                  type="number"
+                  id="rack"
+                  name="rack"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* image */}
+
+              <div className="mb-4">
+                <label
+                  htmlFor="image"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Image
+                </label>
+                <input
+                  type="text"
+                  id="image"
+                  name="image"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* edition_num */}
+              <div className="mb-4">
+                <label
+                  htmlFor="edition_num"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  edition_num
+                </label>
+                <input
+                  type="text"
+                  id="edition_num"
+                  name="edition_num"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              {/* editor */}
+
+              <div className="mb-4">
+                <label
+                  htmlFor="editor"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  editor
+                </label>
+                <input
+                  type="text"
+                  id="editor"
+                  name="editor"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  onChange={handleNewMagazine}
+                />
+              </div>
+
+              <div className="mb-4">
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Add Book
+                </button>
+              </div>
+            </form>
+          </div>
         </BookModal>
       </Fragment>
     </>
