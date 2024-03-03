@@ -176,7 +176,7 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
     image: "",
     isbn: "",
     barcode: 0,
-    type: "",
+    // type: "",
   });
   
   
@@ -243,11 +243,16 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
       return;
     }
     console.log(updateData);
-    updateData.price = Number(updateData.price);
-    updateData.no_of_pages = Number(updateData.no_of_pages);
-    updateData.year_of_prod = Number(updateData.year_of_prod);
-    updateData.rack = Number(updateData.rack);
+    // updateData.price = Number(updateData.price);
+    // updateData.no_of_pages = Number(updateData.no_of_pages);
+    // updateData.year_of_prod = Number(updateData.year_of_prod);
+    // updateData.rack = Number(updateData.rack);
+    // updateData.barcode = Number(updateData.barcode);
     updateData.barcode = Number(updateData.barcode);
+    updateData.year_of_prod = Number(updateData.year_of_prod);
+    updateData.no_of_pages = Number(updateData.no_of_pages);
+    updateData.price = Number(updateData.price);
+    updateData.rack = Number(updateData.rack);
 
     console.log("this is the update data for book", updateData);
     socket.emit("update-book", updateData);
@@ -1322,4 +1327,4 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
   );
 }
 
-export default Library;
+export default Library;
