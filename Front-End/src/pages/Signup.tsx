@@ -27,7 +27,6 @@ export default function Signup() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    //Sign up Page
     const firstName = (
       event.currentTarget.elements.namedItem("firstName") as HTMLInputElement
     )?.value;
@@ -43,12 +42,13 @@ export default function Signup() {
     const emailAddress = (
       event.currentTarget.elements.namedItem("emailAddress") as HTMLInputElement
     )?.value;
-    const Street_name = (
-      event.currentTarget.elements.namedItem("Street_name") as HTMLInputElement
+    const street_name = (
+      event.currentTarget.elements.namedItem("street_name") as HTMLInputElement
     )?.value;
-    const Address = (
-      event.currentTarget.elements.namedItem("Address") as HTMLInputElement
+    const city = (
+      event.currentTarget.elements.namedItem("city") as HTMLInputElement
     )?.value;
+    
     const phoneNum = (
       event.currentTarget.elements.namedItem(
         "phoneNum"
@@ -61,18 +61,20 @@ export default function Signup() {
       !username ||
       !password ||
       !emailAddress ||
-      !Street_name ||
-      !Address ||
-      !phoneNum
+      !street_name ||
+      !phoneNum ||
+      !city
     ) {
      
 
       return;
     }
     console.log(formData);
+    console.log("these are the form data", formData);
     socket.emit("register", formData);
 
     socket.once("register-account-response", (response) => {
+      console.log("this is the response",response);
       if (response == null) {
         navigate('/');
       }
@@ -161,20 +163,20 @@ export default function Signup() {
               <input
                 className="border relative bg-gray-100 p-2"
                 type="text"
-                placeholder="Street_name"
-                name="Street_name"
+                placeholder="street_name"
+                name="street_name"
                 onChange={handleChange}
               />
             </div>
             <div className="flex flex-col mb-2">
               <label className="text-slate-400 hover:text-sky-400">
-                Enter Your Address :{" "}
+                Enter Your city :{" "}
               </label>
               <input
                 className="border relative bg-gray-100 p-2"
                 type="text"
-                placeholder="Address"
-                name="Address"
+                placeholder="city"
+                name="city"
                 onChange={handleChange}
               />
             </div>
