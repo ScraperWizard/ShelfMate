@@ -54,7 +54,7 @@ const Sidebar = () => {
             <li className="menu-item"
             
             >
-              <Link to="/admin/manage-books" className={`menu-link ${activeLink === 'books' ? 'active' : ''}`} onClick={() => handleLinkClick('books')}>
+              <Link to="/admin/add-book-admin" className={`menu-link ${activeLink === 'books' ? 'active' : ''}`} onClick={() => handleLinkClick('books')}>
                 <span className="menu-link-icon">
                 <MdOutlineBook size={20} />
                 </span>

@@ -24,10 +24,12 @@ import { useContext, useEffect } from "react";
 import { DARK_THEME, LIGHT_THEME } from "./constants/themeConstants.tsx";
 import dash from "./assets/sun.svg";
 import random from "./assets/moon.svg";
-import ManageBooks from "./pages/admin/ManageBooks.tsx";
+import ManageBooks from "./pages/books-managment/addBooks.tsx";
 import MagazinesLibrary from "./pages/MagazinesLibrary.tsx";
 import Settings from "./pages/settings/Account.tsx";
 import UserSettings from "./pages/settings/Users.tsx";
+import AddBooks from "./pages/books-managment/addBooks.tsx";
+import UpdateBooks from "./pages/books-managment/updateBooks.tsx";
 
 function Root() {
   return (
@@ -63,8 +65,12 @@ function Root() {
                 <Route element={<BaseLayout />} path="/admin">
                   {/* <Route path="" element={<Dashboard />}></Route> */}
                   <Route
-                    path="/admin/manage-books"
-                    element={<ManageBooks />}
+                    path="/admin/add-book-admin"
+                    element={<AddBooks />}
+                  ></Route>
+                  <Route
+                  path="/admin/update-book-admin"
+                  element={<UpdateBooks />}
                   ></Route>
                   {/* <Route
                     path="/admin/manage-user"
