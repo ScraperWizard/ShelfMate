@@ -30,6 +30,7 @@ import Settings from "./pages/settings/Account.tsx";
 import UserSettings from "./pages/settings/Users.tsx";
 import AddBooks from "./pages/books-managment/addBooks.tsx";
 import UpdateBooks from "./pages/books-managment/updateBooks.tsx";
+import AdminMain from "./pages/admin/adminMain.tsx";
 
 function Root() {
   return (
@@ -64,6 +65,10 @@ function Root() {
 
                 <Route element={<BaseLayout />} path="/admin">
                   {/* <Route path="" element={<Dashboard />}></Route> */}
+                  <Route
+                  element={<AdminMain></AdminMain>}
+                  path="/admin"
+                  ></Route>
                   <Route
                     path="/admin/add-book-admin"
                     element={<AddBooks />}
