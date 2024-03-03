@@ -63,7 +63,7 @@ const Sidebar = () => {
               
             </li>
             <li className="menu-item">
-              <Link to="/" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
+              <Link to="/admin/meeting-rooms-add" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
                 <span className="menu-link-icon">
                 <MdOutlineMeetingRoom size={20} />
                 </span>

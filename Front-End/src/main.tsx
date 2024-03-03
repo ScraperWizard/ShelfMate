@@ -31,7 +31,9 @@ import UserSettings from "./pages/settings/Users.tsx";
 import AddBooks from "./pages/books-managment/addBooks.tsx";
 import UpdateBooks from "./pages/books-managment/updateBooks.tsx";
 import AdminMain from "./pages/admin/adminMain.tsx";
-
+import AddRooms from "./pages/meeting-rooms/addRooms.tsx";
+import RemoveRooms from "./pages/meeting-rooms/removeRoom.tsx";
+import UpdateRoom from "./pages/meeting-rooms/updateRooms.tsx";
 function Root() {
   return (
     <>
@@ -77,6 +79,18 @@ function Root() {
                   path="/admin/update-book-admin"
                   element={<UpdateBooks />}
                   ></Route>
+                  <Route
+                  path="/admin/meeting-rooms-add"
+                  element={<AddRooms />}
+                  ></Route>
+                  <Route
+                  path="/admin/meeting-rooms-remove"
+                  element={<RemoveRooms />}
+                  ></Route>
+                  <Route
+                  path="/admin/meeting-rooms-update"
+                  element={<UpdateRoom />}
+                  ></Route>
                   {/* <Route
                     path="/admin/manage-user"
                     element={<ManageUser />}
@@ -93,6 +107,7 @@ function Root() {
                     ></Route>
                   <Route path="*" element={<PageNotFound />}></Route>
                   {/* <Route element={<CustomComponentWithButtonAndImage />} /> */}
+                  
                 </Route>
               </Routes>
             </AuthProvider>
