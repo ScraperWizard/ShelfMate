@@ -122,7 +122,7 @@ function Library() {
     updateData.year_of_prod = Number(updateData.year_of_prod);
     updateData.rack = Number(updateData.rack);
 
-    socket.emit("update-book", formData);
+    socket.emit("update-book", updateData);
 
     socket.once("update-book-response", (response) => {
       console.log(response);

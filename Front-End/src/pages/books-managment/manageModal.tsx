@@ -1,14 +1,40 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import BookModal from "../../components/BookModal";
+import socket from "../../Socket";
 // import './settingsModal.scss'
 function manageModal({ children }: any) {
-  const [activeLink, setActiveLink] = useState("");
+  const [activeLink, setActiveLink] = useState("add");
   const handleLinkClick = (link: string) => {
     setActiveLink(link);
   };
   const [showModal, setShowModal] = useState(false);
-  
+  const [removeBook, setRemoveBook] = useState({
+    barcode: 0,
+  });
+
+  const handleBarCode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setRemoveBook({ barcode: parseInt(value) });
+  };
+
+  const handleRemovingBook = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const barcode = (
+      event.currentTarget.elements.namedItem("barcode") as HTMLInputElement
+    )?.value;
+    if (!barcode) {
+      console.log("barcode is missing");
+      return;
+    }
+    console.log(removeBook);
+    socket.emit("delete-item", removeBook);
+
+    socket.once("delete-item-response", (response) => {
+      console.log(response);
+
+    });
+  };
   return (
     <Fragment>
       <div
@@ -30,9 +56,6 @@ function manageModal({ children }: any) {
             <ul>
               <Link
                 to="/admin/add-book-admin"
-                className={`mt-5 cursor-pointer border-l-blue-700 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
-                  activeLink === "add" ? "text-blue-700 border-l-2" : ""
-                }`}
                 onClick={() => handleLinkClick("add")}
               >
                 <li
@@ -85,7 +108,7 @@ function manageModal({ children }: any) {
           <h3 className="text-xl font-semibold text-gray-900 mb-5">
             Remove a book
           </h3>
-          <form >
+          <form onSubmit={handleRemovingBook}>
             <div className="mb-4">
               <label
                 htmlFor="barcode"
@@ -98,7 +121,7 @@ function manageModal({ children }: any) {
                 id="barcode"
                 name="barcode"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                // onChange={handleBarCode}
+                onChange={handleBarCode}
               />
             </div>
             <div className="mb-4">
