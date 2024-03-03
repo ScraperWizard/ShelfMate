@@ -1,13 +1,11 @@
 import React from "react";
 
-// Define prop types separately
 interface BookModalProps {
   isVisible: boolean;
   onClose: () => void;
   children: any;
 }
 
-// Destructure props inside the function body
 const BookModal = ({ isVisible, onClose, children }: BookModalProps) => {
   if (!isVisible) return null;
 
