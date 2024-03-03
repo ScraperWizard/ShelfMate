@@ -275,6 +275,81 @@ class MySqlDB implements Database {
     }
 
   }
+
+  async addMagazine({
+    title,
+    author,
+    language,
+    year_of_prod,
+    publisher,
+    subjects,
+    no_of_pages,
+    price,
+    rack,
+    image,
+    edition_num,
+    editor,
+    id,
+    username
+  } : {
+    title: string;
+    author: string;
+    language: string;
+    year_of_prod: number;
+    publisher: string;
+    subjects: string;
+    no_of_pages: number;
+    price: number;
+    rack: number;
+    image: string;
+    edition_num:number
+    editor: string;
+    id:number,
+    username:string
+  }): Promise <void>{
+    
+    try{
+      const barcodeQ= await this.connection.execute(`SELECT max(barcode) AS max FROM inventory;`);
+      let barcode=barcodeQ[0][0].max;
+      barcode++;
+      
+      await this.connection.execute(`INSERT INTO inventory ( 
+        title,
+        author,
+        barcode,
+        language,
+        year_of_prod,
+       publisher,
+        subjects,
+        no_of_pages,
+        price,
+        rack,
+        image,
+       type) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
+       [title,
+        author,
+        barcode,
+        language,
+        year_of_prod,
+        publisher,
+        subjects,
+        no_of_pages,
+        price,
+        rack,
+        image,"magazine"]);
+        await this.connection.execute(`INSERT INTO magazien(barcode, edition_num, editor) VALUES (${barcode},${edition_num},${editor})`);
+        this.createLog({event:"add book",details:`User ${username} added ${title} magazine`,initiator:id})
+    }catch(error){
+      if (error.code === "ER_DUP_ENTRY") {
+        throw new Error("magazine already exists");
+      }
+     
+       else throw new Error(error.message);
+       console.log(error.message);
+       console.log(error)
+    }
+
+  }
   async getMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
 
@@ -311,7 +386,8 @@ class MySqlDB implements Database {
     password,
     firstName,
     lastName,
-    postalAddress,
+    city,
+    street_name,
     emailAddress,
     phoneNum,
   }: {
@@ -319,17 +395,21 @@ class MySqlDB implements Database {
     password: string;
     firstName: string;
     lastName: string;
-    postalAddress: string;
+    city: string;
+    street_name: string;
     emailAddress: string;
     phoneNum: string;
   }): Promise<void> {
     try {
       await this.connection.execute(
-        `INSERT INTO users (username, password, first_name, last_name, postal_address, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,0,"student")`,
-        [username, password, firstName, lastName, postalAddress, emailAddress, phoneNum]
+        `INSERT INTO users (username, password, first_name, last_name, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,?)`,
+        [username, password, firstName, lastName,emailAddress, phoneNum,0,"student"]
       );
 
-      this.createLog({ event: "register", details: `User ${username} registered`, initiator: -1 });
+      const userQ =await this.connection.execute(`SELECT id from users WHERE username=${username}`) 
+      const userID=userQ[0][0].id;
+      await this.connection.execute(`INSERT INTO Address (City,Street_name,userID) VALUES (${city},${street_name},${userID})`);
+      this.createLog({ event: "register", details: `User ${username} registered`, initiator: userID});
     } catch (error) {
       if (error.code === "ER_DUP_ENTRY") {
         throw new error("Username already exists");

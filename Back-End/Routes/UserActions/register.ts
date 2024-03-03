@@ -11,21 +11,22 @@ const command = new ServerCommandBuilder("register")
       password: { type: "string" },
       firstName: { type: "string" },
       lastName: { type: "string" },
-      postalAddress: { type: "string" },
+      city: { type: "string" },
+      street_name: {type:"string"},
       emailAddress: { type: "string" },
       phoneNum: { type: "string" },
     },
-    required: ["username", "password", "firstName", "lastName", "postalAddress", "emailAddress", "phoneNum"],
+    required: ["username", "password", "firstName", "lastName", "city","street_name", "emailAddress", "phoneNum"],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
-  const { username, password, firstName, lastName, postalAddress, emailAddress, phoneNum } = Data;
+  const { username, password, firstName, lastName, city,street_name, emailAddress, phoneNum } = Data;
 
   try {
-    await Database.registerStudent({ username, password, firstName, lastName, postalAddress, emailAddress, phoneNum });
+    await Database.registerStudent({ username, password, firstName, lastName,city,street_name, emailAddress, phoneNum });
     Client.setName(username);
     return {
       notification: {
