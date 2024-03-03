@@ -19,6 +19,7 @@ type Book = {
   publisher: string;
   subjects: string;
   price: number;
+  type: string;
 };
 
 type magazine = {
@@ -175,6 +176,7 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
     image: "",
     isbn: "",
     barcode: 0,
+    type: "",
   });
   
   
@@ -247,6 +249,7 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
     updateData.rack = Number(updateData.rack);
     updateData.barcode = Number(updateData.barcode);
 
+    console.log("this is the update data for book", updateData);
     socket.emit("update-book", updateData);
 
     socket.once("update-book-response", (response) => {
