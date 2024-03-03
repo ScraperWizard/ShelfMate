@@ -406,7 +406,8 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
       console.log("barcode is missing");
       return 
     }
-    console.log(removeBook);
+    
+    removeBook.barcode = selectedBook?.barcode as number;
     
     console.log("this is the value of the remove book", removeBook)
 
