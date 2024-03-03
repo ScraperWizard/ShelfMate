@@ -48,6 +48,9 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       errorObject.notification.message = "Username already exists!";
     }
 
+    console.log(error);
+    console.log(error.message);
+
     return errorObject
   }
 }

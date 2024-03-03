@@ -28,6 +28,7 @@ const command = new ServerCommandBuilder("add-magazine")
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
+    console.log(Data);
   const { title,author,language,year_of_prod,publisher,subjects,no_of_pages,price,rack,image,edition_num,editor } = Data;
   const id = await Database.getUserIdByName({ username: Client.getName() });
   const username= Client.getName()

@@ -337,7 +337,7 @@ class MySqlDB implements Database {
         price,
         rack,
         image,"magazine"]);
-        await this.connection.execute(`INSERT INTO magazien(barcode, edition_num, editor) VALUES (${barcode},${edition_num},${editor})`);
+        await this.connection.execute(`INSERT INTO magazine(barcode, edition_num, editor) VALUES (${barcode},${edition_num},'${editor}')`);
         this.createLog({event:"add book",details:`User ${username} added ${title} magazine`,initiator:id})
     }catch(error){
       if (error.code === "ER_DUP_ENTRY") {
@@ -401,21 +401,22 @@ class MySqlDB implements Database {
     phoneNum: string;
   }): Promise<void> {
     try {
+        
       await this.connection.execute(
         `INSERT INTO users (username, password, first_name, last_name, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,?)`,
         [username, password, firstName, lastName,emailAddress, phoneNum,0,"student"]
       );
 
-      const userQ =await this.connection.execute(`SELECT id from users WHERE username=${username}`) 
+      const userQ =await this.connection.execute(`SELECT id from users WHERE username='${username}'`) 
       const userID=userQ[0][0].id;
-      await this.connection.execute(`INSERT INTO Address (City,Street_name,userID) VALUES (${city},${street_name},${userID})`);
+      await this.connection.execute(`INSERT INTO Address (City,Street_name,userID) VALUES ('${city}','${street_name}',${userID})`);
       this.createLog({ event: "register", details: `User ${username} registered`, initiator: userID});
     } catch (error) {
       if (error.code === "ER_DUP_ENTRY") {
-        throw new error("Username already exists");
+        throw new Error("Username already exists");
       }
 
-      throw new error(error.message);
+      throw new Error(error.message);
     }
   }
 
