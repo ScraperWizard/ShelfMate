@@ -238,7 +238,7 @@ class MySqlDB implements Database {
     id:number,
     username:string;
   }): Promise <void>{
-    const book= await this.connection.execute(`SELECT * FROM inventory WHERE bacode=${barcode}`);
+    const book= await this.connection.execute(`SELECT * FROM inventory WHERE barcode=${barcode}`);
     const type =book[0][0].type;
     try{     
       await this.connection.execute(`
@@ -348,6 +348,39 @@ class MySqlDB implements Database {
        console.log(error)
     }
 
+  }
+
+  async updateMagazine({
+    title,
+    author,
+    language,
+    year_of_prod,
+    publisher,
+    subjects,
+    no_of_pages,
+    price,
+    rack,
+    image,
+    edition_num,
+    editor,
+    id,
+    username
+  } : {
+    title: string;
+    author: string;
+    language: string;
+    year_of_prod: number;
+    publisher: string;
+    subjects: string;
+    no_of_pages: number;
+    price: number;
+    rack: number;
+    image: string;
+    edition_num:number
+    editor: string;
+    id:number,
+    username:string
+  }): Promise <void>{
   }
   async getMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
