@@ -143,10 +143,11 @@ class MySqlDB implements Database {
   }): Promise <void>{
     
     try{
-      
+      const barcode= await this.connection.execute(`SELECT max(barcode) AS max FROM inventory;`)[0][0].max +1;
       await this.connection.execute(`INSERT INTO inventory ( 
         title,
         author,
+        barcode,
         language,
         year_of_prod,
        publisher,
@@ -155,9 +156,10 @@ class MySqlDB implements Database {
         price,
         rack,
         image,
-       type) VALUES(?,?,?,?,?,?,?,?,?,?,?)`,
+       type) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
        [title,
         author,
+        barcode,
         language,
         year_of_prod,
         publisher,
@@ -166,13 +168,15 @@ class MySqlDB implements Database {
         price,
         rack,
         image,"book"]);
-        await this.connection.execute(`INSERT INTO book(isbn) VALUES (${isbn})`);
+        await this.connection.execute(`INSERT INTO book(isbn,barcode) VALUES (${isbn},${barcode})`);
         this.createLog({event:"add book",details:`User ${username} added ${title} book`,initiator:id})
     }catch(error){
       if (error.code === "ER_DUP_ENTRY") {
         throw new Error("Book already exists");
       }
-      throw new Error(error.message);
+       else throw new Error(error.message);
+       console.log(error.message);
+       console.log(error)
     }
 
   }
