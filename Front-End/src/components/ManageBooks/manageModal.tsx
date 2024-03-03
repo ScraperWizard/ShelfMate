@@ -1,8 +1,8 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import BookModal from "../../components/BookModal";
+import BookModal from "../BookModal";
 import socket from "../../Socket";
-// import './settingsModal.scss'
+import './manageModal.scss'
 function manageModal({ children }: any) {
   const [activeLink, setActiveLink] = useState("add");
   const handleLinkClick = (link: string) => {

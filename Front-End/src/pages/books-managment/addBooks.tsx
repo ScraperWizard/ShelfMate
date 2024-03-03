@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ManageModal from "./manageModal";
+import ManageModal from "../../components/ManageBooks/manageModal";
 import socket from "../../Socket";
 type Book = {
   id: number;
@@ -111,7 +111,7 @@ function AddBooks() {
   };
   return (
     <ManageModal>
-      <div className="pt-4" data-name="add-book-admin">
+      <div className="pt-4 div" data-name="add-book-admin">
         <h1 className="py-2 text-2xl font-semibold">
           Book management settings
         </h1>
@@ -119,6 +119,7 @@ function AddBooks() {
       <div
             className="p-6"
             style={{ maxHeight: "500px", overflowY: "auto" }}
+
           >
             <h3 className="text-xl font-semibold text-gray-900 mb-5">
               Add New Book
@@ -317,10 +318,10 @@ function AddBooks() {
                 />
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 button">
                 <button
                   type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline test"
                 >
                   Add Book
                 </button>
