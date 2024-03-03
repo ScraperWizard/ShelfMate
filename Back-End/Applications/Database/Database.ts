@@ -12,7 +12,8 @@ abstract class Database {
     password,
     firstName,
     lastName,
-    postalAddress,
+    city,
+    street_name,
     emailAddress,
     phoneNum,
   }: {
@@ -20,7 +21,8 @@ abstract class Database {
     password: string;
     firstName: string;
     lastName: string;
-    postalAddress: string;
+    city: string;
+    street_name:string,
     emailAddress: string;
     phoneNum: string;
   }): Promise<void> | null;
@@ -95,6 +97,37 @@ abstract class Database {
     isbn: string;
     id:number,
     username:string;
+  }): Promise <void>;
+  abstract addMagazine({
+    title,
+    author,
+    language,
+    year_of_prod,
+    publisher,
+    subjects,
+    no_of_pages,
+    price,
+    rack,
+    image,
+    edition_num,
+    editor,
+    id,
+    username
+  } : {
+    title: string;
+    author: string;
+    language: string;
+    year_of_prod: number;
+    publisher: string;
+    subjects: string;
+    no_of_pages: number;
+    price: number;
+    rack: number;
+    image: string;
+    edition_num:number
+    editor: string;
+    id:number,
+    username:string
   }): Promise <void>
 }
 
