@@ -15,6 +15,7 @@ export default function Signup() {
     password: "",
     emailAddress: "",
     Street_name: "",
+    city:"",
     phoneNum: "",
   });
   const navigate = useNavigate();
