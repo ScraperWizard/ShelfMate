@@ -63,7 +63,7 @@ const Sidebar = () => {
               
             </li>
             <li className="menu-item">
-              <Link to="/admin/meeting-rooms-add" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
+              <Link to="/admin/meeting-rooms-add" className={`menu-link ${activeLink === 'rooms' ? 'active' : ''}`} onClick={() => handleLinkClick('rooms')}>
                 <span className="menu-link-icon">
                 <MdOutlineMeetingRoom size={20} />
                 </span>
@@ -71,7 +71,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
+              <Link to="/admin" className={`menu-link ${activeLink === 'requests' ? 'active' : ''}`} onClick={() => handleLinkClick('requests')}>
                 <span className="menu-link-icon">
                 <MdOutlineMailOutline size={20} />
                 </span>
@@ -79,7 +79,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
+              <Link to="/admin" className={`menu-link ${activeLink === 'magazine' ? 'active' : ''}`} onClick={() => handleLinkClick('magazine')}>
                 <span className="menu-link-icon">
                 <MdOutlineAmpStories size={20} />
                 </span>
@@ -87,7 +87,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
+              <Link to="/admin" className={`menu-link ${activeLink === 'blank' ? 'active' : ''}`} onClick={() => handleLinkClick('blank')}>
                 <span className="menu-link-icon">
                   <MdOutlinePeople size={20} />
                 </span>
@@ -95,7 +95,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/" className={`menu-link ${activeLink === 'users' ? 'active' : ''}`}>
+              <Link to="/admin" className={`menu-link ${activeLink === 'messages' ? 'active' : ''}`} onClick={() => handleLinkClick('messages')}>
                 <span className="menu-link-icon">
                   <MdOutlineMessage size={18} />
                 </span>
