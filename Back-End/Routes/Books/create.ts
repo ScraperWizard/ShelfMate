@@ -52,6 +52,9 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     if (error.message === "Book already exists") {
       errorObject.notification.message = "Book already exists!";
     }
+    if(error.message==="isbn can't be longer than 13 charecters"){
+      errorObject.notification.message = "ISBN can't be longer than 13 charecters";
+    }
     console.log(error);
     return errorObject
   }
