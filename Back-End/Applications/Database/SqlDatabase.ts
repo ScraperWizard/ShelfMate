@@ -219,7 +219,6 @@ class MySqlDB implements Database {
     price,
     rack,
     image,
-    type,
     isbn,
     id,
     username,
@@ -235,12 +234,12 @@ class MySqlDB implements Database {
     price: number;
     rack: number;
     image: string;
-    type:string
     isbn: string;
     id:number,
     username:string;
   }): Promise <void>{
     const book= await this.connection.execute(`SELECT * FROM inventory WHERE bacode=${barcode}`);
+    const type =book[0][0].type;
     try{     
       await this.connection.execute(`
       UPDATE inventory

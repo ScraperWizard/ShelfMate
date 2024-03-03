@@ -77,7 +77,6 @@ abstract class Database {
     price,
     rack,
     image,
-    type,
     isbn,
     id,
     username,
@@ -93,7 +92,6 @@ abstract class Database {
     price: number;
     rack: number;
     image: string;
-    type:string
     isbn: string;
     id:number,
     username:string;

@@ -18,11 +18,10 @@ const command = new ServerCommandBuilder("update-book")
         price: {  type: "number"},
         rack: {  type: "number"},
         image: {  type: "string"},
-        type: {type: "string"},
         isbn: {  type: "string"},
 
     },
-    required: ["title","author","barcode","language","year_of_prod","publisher","subjects","no_of_pages","price","rack","image","type","isbn"],
+    required: ["title","author","barcode","language","year_of_prod","publisher","subjects","no_of_pages","price","rack","image","isbn"],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
@@ -33,7 +32,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
   const id = await Database.getUserIdByName({ username: Client.getName() });
   const username= Client.getName()
   try {
-    await Database.updateBook({title,author,barcode,language,year_of_prod,publisher,subjects,no_of_pages,price,rack,image,type,isbn,id,username});
+    await Database.updateBook({title,author,barcode,language,year_of_prod,publisher,subjects,no_of_pages,price,rack,image,isbn,id,username});
     return {
       notification: {
         type: "success",
