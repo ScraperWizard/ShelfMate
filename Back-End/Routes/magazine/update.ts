@@ -1,9 +1,9 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 
-const command = new ServerCommandBuilder("update-book")
+const command = new ServerCommandBuilder("update-magazine")
   .setAccessLevel(UserAccessLevels.LIBRARIAN)
-  .setOutgoingChannel("update-book-response")
+  .setOutgoingChannel("update-magazine-response")
   .setIncomingValidationSchema({
     type: "object",
     properties: {

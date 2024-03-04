@@ -1,6 +1,21 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 
+  //   {
+  //     "title": "wa0dijo",
+  //     "author": "dwa8udo",
+  //     "barcode": 1057,
+  //     "language": "wa8dji",
+  //     "year_of_prod": 2009,
+  //     "publisher": "aiud",
+  //     "subjects": "awdo8uh",
+  //     "no_of_pages": 20,
+  //     "price": 20,
+  //     "rack": 20,
+  //     "image": "ujadn",
+  //     "isbn": "adownj"
+  // }
+
 const command = new ServerCommandBuilder("update-book")
   .setAccessLevel(UserAccessLevels.LIBRARIAN)
   .setOutgoingChannel("update-book-response")
@@ -18,21 +33,20 @@ const command = new ServerCommandBuilder("update-book")
         price: {  type: "number"},
         rack: {  type: "number"},
         image: {  type: "string"},
-        isbn: {  type: "string"},
-
+        isbn: {  type: "string"}
     },
-    required: ["title","author","barcode","language","year_of_prod","publisher","subjects","no_of_pages","price","rack","image","isbn"],
+    required: ["title","author","barcode","language","year_of_prod","publisher","subjects","no_of_pages","price","rack","image","isbn"]
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
-  const { title,author,barcode,language,year_of_prod,publisher,subjects,no_of_pages,price,rack,image,type,isbn } = Data;
+  const { title,author,barcode,language,year_of_prod,publisher,subjects,no_of_pages,price,rack,image,isbn } = Data;
   const id = await Database.getUserIdByName({ username: Client.getName() });
   const username= Client.getName()
   try {
-    await Database.updateBook({title,author,barcode,language,year_of_prod,publisher,subjects,no_of_pages,price,rack,image,isbn,id,username});
+    await Database.updateBook({...Data, id, username});
     return {
       notification: {
         type: "success",

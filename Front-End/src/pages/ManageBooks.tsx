@@ -53,6 +53,7 @@ function Library() {
     rack: 0,
     image: "",
     isbn: "",
+    type:"",
     barcode: 0,
   });
 
@@ -166,6 +167,7 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
   const [updateData, setUpdateData] = useState({
     title: "",
     author: "",
+    barcode: 0,
     language: "",
     year_of_prod: 0,
     publisher: "",
@@ -175,8 +177,6 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
     rack: 0,
     image: "",
     isbn: "",
-    barcode: 0,
-    // type: "",
   });
   
   

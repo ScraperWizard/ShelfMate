@@ -407,6 +407,7 @@ class MySqlDB implements Database {
       await this.connection.execute(`UPDATE magazine SET edition_num=${edition_num},editor='${editor}' WHERE barcode=${barcode}`);
       this.createLog({event:"update Magazine",details:`User ${username} updated ${barcode} magazine`,initiator:id})
     }
+    
     catch(error){
       if(type=="book"){
         throw new Error("type mismatch");
@@ -421,6 +422,26 @@ class MySqlDB implements Database {
       console.log(error);
     }
   }
+  async viewAllBookDetails({barcode}:{barcode:number}): Promise<Object>{
+    const results = await this.connection.execute(`SELECT * FROM inventory NATURAL JOIN book WHERE barcode=?`,[barcode]);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0][0];
+    }
+
+  };
+  async viewAllMagazineDetails({barcode}:{barcode:number}): Promise<Object>{
+    const results = await this.connection.execute(`SELECT * FROM inventory NATURAL JOIN magazine WHERE barcode=?`,[barcode]);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0][0];
+    }
+  };
+
   async getMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
 

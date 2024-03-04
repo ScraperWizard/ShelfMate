@@ -159,7 +159,10 @@ abstract class Database {
     editor: string;
     id:number,
     username:string
-  }): Promise <void>
+  }): Promise <void>;
+  abstract viewAllBookDetails({barcode}:{barcode:number}): Promise<Object>;
+  abstract viewAllMagazineDetails({barcode}:{barcode:number}): Promise<Object>;
+
 }
 
 enum DatabaseState {
