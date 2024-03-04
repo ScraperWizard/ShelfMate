@@ -162,6 +162,7 @@ abstract class Database {
   }): Promise <void>;
   abstract viewAllBookDetails({barcode}:{barcode:number}): Promise<Object>;
   abstract viewAllMagazineDetails({barcode}:{barcode:number}): Promise<Object>;
+  abstract getItemType({barcode}:{barcode:number}): Promise<string>
 
 }
 

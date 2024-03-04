@@ -431,7 +431,8 @@ class MySqlDB implements Database {
       return results[0][0];
     }
 
-  };
+  }
+
   async viewAllMagazineDetails({barcode}:{barcode:number}): Promise<Object>{
     const results = await this.connection.execute(`SELECT * FROM inventory NATURAL JOIN magazine WHERE barcode=?`,[barcode]);
 
@@ -440,7 +441,12 @@ class MySqlDB implements Database {
     } else {
       return results[0][0];
     }
-  };
+  }
+
+  async getItemType({barcode}:{barcode:number}): Promise<string>{
+    const results = await this.connection.execute(`SELECT type FROM inventory WHERE barcode=?`,[barcode]);
+    return results[0][0].type;
+  }
 
   async getMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
