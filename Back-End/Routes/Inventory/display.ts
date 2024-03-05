@@ -16,13 +16,13 @@ const command = new ServerCommandBuilder("get-all-info")
 
 async function callback({ Database,Data }: CommandExecuteArguments) {
     try{
-        const barcode=Data
-        const type=await Database.getItemType({barcode});
+        const barcode=Data;
+        const type=await Database.getItemType(Data);
         if(type==="book"){
-            const item: any = await Database.viewAllBookDetails(barcode);
+            const item: any = await Database.viewAllBookDetails(Data);
             return item;
         }else if (type === "magazine"){
-            const item: any = await Database.viewAllMagazineDetails(barcode);
+            const item: any = await Database.viewAllMagazineDetails(Data);
             return item;
         }
         else{

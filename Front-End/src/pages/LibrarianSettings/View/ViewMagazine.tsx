@@ -3,7 +3,7 @@ import BookModal from "../../../components/BookModal";
 import socket from "../../../Socket";
 
 type Book = {
-  id: number;
+    id: number;
     image: string;
     genre: string;
     title: string;
@@ -17,7 +17,8 @@ type Book = {
     price: number;
     type: string;
     no_of_pages: number;
-    isbn: string;
+    edition_number: number;
+    editor: string;
     rack: number;
 };
 
@@ -54,7 +55,7 @@ const ViewMagazine: React.FC<BookModalProps> = ({
       {selectedBook && (
         <div className="p-6" style={{ maxHeight: "500px", overflowY: "auto" }}>
           <h3 className="text-xl font-semibold text-gray-900 mb-5">
-            Book Info
+            Magazine Info
           </h3>
 
           <div className="mb-4">
@@ -76,6 +77,17 @@ const ViewMagazine: React.FC<BookModalProps> = ({
               Author
             </label>
             <p>{selectedBook.author}</p>
+          </div>
+            
+            {/* barcode */}
+          <div className="mb-4">
+            <label
+              htmlFor="barcode"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Barcode
+            </label>
+            <p>{selectedBook.barcode}</p>
           </div>
 
           {/* language */}
@@ -125,6 +137,17 @@ const ViewMagazine: React.FC<BookModalProps> = ({
             <p>{selectedBook.subjects}</p>
           </div>
 
+          {/* no_of_pages */}
+          <div className="mb-4">
+            <label
+              htmlFor="no_of_pages"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Number of pages
+            </label>
+            <p>{selectedBook.no_of_pages}</p>
+          </div>
+
           <div className="mb-4">
             <label
               htmlFor="price"
@@ -133,6 +156,39 @@ const ViewMagazine: React.FC<BookModalProps> = ({
               Price
             </label>
             <p>{selectedBook.price}</p>
+          </div>
+
+          {/* edition_number */}
+          <div className="mb-4">
+            <label
+              htmlFor="edition_number"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Edition Number
+            </label>
+            <p>{selectedBook.edition_number}</p>
+          </div>
+
+          {/* editor */}
+          <div className="mb-4">
+            <label
+              htmlFor="editor"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Editor
+            </label>
+            <p>{selectedBook.editor}</p>
+          </div>
+
+          {/* rack */}
+          <div className="mb-4">
+            <label
+              htmlFor="rack"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Rack
+            </label>
+            <p>{selectedBook.rack}</p>
           </div>
 
           <div className="mb-4 button">

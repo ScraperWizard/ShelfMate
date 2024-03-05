@@ -444,7 +444,7 @@ class MySqlDB implements Database {
   }
 
   async getItemType({barcode}:{barcode:number}): Promise<string>{
-    const results = await this.connection.execute(`SELECT type FROM inventory WHERE barcode=?`,[barcode]);
+    const results = await this.connection.execute(`SELECT * FROM inventory WHERE barcode=?`,[barcode]);
     return results[0][0].type;
   }
 

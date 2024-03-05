@@ -28,6 +28,8 @@ type BookModalProps = {
   setBook: (books: Book[]) => void;
 };
 
+
+
 const ViewBook: React.FC<BookModalProps> = ({
   isVisible,
   onClose,
@@ -77,6 +79,17 @@ const ViewBook: React.FC<BookModalProps> = ({
             </label>
             <p>{selectedBook.author}</p>
           </div>
+            
+            {/* barcode */}
+          <div className="mb-4">
+            <label
+              htmlFor="barcode"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Barcode
+            </label>
+            <p>{selectedBook.barcode}</p>
+          </div>
 
           {/* language */}
           <div className="mb-4">
@@ -125,6 +138,17 @@ const ViewBook: React.FC<BookModalProps> = ({
             <p>{selectedBook.subjects}</p>
           </div>
 
+          {/* no_of_pages */}
+          <div className="mb-4">
+            <label
+              htmlFor="no_of_pages"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Number of pages
+            </label>
+            <p>{selectedBook.no_of_pages}</p>
+          </div>
+
           <div className="mb-4">
             <label
               htmlFor="price"
@@ -134,6 +158,30 @@ const ViewBook: React.FC<BookModalProps> = ({
             </label>
             <p>{selectedBook.price}</p>
           </div>
+
+          {/* isbn */}
+          <div className="mb-4">
+            <label
+              htmlFor="isbn"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              ISBN
+            </label>
+            <p>{selectedBook.isbn}</p>
+          </div>
+
+          {/* rack */}
+          <div className="mb-4">
+            <label
+              htmlFor="rack"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Rack
+            </label>
+            <p>{selectedBook.rack}</p>
+          </div>
+
+          
 
           <div className="mb-4 button">
             <button
