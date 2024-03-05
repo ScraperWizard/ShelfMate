@@ -34,6 +34,13 @@ import AdminMain from "./pages/admin/adminMain.tsx";
 import AddRooms from "./pages/meeting-rooms/addRooms.tsx";
 import RemoveRooms from "./pages/meeting-rooms/removeRoom.tsx";
 import UpdateRoom from "./pages/meeting-rooms/updateRooms.tsx";
+import LibrarianSetting from "./pages/LibrarianSettings/Main/LibrarianSetting.tsx";
+import Add from "./pages/LibrarianSettings/Add/Add.tsx";
+import View from "./pages/LibrarianSettings/View/View.tsx";
+import Update from "./pages/LibrarianSettings/Update/Update.tsx";
+import Remove from "./pages/LibrarianSettings/Remove/Remove.tsx";
+import LibraryLayout from "./layout/LibraryLayout.tsx";
+import AddMagazine from "./pages/LibrarianSettings/Add/Magazine/AddMagazine.tsx";
 function Root() {
   return (
     <>
@@ -65,49 +72,81 @@ function Root() {
                 ></Route>
                 <Route path="/contact" element={<Contact />}></Route>
 
+                {/* this is for the admin */}
                 <Route element={<BaseLayout />} path="/admin">
                   {/* <Route path="" element={<Dashboard />}></Route> */}
                   <Route
-                  element={<AdminMain></AdminMain>}
-                  path="/admin"
+                    element={<AdminMain></AdminMain>}
+                    path="/admin"
                   ></Route>
                   <Route
                     path="/admin/add-book-admin"
                     element={<AddBooks />}
                   ></Route>
                   <Route
-                  path="/admin/update-book-admin"
-                  element={<UpdateBooks />}
+                    path="/admin/update-book-admin"
+                    element={<UpdateBooks />}
                   ></Route>
                   <Route
-                  path="/admin/meeting-rooms-add"
-                  element={<AddRooms />}
+                    path="/admin/meeting-rooms-add"
+                    element={<AddRooms />}
                   ></Route>
                   <Route
-                  path="/admin/meeting-rooms-remove"
-                  element={<RemoveRooms />}
+                    path="/admin/meeting-rooms-remove"
+                    element={<RemoveRooms />}
                   ></Route>
                   <Route
-                  path="/admin/meeting-rooms-update"
-                  element={<UpdateRoom />}
+                    path="/admin/meeting-rooms-update"
+                    element={<UpdateRoom />}
                   ></Route>
                   {/* <Route
                     path="/admin/manage-user"
                     element={<ManageUser />}
                   ></Route> */}
-                  <Route
-                  path="/admin/Settings"
-                  element={<Settings />}
-                  >
-                    
-                  </Route>
+                  <Route path="/admin/Settings" element={<Settings />}></Route>
                   <Route
                     path="/admin/manage-user"
                     element={<UserSettings />}
-                    ></Route>
+                  ></Route>
                   <Route path="*" element={<PageNotFound />}></Route>
                   {/* <Route element={<CustomComponentWithButtonAndImage />} /> */}
-                  
+                </Route>
+
+                {/* this is for the librarian */}
+                <Route element={<LibraryLayout />} path="/Librarian-setting">
+                  {/* <Route path="" element={<Dashboard />}></Route> */}
+                  <Route
+                  path="/Librarian-setting/settings/view"
+                  element={<View></View>}
+                ></Route>
+                <Route
+                  path="/Librarian-setting/settings/add"
+                  element={<Add></Add>}
+                ></Route>
+                
+                <Route
+                  path="/Librarian-setting/settings/add-magazine"
+                  element={<AddMagazine></AddMagazine>}
+                ></Route>
+                <Route
+                  path="/Librarian-setting/settings/update"
+                  element={<Update></Update>}
+                ></Route>
+                <Route
+                  path="/Librarian-setting/settings/remove"
+                  element={<Remove></Remove>}
+                ></Route>
+                  {/* <Route
+                    path="/admin/manage-user"
+                    element={<ManageUser />}
+                  ></Route>
+                  {/* <Route path="/Librarian-setting/Settings" element={<Settings />}></Route>
+                  <Route
+                    path="/Librarian-setting/manage-user"
+                    element={<UserSettings />}
+                  ></Route>
+                  <Route path="*" element={<PageNotFound />}></Route>  */}
+                  {/* <Route element={<CustomComponentWithButtonAndImage />} /> */}
                 </Route>
               </Routes>
             </AuthProvider>

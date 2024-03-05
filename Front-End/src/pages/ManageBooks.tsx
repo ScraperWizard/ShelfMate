@@ -243,11 +243,6 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
       return;
     }
     console.log(updateData);
-    // updateData.price = Number(updateData.price);
-    // updateData.no_of_pages = Number(updateData.no_of_pages);
-    // updateData.year_of_prod = Number(updateData.year_of_prod);
-    // updateData.rack = Number(updateData.rack);
-    // updateData.barcode = Number(updateData.barcode);
     updateData.barcode = Number(updateData.barcode);
     updateData.year_of_prod = Number(updateData.year_of_prod);
     updateData.no_of_pages = Number(updateData.no_of_pages);
@@ -437,8 +432,8 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
       <Fragment>
         <Navbar></Navbar>
         <div className="library" data-name="Librarian-page">
-          =<h1>Library</h1>
-          <div className="mb-4 flex justify-center">
+          <h1>Library</h1>
+          {/* <div className="mb-4 flex justify-center">
             <button
               className="mr-4 bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               onClick={() => setShowModal(true)}
@@ -469,7 +464,7 @@ const handleAddMagazine = (event: React.FormEvent<HTMLFormElement>) => {
             >
               Update magazine
             </button>
-          </div>
+          </div> */}
           <div className="libraryBox">
             {books.length > 0 &&
               books.map((book) => (

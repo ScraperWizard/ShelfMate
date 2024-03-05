@@ -38,6 +38,12 @@ export default function Navbar() {
       description: "Please refer to here in case you want to manage the library",
       to: "/Librarian-page",
       icon: MdOutlineBook,
+    },
+    {
+      name: "Library settings",
+      description: "Please refer to here in case you want to manage the library settings",
+      to: "/Librarian-setting",
+      icon: MdOutlineBook,
     }
   ]:
     [

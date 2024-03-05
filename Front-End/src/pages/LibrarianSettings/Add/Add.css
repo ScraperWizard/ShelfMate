@@ -1,0 +1,77 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+.library{
+    width: 100%;
+    height: fit-content;
+    /* margin-bottom: 35px; */
+    background-image: url(../assets/LibraryBG8.jpg);     
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;    
+}
+.library h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    font-size: 45px;
+    color: #089da1;
+}
+.library .libraryBox{
+    width: 95%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 25px 0;
+}
+.library .libraryBox .libraryCards {
+    width: 200px;
+    height: 340px;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #919191;
+    margin: auto 20px;  
+    background-color: white;
+}
+.library .libraryBox .libraryCards:hover {
+    box-shadow: 0 0 5px #089da1;
+}
+.library .libraryBox .libraryCards .libraryImage {
+    width: 150px;
+    height: 220px;
+    margin: 0 auto;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.library .libraryBox .libraryCards .libraryImage .Image{
+width: 100%;
+height: 100%;
+object-fit: cover;
+object-position: center;
+transition: 0.3s;
+}
+.library .libraryBox .libraryCards:hover .libraryImage .Image{
+    transform: scale(1.1);
+}
+
+.library .libraryBox .libraryCards .libraryTag p{
+    font-family: queen of cemlot;
+    font-size: 20px;
+    margin: 8px 0;
+}
+.library .libraryBox .libraryCards .libraryTag .libraryIcons{
+     color: #089da1;
+     margin-bottom: 18px;
+}
+.library .libraryBox .libraryCards .libraryTag .borrowBtn{
+    padding: 4px 20px;
+    border: 2px solid #089da1;
+    text-decoration: none;
+    color: black;
+}

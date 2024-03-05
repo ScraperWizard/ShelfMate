@@ -24,6 +24,9 @@
 }
 
 @mixin lightMode {
+  --Lib-primary-color: #fff;
+  --Lib-secondary-color: #3b82f6;
+
   --primary-color: #3b82f6;
   --secondary-color: #fff;
   --background-color: #fafafa;
