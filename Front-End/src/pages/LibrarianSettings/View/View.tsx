@@ -31,7 +31,7 @@ export default function View() {
 
   useEffect(() => {
     console.log("useEffect entered")
-    socket.emit("get-all-info", {barcode: 1056});
+    socket.emit("get-all-info", {barcode: 1054});
     console.log("emitted get-all-info")
     socket.on("get-all-info-response", (response) => {
       
