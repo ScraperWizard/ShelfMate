@@ -2,6 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import BookModal from "../../../components/BookModal";
 import socket from "../../../Socket";
 import UpdateBook from "../Update/UpdateBook";
+import UpdateMagazine from "../Update/Magazine/UpdateMagazine";
 
 type Book = {
   id: number;
@@ -54,11 +55,13 @@ const ViewBook: React.FC<BookModalProps> = ({
   };
 
   const [showUpdate, setShowUpdate] = useState(false);
+  const [showUpdateMagazine, setShowUpdateMagazine] = useState(false);
 
   const handleViewBook = (type: string) => {
     // setSelectedBook(book);
     if(type === "book")
     setShowUpdate(true);
+    else setShowUpdateMagazine(true);
   };
   
   return (
@@ -241,7 +244,7 @@ const ViewBook: React.FC<BookModalProps> = ({
         </div>
       )}
     </BookModal>
-
+    <UpdateMagazine isVisible={showUpdateMagazine} onClose={() => setShowUpdateMagazine(false)} selectedBook={selectedBook} selectedBarcode={selectedBook?.barcode}></UpdateMagazine>
     <UpdateBook isVisible={showUpdate} onClose={() => setShowUpdate(false)} selectedBook={selectedBook}></UpdateBook>
     </Fragment>
     
