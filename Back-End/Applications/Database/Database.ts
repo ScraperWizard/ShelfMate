@@ -170,6 +170,7 @@ abstract class Database {
   abstract viewAllBookDetails({barcode}:{barcode:number}): Promise<Object>;
   abstract viewAllMagazineDetails({barcode}:{barcode:number}): Promise<Object>;
   abstract getItemType({barcode}:{barcode:number}): Promise<string>;
+  abstract viewEnrolledStudents(): Promise <object>| null
   abstract isStudentEnrolled(id:number): Promise<boolean>;
   abstract enrollStudent(id:number): Promise<void>;
 

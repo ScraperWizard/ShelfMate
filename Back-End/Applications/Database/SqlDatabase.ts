@@ -509,6 +509,16 @@ class MySqlDB implements Database {
 
   }
 
+  async viewEnrolledStudents(): Promise <object>| null{
+    const results = await this.connection.execute(`SELECT * FROM users WHERE enrolled=1 AND type="student"`);
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0];
+    }
+
+  }
+
   async isStudentEnrolled(id:number): Promise<boolean>{
     const results = await this.connection.execute(`SELECT * FROM users WHERE id=?`,[id]);
     return results[0][0].enrolled;
