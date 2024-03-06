@@ -39,6 +39,7 @@ const ViewBook: React.FC<BookModalProps> = ({
   setBook,
 }) => {
   const handleRemoveInView = (number: number) => {
+    
     console.log("this is the value of the remove book", { barcode: number });
 
     socket.emit("delete-item", { barcode: number });

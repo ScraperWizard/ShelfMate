@@ -34,7 +34,7 @@ function Library() {
 
     socket.on("library-books-response", (response: Book[]) => {
       setBooks(response);
-      console.log(response);
+      console.log("This is the response from library-books-response", response)
     });
 
     return () => {
@@ -42,15 +42,22 @@ function Library() {
     };
   }, []);
 
-  // const handleBorrow = (bookId: number) => {
-  //   socket.emit("borrow-book", { bookId, borrower: accessToken?.username });
+  const handleBorrow = (id: number) => { 
+    socket.emit("request-item", {bookId : id});
+    socket.on("request-item-response", (response) => {
+      socket.emit("get-library-books");
 
-  //   setBooks((prevBooks) =>
-  //     prevBooks.map((book) =>
-  //       book.id === bookId ? { ...book, copies: book.copies - 1 } : book
-  //     )
-  //   );
-  // };
+    socket.on("library-books-response", (response: Book[]) => {
+      setBooks(response);
+      console.log("This is the response from library-books-response", response)
+    });
+
+    return () => {
+      socket.off("library-books-response");
+    };
+      console.log("This is the response from request-item-response", response)
+    });
+  }
 
   return (
     <Fragment>
@@ -79,7 +86,7 @@ function Library() {
                     className="borrowBtn"
                     onClick={(e) => {
                       e.preventDefault();
-                      // handleBorrow(book.id);
+                      handleBorrow(book.barcode);
                     }}
                   >
                     Borrow

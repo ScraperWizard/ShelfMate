@@ -56,6 +56,7 @@ export default function View() {
 
   const handleViewType = (number: number) => {
     console.log("useEffect entered");
+    console.log("this is the value of the barcode", { barcode: number });
     socket.emit("get-all-info", { barcode: number });
     console.log("emitted get-all-info");
     socket.on("get-all-info-response", (response: Book) => {
