@@ -4,7 +4,7 @@ import socket from "../../Socket";
 interface Request {
   image: string;
   title: string;
-  userID: string;
+  userID: number;
   barcode: number;
   id: number;
   date: string;
@@ -24,8 +24,8 @@ function BookRequests() {
     };
   }, []);
 
-  const handleRequest = (bookId: number, accteptance: boolean) => {
-    socket.emit("handle-request", { bookId: bookId, acceptance: accteptance });
+  const handleRequest = (bookId: number, accteptance: boolean, userID: number) => {
+    socket.emit("handle-request", { bookId: bookId, acceptance: accteptance, userID: userID });
     console.log("handle request emitted");
     socket.on("accept-request-response", (response) => {
       console.log(
@@ -97,13 +97,13 @@ function BookRequests() {
             <div className="bg-gray-100 px-4 py-2">
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 mr-4"
-                onClick={() => handleRequest(request.barcode, true)}
+                onClick={() => handleRequest(request.barcode, true, request.userID)}
               >
                 accept
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300"
-                onClick={() => handleRequest(request.barcode, false)}
+                onClick={() => handleRequest(request.barcode, false, request.userID)}
               >
                 reject
               </button>
