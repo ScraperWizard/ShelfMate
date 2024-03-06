@@ -24,21 +24,29 @@ function BookRequests() {
     };
   }, []);
 
-  const handleRequest = (bookId: number, accteptance: boolean, userID: number) => {
-    socket.emit("handle-request", { bookId: bookId, acceptance: accteptance, userID: userID });
+  const handleRequest = (
+    bookId: number,
+    accteptance: boolean,
+    userID: number
+  ) => {
+    socket.emit("handle-request", {
+      bookId: bookId,
+      acceptance: accteptance,
+      userID: userID,
+    });
     console.log("handle request emitted");
     socket.on("accept-request-response", (response) => {
+        useEffect(() => {
+            socket.emit("get-requests", {});
+            socket.on("get-requests-response", (response) => {
+              setRequests(response);
+              console.log("This is the response from get-requests-response", response);
+            });
         
-        socket.emit("get-requests", {});
-        socket.on("get-requests-response", (response) => {
-          setRequests(response);
-          console.log("This is the response from get-requests-response", response);
-        });
-    
-        return () => {
-          socket.off("get-requests-response");
-        };
-      
+            return () => {
+              socket.off("get-requests-response");
+            };
+          }, []);
     });
 
     return () => {
@@ -95,13 +103,17 @@ function BookRequests() {
             <div className="bg-gray-100 px-4 py-2">
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 mr-4"
-                onClick={() => handleRequest(request.barcode, true, request.userID)}
+                onClick={() =>
+                  handleRequest(request.barcode, true, request.userID)
+                }
               >
                 accept
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300"
-                onClick={() => handleRequest(request.barcode, false, request.userID)}
+                onClick={() =>
+                  handleRequest(request.barcode, false, request.userID)
+                }
               >
                 reject
               </button>
