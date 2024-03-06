@@ -1,6 +1,6 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
-const command = new ServerCommandBuilder("get-requests-")
+const command = new ServerCommandBuilder("get-requests")
   .setAccessLevel(UserAccessLevels.LIBRARIAN)
   .setOutgoingChannel("get-requests-response")
   .setIncomingValidationSchema({
