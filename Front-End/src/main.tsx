@@ -42,6 +42,9 @@ import Remove from "./pages/LibrarianSettings/Remove/Remove.tsx";
 import LibraryLayout from "./layout/LibraryLayout.tsx";
 import AddMagazine from "./pages/LibrarianSettings/Add/Magazine/AddMagazine.tsx";
 import LibMain from "./pages/LibrarianSettings/Main/LibMain.tsx";
+import BookdRequests from "./pages/Users-enrollment/EnrollUser.tsx";
+import ViewLogs from "./pages/UserLogs/ViewLogs.tsx";
+import BookRequests from "./pages/Users-enrollment/EnrollUser.tsx";
 function Root() {
   return (
     <>
@@ -89,6 +92,14 @@ function Root() {
                     element={<UpdateBooks />}
                   ></Route>
                   <Route
+                  path="/admin/get-requests"
+                  element={<BookRequests></BookRequests>}
+                  ></Route>
+                  <Route
+                  path="/admin/view-logs"
+                  element={<ViewLogs></ViewLogs>}
+                  ></Route>
+                  <Route
                     path="/admin/meeting-rooms-add"
                     element={<AddRooms />}
                   ></Route>
@@ -100,6 +111,7 @@ function Root() {
                     path="/admin/meeting-rooms-update"
                     element={<UpdateRoom />}
                   ></Route>
+                  
                   {/* <Route
                     path="/admin/manage-user"
                     element={<ManageUser />}

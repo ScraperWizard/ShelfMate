@@ -71,11 +71,19 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/admin" className={`menu-link ${activeLink === 'requests' ? 'active' : ''}`} onClick={() => handleLinkClick('requests')}>
+              <Link to="/admin/get-requests" className={`menu-link ${activeLink === 'Requested' ? 'active' : ''}`} onClick={() => handleLinkClick('Requested')}>
                 <span className="menu-link-icon">
                 <MdOutlineMailOutline size={20} />
                 </span>
-                <span className="menu-link-text">Requests</span>
+                <span className="menu-link-text">View Requested Books</span>
+              </Link>
+            </li>
+            <li className="menu-item">
+              <Link to="/admin/view-logs" className={`menu-link ${activeLink === 'logs' ? 'active' : ''}`} onClick={() => handleLinkClick('logs')}>
+                <span className="menu-link-icon">
+                <MdOutlineMailOutline size={20} />
+                </span>
+                <span className="menu-link-text">View logs</span>
               </Link>
             </li>
             <li className="menu-item">
