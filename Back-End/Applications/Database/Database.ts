@@ -30,6 +30,7 @@ abstract class Database {
   abstract getRequests():Promise <Object> | null;
   abstract returnBook(barcode, borrower): Promise<void>;
   abstract requestItem(barcode: number, borrower: number): Promise<void>;
+  abstract getNumberOfBooksBorrowedByUser(id: number): Promise<number>;
   abstract isBookBorrowedByUser(barcode: number, borrower: number): Promise<boolean>;
   abstract isBookBorrowed(barcode: number): Promise<boolean>;
   abstract acceptRequest(barcode: number, borrower: number): Promise<void>;

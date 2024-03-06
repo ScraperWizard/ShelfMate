@@ -96,6 +96,11 @@ class MySqlDB implements Database {
     return rows.length > 0 && rows[0].borrower !== null;
   }
 
+  async getNumberOfBooksBorrowedByUser(id: number): Promise<number> {
+    const result = await this.connection.execute("SELECT COUNT(*) AS num FROM inventory WHERE borrower = ?", [id]);
+    const numberOfBooks = result[0][0].num;
+    return numberOfBooks;
+  }
   
 
   async requestItem(barcode: number, borrower: number): Promise<void> {
@@ -109,9 +114,10 @@ class MySqlDB implements Database {
   }
 
   async acceptRequest(barcode: number, borrower: number): Promise<void> {
-    await this.connection.execute("UPDATE inventory SET borrower = ? WHERE barcode = ? AND borrower IS NULL", [borrower, barcode]);
+    await this.connection.execute("UPDATE inventory SET borrower = ? WHERE barcode = ?", [borrower, barcode]);
     this.createLog({ event: "borrow", details: `User ${borrower} borrowed book ${barcode}`, initiator: borrower });
     await this.connection.execute("DELETE FROM requests WHERE barcode = ?", [barcode]);
+    console.log("deleted");
   }
 
   async rejectRequest(barcode: number, borrower: number): Promise<void> {
