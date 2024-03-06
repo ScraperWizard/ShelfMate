@@ -90,11 +90,11 @@ const UpdateBook: React.FC<BookModalProps> = ({
         updateData.price = Number(updateData.price);
         updateData.rack = Number(updateData.rack);
       
-        console.log("this is the update data for book", updateData);
+        console.log("this is what the update request get when updating", updateData);
         socket.emit("update-book", updateData);
       
         socket.once("update-book-response", (response) => {
-          console.log(response);
+          console.log("This is the response from the update  book request: ", response);
       
           socket.emit("get-library-books");
       

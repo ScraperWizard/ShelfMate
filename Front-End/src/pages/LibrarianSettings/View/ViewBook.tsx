@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import BookModal from "../../../components/BookModal";
 import socket from "../../../Socket";
+import UpdateBook from "../Update/UpdateBook";
 
 type Book = {
   id: number;
@@ -52,10 +53,17 @@ const ViewBook: React.FC<BookModalProps> = ({
     });
   };
 
-  
+  const [showUpdate, setShowUpdate] = useState(false);
+
+  const handleViewBook = (type: string) => {
+    // setSelectedBook(book);
+    if(type === "book")
+    setShowUpdate(true);
+  };
   
   return (
-    <BookModal isVisible={isVisible} onClose={onClose}>
+    <Fragment>
+<BookModal isVisible={isVisible} onClose={onClose}>
       {selectedBook && (
         <div className="p-6" style={{ maxHeight: "500px", overflowY: "auto" }}>
           <h3 className="text-xl font-semibold text-gray-900 mb-5">
@@ -224,13 +232,19 @@ const ViewBook: React.FC<BookModalProps> = ({
             <button
               type="submit"
               className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline test"
+              onClick={() => handleViewBook(selectedBook.type)}
             >
               Update
+              
             </button>
           </div>
         </div>
       )}
     </BookModal>
+
+    <UpdateBook isVisible={showUpdate} onClose={() => setShowUpdate(false)} selectedBook={selectedBook}></UpdateBook>
+    </Fragment>
+    
   );
 };
 
