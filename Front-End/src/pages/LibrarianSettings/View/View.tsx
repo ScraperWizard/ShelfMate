@@ -60,6 +60,8 @@ export default function View() {
     console.log("emitted get-all-info");
     socket.on("get-all-info-response", (response: Book) => {
         setSelectedBook(response);
+        // if(selectedBook !== null)
+        // selectedBook?.barcode = number;
         console.log("this is the value of selected book",selectedBook)
         console.log("This is the value of response for the selected book")
     });
@@ -116,10 +118,6 @@ export default function View() {
           <p>No books found.</p>
         )}
       </div>
-      {/* {(selectedBook) && selectedBook?.type === "book"?
-      <ViewBook isVisible={showModal} onClose={() => setShowModal(false)} selectedBook={selectedBook} setBook={setBooks}></ViewBook>:
-      <ViewBook isVisible={showModal} onClose={() => setShowModal(false)} selectedBook={selectedBook} setBook={setBooks}></ViewBook>
-      } */}
       <ViewBook isVisible={showModal} onClose={() => setShowModal(false)} selectedBook={selectedBook} setBook={setBooks}></ViewBook>
     </SettingsModal>
   );

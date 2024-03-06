@@ -34,7 +34,7 @@ const UpdateBook: React.FC<BookModalProps> = ({
   onClose,
   selectedBook,
 }) => {
-    const [updateData, setUpdateData] = useState({
+    let [updateData, setUpdateData] = useState({
         title: "",
         author: "",
         barcode: 0,
@@ -95,7 +95,22 @@ const UpdateBook: React.FC<BookModalProps> = ({
       
         socket.once("update-book-response", (response) => {
           console.log("This is the response from the update  book request: ", response);
-      
+          setUpdateData(
+            {
+              title: "",
+              author: "",
+              barcode: 0,
+              language: "",
+              year_of_prod: 0,
+              publisher: "",
+              subjects: "",
+              no_of_pages: 0,
+              price: 0,
+              rack: 0,
+              image: "",
+              isbn: "",
+            }
+          );
           socket.emit("get-library-books");
       
           socket.on("library-books-response", (message: Book[]) => {
