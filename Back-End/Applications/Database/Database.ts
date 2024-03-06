@@ -27,6 +27,7 @@ abstract class Database {
     phoneNum: string;
   }): Promise<void> | null;
   abstract checkUsename({ username }: { username: string }): Promise<Object> | null;
+  abstract getRequests():Promise <Object> | null;
   abstract returnBook(barcode, borrower): Promise<void>;
   abstract requestItem(barcode: number, borrower: number): Promise<void>;
   abstract isBookBorrowedByUser(barcode: number, borrower: number): Promise<boolean>;
@@ -164,7 +165,9 @@ abstract class Database {
   }): Promise <void>;
   abstract viewAllBookDetails({barcode}:{barcode:number}): Promise<Object>;
   abstract viewAllMagazineDetails({barcode}:{barcode:number}): Promise<Object>;
-  abstract getItemType({barcode}:{barcode:number}): Promise<string>
+  abstract getItemType({barcode}:{barcode:number}): Promise<string>;
+  abstract isStudentEnrolled(id:number): Promise<boolean>;
+  abstract enrollStudent(id:number): Promise<void>;
 
 }
 

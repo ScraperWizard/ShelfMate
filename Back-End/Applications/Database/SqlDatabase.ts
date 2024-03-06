@@ -79,7 +79,11 @@ class MySqlDB implements Database {
       return results[0]; 
     }
   }
-
+  
+  async  getRequests(): Promise<Object> {
+    const results = await this.connection.execute(`SELECT * FROM requests`);
+    return results[0];
+  }
   async isBookBorrowedByUser(barcode: number, borrower: number): Promise<boolean> {
     const [rows, fields] = await this.connection.execute("SELECT * FROM inventory WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
 
@@ -93,7 +97,7 @@ class MySqlDB implements Database {
   }
 
   async requestItem(barcode: number, borrower: number): Promise<void> {
-    await this.connection.execute("INSERT INTO requests (barcode, borrower) VALUES (?,?)", [barcode, borrower]);
+    await this.connection.execute("INSERT INTO requests (barcode, userID) VALUES (?,?)", [barcode, borrower]);
     this.createLog({ event: "request", details: `User ${borrower} requested book ${barcode}`, initiator: borrower });
   }
 
@@ -109,7 +113,7 @@ class MySqlDB implements Database {
   }
 
   async rejectRequest(barcode: number, borrower: number): Promise<void> {
-    await this.connection.execute("DELETE FROM requests WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
+    await this.connection.execute("DELETE FROM requests WHERE barcode = ? AND userID = ?", [barcode, borrower]);
     this.createLog({ event: "reject", details: `User ${borrower} rejected request for book ${barcode}`, initiator: borrower });
   }
 
@@ -468,6 +472,16 @@ class MySqlDB implements Database {
       return results[0];
     }
 
+  }
+
+  async isStudentEnrolled(id:number): Promise<boolean>{
+    const results = await this.connection.execute(`SELECT * FROM users WHERE id=?`,[id]);
+    return results[0][0].enrolled;
+
+  }
+  async enrollStudent(id:number): Promise<void>{
+    await this.connection.execute(`UPDATE users SET enrolled=1 WHERE id=?`,[id]);
+    await this.connection.execute(`CALL insert_user_cards(?)`,[id]);
   }
 
   async getLogs(): Promise<void> {

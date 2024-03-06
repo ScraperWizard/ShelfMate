@@ -1,7 +1,7 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 const command = new ServerCommandBuilder("handle-request")
-  .setAccessLevel(UserAccessLevels.STUDENT)
+  .setAccessLevel(UserAccessLevels.LIBRARIAN)
   .setOutgoingChannel("accpet-request-response")
   .setIncomingValidationSchema({
     type: "object",
