@@ -1,14 +1,15 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
-const command = new ServerCommandBuilder("borrow-book")
+const command = new ServerCommandBuilder("handle-request")
   .setAccessLevel(UserAccessLevels.STUDENT)
-  .setOutgoingChannel("borrow-book-response")
+  .setOutgoingChannel("accpet-request-response")
   .setIncomingValidationSchema({
     type: "object",
     properties: {
       bookId: { type: "number" },
+      acceptanceStatus: { type: "boolean"}
     },
-    required: ["bookId"],
+    required: ["bookId","acceptanceStatus"],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
@@ -26,15 +27,31 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       error: true,
     };
   }
+  else if(Data.acceptanceStatus === false) {
+    // Reject the request
+    await Database.rejectRequest(Data.bookId, Client.getId());
+    return {
+      notification: {
+        type: "success",
+        message: "Request Rejected!",
+      },
+    };
+  }
+  else{
+      // Accept the request
+      await Database.acceptRequest(Data.bookId, Client.getId());
 
-  await Database.borrowBook(Data.bookId, Client.getId());
+      return {
+        notification: {
+          type: "success",
+          message: "Request  Accepted!",
+        },
+      };
 
-  return {
-    notification: {
-      type: "success",
-      message: "Book is borrowed!",
-    },
-  };
+    }
+  
+
+  
 }
 
 export default command;

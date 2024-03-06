@@ -28,9 +28,11 @@ abstract class Database {
   }): Promise<void> | null;
   abstract checkUsename({ username }: { username: string }): Promise<Object> | null;
   abstract returnBook(barcode, borrower): Promise<void>;
+  abstract requestItem(barcode: number, borrower: number): Promise<void>;
   abstract isBookBorrowedByUser(barcode: number, borrower: number): Promise<boolean>;
   abstract isBookBorrowed(barcode: number): Promise<boolean>;
-  abstract borrowBook(barcode: number, borrower: number): Promise<void>;
+  abstract acceptRequest(barcode: number, borrower: number): Promise<void>;
+  abstract rejectRequest(barcode: number, borrower: number): Promise<void>;
   abstract getBooksBorrowedByUserId({ id }: { id: number }): Promise<Object> | null;
   abstract createLog({ event, details, initiator }: { event: string; details: string; initiator: number }): Promise<void>;
   abstract getLogs(): Promise<void>;

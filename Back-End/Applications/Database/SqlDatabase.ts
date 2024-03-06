@@ -92,18 +92,29 @@ class MySqlDB implements Database {
     return rows.length > 0 && rows[0].borrower !== null;
   }
 
+  async requestItem(barcode: number, borrower: number): Promise<void> {
+    await this.connection.execute("INSERT INTO requests (barcode, borrower) VALUES (?,?)", [barcode, borrower]);
+    this.createLog({ event: "request", details: `User ${borrower} requested book ${barcode}`, initiator: borrower });
+  }
+
   async returnBook(barcode: number, borrower: number): Promise<void> {
     await this.connection.execute("UPDATE inventory SET borrower = NULL WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
     this.createLog({ event: "return", details: `User ${borrower} returned book ${barcode}`, initiator: borrower })
   }
 
-  async borrowBook(barcode: number, borrower: number): Promise<void> {
+  async acceptRequest(barcode: number, borrower: number): Promise<void> {
     await this.connection.execute("UPDATE inventory SET borrower = ? WHERE barcode = ? AND borrower IS NULL", [borrower, barcode]);
     this.createLog({ event: "borrow", details: `User ${borrower} borrowed book ${barcode}`, initiator: borrower });
+    await this.connection.execute("DELETE FROM requests WHERE barcode = ?", [barcode]);
+  }
+
+  async rejectRequest(barcode: number, borrower: number): Promise<void> {
+    await this.connection.execute("DELETE FROM requests WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
+    this.createLog({ event: "reject", details: `User ${borrower} rejected request for book ${barcode}`, initiator: borrower });
   }
 
   async getBooksBorrowedByUserId({ id }: { id: number }): Promise<Object> | null {
-    const results = await this.connection.execute(`SELECT * FROM book NATURAL JOIN inventory WHERE borrower=?`, [id]);
+    const results = await this.connection.execute(`SELECT * FROM inventory WHERE borrower=?`, [id]);
 
     if (results[0].length === 0) {
       return null;
