@@ -38,6 +38,9 @@ abstract class Database {
   abstract createLog({ event, details, initiator }: { event: string; details: string; initiator: number }): Promise<void>;
   abstract getLogs(): Promise<void>;
   abstract getMeetingRooms(): Promise <object>| null;
+  abstract getReservedMeetingRooms(): Promise <object>| null;
+  abstract getUnderMaintenanceMeetingRooms(): Promise <object>| null;
+  abstract reserveMeetingRoom({roomID,userID}: {roomID:number,userID:number}): Promise<void>;
   abstract addBook({
     title,
     author,

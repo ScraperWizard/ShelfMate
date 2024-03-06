@@ -96,10 +96,10 @@ class MySqlDB implements Database {
     return rows.length > 0 && rows[0].borrower !== null;
   }
 
-  async 
+  
 
   async requestItem(barcode: number, borrower: number): Promise<void> {
-  await this.connection.execute("INSERT INTO requests (barcode, userID,date) VALUES (?,?,?)", [barcode, borrower,"CURRENT_TIMESTAMP"]);
+  await this.connection.execute("INSERT INTO requests (barcode, userID,date) VALUES (?,?,?)", [barcode, borrower,new Date()]);
     this.createLog({ event: "request", details: `User ${borrower} requested book ${barcode}`, initiator: borrower });
   }
 
@@ -467,6 +467,33 @@ class MySqlDB implements Database {
 
   async getMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0];
+    }
+
+  }
+
+  async getReservedMeetingRooms(): Promise <object>| null{
+    const results = await this.connection.execute(`SELECT * FROM meeting_rooms  WHERE availablity=0`);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0];
+    }
+
+  }
+
+  async  reserveMeetingRoom({ roomID, userID }: { roomID: number; userID: number; }): Promise<void> {
+    await this.connection.execute(`UPDATE meeting_rooms SET availablity=0 Reserver_SID=? WHERE roomID=?`, [userID,roomID]);
+    this.createLog({ event: "reserve", details: `User ${userID} reserved room ${roomID}`, initiator: userID });
+  }
+
+  async getUnderMaintenanceMeetingRooms(): Promise <object>| null{
+    const results = await this.connection.execute(`SELECT * FROM meeting_rooms m WHERE NOW() BETWEEN maintinance_start AND maintinance_end`);
 
     if (results[0].length === 0) {
       return null;

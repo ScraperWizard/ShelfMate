@@ -27,7 +27,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       return {
         notification: {
           type: "success",
-          message: "Book successfully returned",
+          message: "Book Requested Successfully!",
         },
         error: false,
       };
@@ -35,13 +35,13 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       return {
         notification: {
           type: "error",
-          message: "You did not borrow this book!",
+          message: "You cannot  borrow this book!",
         },
         error: true,
       };
     }
   } catch (error) {
-    console.error("Error returning book:", error);
+    console.error("Error requesting book:", error);
     return {
       notification: {
         type: "error",
