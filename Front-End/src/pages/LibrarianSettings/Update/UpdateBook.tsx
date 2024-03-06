@@ -111,6 +111,7 @@ const UpdateBook: React.FC<BookModalProps> = ({
               isbn: "",
             }
           );
+          
           socket.emit("get-library-books");
       
           socket.on("library-books-response", (message: Book[]) => {
