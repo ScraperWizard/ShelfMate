@@ -7,18 +7,20 @@ const command = new ServerCommandBuilder("handle-request")
     type: "object",
     properties: {
       bookId: { type: "number" },
-      acceptanceStatus: { type: "boolean"}
+      acceptanceStatus: { type: "boolean"},
+      userID: { type: "number" },
     },
-    required: ["bookId","acceptanceStatus"],
+    required: ["bookId","acceptanceStatus","userID"],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
-  const isBookAvailable = await Database.isBookBorrowed(Data.isBookBorrowed);
-
-  if(!isBookAvailable) {
+  console.log(Data);
+  try{
+  const isBookBorrowed = await Database.isBookBorrowed(Data.bookId);
+  if(isBookBorrowed) {
     return {
       notification: {
         type: "error",
@@ -27,9 +29,9 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       error: true,
     };
   }
-  else if(Data.acceptanceStatus === false) {
+  else if(Data.acceptance == false) {
     // Reject the request
-    await Database.rejectRequest(Data.bookId, Client.getId());
+    await Database.rejectRequest(Data.bookId,Data.userID);
     return {
       notification: {
         type: "success",
@@ -37,10 +39,9 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       },
     };
   }
-  else{
+  else if(Data.acceptance == true){
       // Accept the request
-      await Database.acceptRequest(Data.bookId, Client.getId());
-
+      await Database.acceptRequest(Data.bookId, Data.userID);
       return {
         notification: {
           type: "success",
@@ -49,6 +50,30 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       };
 
     }
+    else {
+      return {
+        notification: {
+          type: "error",
+          message: "Invalid request!",
+        },
+        error: true,
+      };
+    }
+
+  }
+  catch (error) {
+    let errorObject = {
+      notification: {
+        type: "error",
+        message: "Unexpected error occurred!",
+      },
+      error: true,
+    };
+    console.log(error);
+    return errorObject;
+  }
+
+  
   
 
   

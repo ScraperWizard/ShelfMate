@@ -17,7 +17,18 @@ const command = new ServerCommandBuilder("request-item")
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
   try {
     const bookId = Data.bookId;
+    const isEnrolled = await Database.isStudentEnrolled(Client.getId());
+    const numberOfBorrowedBooks = await Database.getNumberOfBooksBorrowedByUser(Client.getId());
 
+    if(!isEnrolled&&numberOfBorrowedBooks===1){
+      return {
+        notification: {
+          type: "error",
+          message: "You have already borrowed a book!",
+        },
+        error: true,
+      };
+    }
     // Check if the book is currently borrowed by the user
     const isBorrowed = await Database.isBookBorrowed(bookId);
 
@@ -35,20 +46,23 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       return {
         notification: {
           type: "error",
-          message: "You cannot  borrow this book!",
+          message: "You cannot borrow this book!",
         },
         error: true,
       };
     }
   } catch (error) {
     console.error("Error requesting book:", error);
-    return {
-      notification: {
-        type: "error",
-        message: "Unexpected error occurred!",
-      },
-      error: true,
-    };
+   
+      return {
+        notification: {
+          type: "error",
+          message: "Unexpected error occurred!",
+        },
+        error: true,
+      };
+    
+   
   }
 }
 
