@@ -58,7 +58,7 @@ const LibSidebar = () => {
                 <span className="menu-link-icon">
                 <MdOutlineBook size={20} />
                 </span>
-                <span className="menu-link-text">View Books</span>
+                <span className="menu-link-text">View Items</span>
               </Link>
               
             </li>

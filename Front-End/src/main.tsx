@@ -41,6 +41,7 @@ import Update from "./pages/LibrarianSettings/Update/Update.tsx";
 import Remove from "./pages/LibrarianSettings/Remove/Remove.tsx";
 import LibraryLayout from "./layout/LibraryLayout.tsx";
 import AddMagazine from "./pages/LibrarianSettings/Add/Magazine/AddMagazine.tsx";
+import LibMain from "./pages/LibrarianSettings/Main/LibMain.tsx";
 function Root() {
   return (
     <>
@@ -115,6 +116,7 @@ function Root() {
                 {/* this is for the librarian */}
                 <Route element={<LibraryLayout />} path="/Librarian-setting">
                   {/* <Route path="" element={<Dashboard />}></Route> */}
+                  <Route element={<LibMain></LibMain>} path="/Librarian-setting"></Route>
                   <Route
                   path="/Librarian-setting/settings/view"
                   element={<View></View>}
@@ -136,17 +138,6 @@ function Root() {
                   path="/Librarian-setting/settings/remove"
                   element={<Remove></Remove>}
                 ></Route>
-                  {/* <Route
-                    path="/admin/manage-user"
-                    element={<ManageUser />}
-                  ></Route>
-                  {/* <Route path="/Librarian-setting/Settings" element={<Settings />}></Route>
-                  <Route
-                    path="/Librarian-setting/manage-user"
-                    element={<UserSettings />}
-                  ></Route>
-                  <Route path="*" element={<PageNotFound />}></Route>  */}
-                  {/* <Route element={<CustomComponentWithButtonAndImage />} /> */}
                 </Route>
               </Routes>
             </AuthProvider>

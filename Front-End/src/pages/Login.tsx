@@ -28,12 +28,12 @@ function Login() {
       if (message?.id) {
         console.log(message);
 
-        setAccessToken(message.accessToken); // another reminder for myself this is where the user information is set
+        setAccessToken(message.accessToken); 
         setUserType(message.user_type);
         setUsername(message.username);
         userType = message.user_type;
         if(userType === "student") navigate("/home");
-        else if(userType === "librarian") navigate("/Librarian-page");
+        else if(userType === "librarian") navigate("/Librarian-setting");
         else if(userType == "admin") navigate("/admin");
         showNotification({
           type: "success",

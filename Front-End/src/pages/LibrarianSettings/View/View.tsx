@@ -22,6 +22,8 @@ export default function View() {
     no_of_pages: number;
     isbn: string;
     rack: number;
+    editor: string;
+    edition_num: number;
   };
 
   const [books, setBooks] = useState<Book[]>([]);
@@ -29,25 +31,13 @@ export default function View() {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    console.log("useEffect entered")
-    socket.emit("get-all-info", {barcode: selectedBook?.barcode});
-    console.log("emitted get-all-info")
-    socket.on("get-all-info-response", (response) => {
-      
-      console.log("this response is from get all info",response);
-    });
 
-    return () => {
-      socket.off("library-books-response");
-    };
-  })
   useEffect(() => {
     socket.emit("get-library-books");
 
     socket.on("library-books-response", (response: Book[]) => {
       setBooks(response);
-      console.log(response);
+      console.log("This is the response from library-books-response",response)
     });
 
     return () => {
@@ -63,6 +53,17 @@ export default function View() {
   const filteredBooks = books.filter(book =>
     book.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleViewType = (number: number) => {
+    console.log("useEffect entered");
+    socket.emit("get-all-info", { barcode: number });
+    console.log("emitted get-all-info");
+    socket.on("get-all-info-response", (response: Book) => {
+        setSelectedBook(response);
+        console.log("this is the value of selected book",selectedBook)
+        console.log("This is the value of response for the selected book")
+    });
+};
 
   return (
     <SettingsModal data-name="view">
@@ -103,6 +104,7 @@ export default function View() {
                   onClick={(e) => {
                     e.preventDefault();
                     handleView(book);
+                    handleViewType(book.barcode);
                   }}
                 >
                   View
