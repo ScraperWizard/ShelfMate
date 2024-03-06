@@ -33,7 +33,7 @@ function Login() {
         setUsername(message.username);
         userType = message.user_type;
         if(userType === "student") navigate("/home");
-        else if(userType === "librarian") navigate("/Librarian-page");
+        else if(userType === "librarian") navigate("/Librarian-setting/settings/view");
         else if(userType == "admin") navigate("/admin");
         showNotification({
           type: "success",
