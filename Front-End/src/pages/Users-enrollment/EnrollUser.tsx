@@ -36,17 +36,7 @@ function BookRequests() {
     });
     console.log("handle request emitted");
     socket.on("accept-request-response", (response) => {
-        useEffect(() => {
-            socket.emit("get-requests", {});
-            socket.on("get-requests-response", (response) => {
-              setRequests(response);
-              console.log("This is the response from get-requests-response", response);
-            });
-        
-            return () => {
-              socket.off("get-requests-response");
-            };
-          }, []);
+
     });
 
     return () => {
