@@ -81,7 +81,7 @@ class MySqlDB implements Database {
   }
   
   async  getRequests(): Promise<Object> {
-    const results = await this.connection.execute(`SELECT * FROM requests`);
+    const results = await this.connection.execute(`SELECT r.id,username,userID,barcode,title,image,date FROM requests r  NATURAL JOIN inventory INNER JOIN users on userID=users.id;`);
     return results[0];
   }
   async isBookBorrowedByUser(barcode: number, borrower: number): Promise<boolean> {
@@ -96,8 +96,10 @@ class MySqlDB implements Database {
     return rows.length > 0 && rows[0].borrower !== null;
   }
 
+  async 
+
   async requestItem(barcode: number, borrower: number): Promise<void> {
-    await this.connection.execute("INSERT INTO requests (barcode, userID) VALUES (?,?)", [barcode, borrower]);
+  await this.connection.execute("INSERT INTO requests (barcode, userID,date) VALUES (?,?,?)", [barcode, borrower,"CURRENT_TIMESTAMP"]);
     this.createLog({ event: "request", details: `User ${borrower} requested book ${barcode}`, initiator: borrower });
   }
 
@@ -485,7 +487,7 @@ class MySqlDB implements Database {
   }
 
   async getLogs(): Promise<void> {
-    const results = await this.connection.execute(`SELECT * FROM logs`);
+    const results = await this.connection.execute(`SELECT * FROM Logs`);
 
     return results[0];
   }
