@@ -88,13 +88,13 @@ function BookRequests() {
             <div className="bg-gray-100 px-4 py-2">
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 mr-4"
-                onClick={() => handleRequest(request.id, true)}
+                onClick={() => handleRequest(request.barcode, true)}
               >
                 accept
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300"
-                onClick={() => handleRequest(request.id, false)}
+                onClick={() => handleRequest(request.barcode, false)}
               >
                 reject
               </button>
