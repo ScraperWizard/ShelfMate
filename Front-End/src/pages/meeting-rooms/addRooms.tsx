@@ -1,16 +1,48 @@
-import React from 'react'
-import MeetingRooms from '../../components/meetingRooms/meetingRooms'
-interface Room {
-    Reserver_SID: any;
-    availablity: number,
-    capacity: number,
-    equipment: string,
-    id: number,
-    maintinance_end: string,
-    maintenance_start: string,
-  }
+import React, { useState } from 'react';
+import MeetingRooms from '../../components/meetingRooms/meetingRooms';
+import socket from '../../Socket';
 
-function addRooms() {
+interface Room {
+  capacity: number,
+  equipment: string,
+  maintinance_start: Date,
+  maintinance_end: Date,
+}
+
+function AddRooms() {
+
+  const [formData, setFormData] = useState<Room>({
+    capacity: 0,
+    equipment: "",
+    maintinance_start: new Date(),
+    maintinance_end: new Date(),
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+  
+    const parsedValue = name.includes("maintinance") ? new Date(value) : value;
+  
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: parsedValue,
+    }));
+  };
+  
+  
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) =>{
+
+    event.preventDefault();
+    formData.capacity = Number(formData.capacity)
+  
+
+    console.log("this is what add room recieves",formData);
+   
+    socket.emit("add-room", formData);
+    socket.on("add-room-response", (message: any) => {
+      console.log("this is the message", message);
+      
+    });
+  }
   return (
     <MeetingRooms data-name="meeting-rooms-add">
       <div className="pt-4 div" data-name="add-book-admin">
@@ -19,145 +51,89 @@ function addRooms() {
         </h1>
       </div>
       <div
-            className="p-6"
-            style={{ maxHeight: "500px", overflowY: "auto" }}
-
-          >
-            <h3 className="text-xl font-semibold text-gray-900 mb-5">
-              Add a meeting room
-            </h3>
-            <form>
-              <div className="mb-4">
-                <label
-                  htmlFor="Reserver_SID"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  Reserver_SID
-                </label>
-                <input
-                  type="text"
-                  id="Reserver_SID"
-                  name="Reserver_SID"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  
-                />
-              </div>
-             
-
-              <div className="mb-4">
-                <label
-                  htmlFor="availablity"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  availablity
-                </label>
-                <input
-                  type="number"
-                  id="availablity"
-                  name="availablity"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  
-                />
-              </div>
-
-              <div className="mb-4">
-                <label
-                  htmlFor="capacity"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  capacity
-                </label>
-                <input
-                  type="number"
-                  id="capacity"
-                  name="capacity"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  
-                />
-              </div>
-
-
-              <div className="mb-4">
-                <label
-                  htmlFor="equipment"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  equipment
-                </label>
-                <input
-                  type="text"
-                  id="equipment"
-                  name="equipment"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  
-                />
-              </div>
-
-
-              <div className="mb-4">
-                <label
-                  htmlFor="id"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  id
-                </label>
-                <input
-                  type="text"
-                  id="id"
-                  name="id"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  
-                />
-              </div>
-
-              <div className="mb-4">
-                <label
-                  htmlFor="maintenance_start"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                 maintenance_start
-                </label>
-                <input
-                  type="number"
-                  id="maintenance_start"
-                  name="maintenance_start"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  
-                />
-              </div>
-
-              <div className="mb-4">
-                <label
-                  htmlFor="maintinance_end"
-                  className="block text-gray-700 font-bold mb-2"
-                >
-                  maintinance_end
-                </label>
-                <input
-                  type="text"
-                  id="maintinance_end"
-                  name="maintinance_end"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  
-                />
-              </div>
-
-              
-
-             
-
-              <div className="mb-4 button">
-                <button
-                  type="submit"
-                  className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline test"
-                >
-                  Add meeting room
-                </button>
-              </div>
-            </form>
+        className="p-6"
+        style={{ maxHeight: "500px", overflowY: "auto" }}
+      >
+        <h3 className="text-xl font-semibold text-gray-900 mb-5">
+          Add a meeting room
+        </h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label
+              htmlFor="capacity"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Capacity
+            </label>
+            <input
+              type="number"
+              id="capacity"
+              name="capacity"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handleChange}
+            />
           </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="equipment"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Equipment
+            </label>
+            <input
+              type="text"
+              id="equipment"
+              name="equipment"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="maintenance_start"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Maintenance Start
+            </label>
+            <input
+              type="date"
+              id="maintinance_start"
+              name="maintinance_start"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="maintinance_end"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Maintenance End
+            </label>
+            <input
+              type="date"
+              id="maintinance_end"
+              name="maintinance_end"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="mb-4 button">
+            <button
+              type="submit"
+              className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline test"
+            >
+              Add meeting room
+            </button>
+          </div>
+        </form>
+      </div>
     </MeetingRooms>
-  )
+  );
 }
 
-export default addRooms
+export default AddRooms;
