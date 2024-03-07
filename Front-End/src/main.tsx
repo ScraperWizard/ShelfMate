@@ -48,6 +48,8 @@ import ViewLogs from "./pages/UserLogs/ViewLogs.tsx";
 import BookRequests from "./pages/Users-enrollment/EnrollUser.tsx";
 import ReservedRooms from "./pages/ReservedRooms.tsx";
 import ReservedRoomsLib from "./pages/meeting-rooms/ReservedRooms.tsx";
+import ManageStudents from "./pages/students-management/ManageStudents.tsx";
+import AllStudents from "./pages/students-management/AllStudents.tsx";
 function Root() {
   return (
     <>
@@ -111,6 +113,16 @@ function Root() {
                     path="/admin/meeting-rooms-remove"
                     element={<RemoveRooms />}
                   ></Route>
+                  {/* <Route
+                  path="/admin/manageStudents"
+                  element={<ManageStudents></ManageStudents>}
+                  ></Route> */}
+                  <Route
+                  path="/admin/manageStudents"
+                  element={<AllStudents></AllStudents>}
+                  >
+
+                  </Route>
                   <Route
                     path="/admin/meeting-rooms-update"
                     element={<UpdateRoom />}
@@ -124,18 +136,13 @@ function Root() {
                     path="/admin/reservedRooms"
                     element={<ReservedRoomsLib></ReservedRoomsLib>}
                   ></Route>
-
-                  {/* <Route
-                    path="/admin/manage-user"
-                    element={<ManageUser />}
-                  ></Route> */}
                   <Route path="/admin/Settings" element={<Settings />}></Route>
                   <Route
                     path="/admin/manage-user"
                     element={<UserSettings />}
                   ></Route>
                   <Route path="*" element={<PageNotFound />}></Route>
-                  {/* <Route element={<CustomComponentWithButtonAndImage />} /> */}
+                 
                 </Route>
 
                 {/* this is for the librarian */}

@@ -95,11 +95,11 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="menu-item">
-              <Link to="/admin" className={`menu-link ${activeLink === 'blank' ? 'active' : ''}`} onClick={() => handleLinkClick('blank')}>
+              <Link to="/admin/manageStudents" className={`menu-link ${activeLink === 'blank' ? 'active' : ''}`} onClick={() => handleLinkClick('blank')}>
                 <span className="menu-link-icon">
                   <MdOutlinePeople size={20} />
                 </span>
-                <span className="menu-link-text">blank for now</span>
+                <span className="menu-link-text">Students managements</span>
               </Link>
             </li>
             <li className="menu-item">
