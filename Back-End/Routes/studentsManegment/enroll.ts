@@ -27,7 +27,7 @@ async function callback({ Database,Data,Client }: CommandExecuteArguments) {
                   error: true,
                 }
         }
-        const students: any = await Database.enrollStudent(studentID,initiator);
+        await Database.enrollStudent(studentID,initiator);
         return{
             notification: {
                 type: "success",
