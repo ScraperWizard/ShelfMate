@@ -39,6 +39,12 @@ abstract class Database {
   abstract createLog({ event, details, initiator }: { event: string; details: string; initiator: number }): Promise<void>;
   abstract getLogs(): Promise<void>;
   abstract getMeetingRooms(): Promise <object>| null;
+  abstract getAllMeetingRooms(): Promise <object>| null;
+  abstract addMeetingRoom({capacity, equipment,maintinance_start, maintinance_end,userID,username}:
+    {capacity:number;equipment:string;maintinance_start:Date, maintinance_end:Date,userID:number,username:string} ): Promise<void>;
+  abstract deleteMeetingRoom({roomID,userID,username}:{roomID:number,userID:number,username:string}): Promise<void>;
+  abstract updateMeetingRoom({roomID,capacity, equipment,maintinance_start, maintinance_end,userID,username}:
+    {roomID:number;capacity:number;equipment:string;maintinance_start:Date, maintinance_end:Date,userID:number,username:string} ): Promise<void>;
   abstract getReservedMeetingRooms(): Promise <object>| null;
   abstract getUnderMaintenanceMeetingRooms(): Promise <object>| null;
   abstract reserveMeetingRoom({roomID,userID}: {roomID:number,userID:number}): Promise<void>;

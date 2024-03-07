@@ -1,39 +1,35 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 
-const command = new ServerCommandBuilder("add-room")
+const command = new ServerCommandBuilder("remove-room")
   .setAccessLevel(UserAccessLevels.LIBRARIAN)
-  .setOutgoingChannel("add-room-response")
+  .setOutgoingChannel("remove-room-response")
   .setIncomingValidationSchema({
     type: "object",
     properties: {
-        //capacity, equipment,maintinance_start, maintinance_end
-        capacity: {type: "number"},
-        equipment: {type: "string"},
-        maintinance_start: {type: "date"},
-        maintinance_end: {type: "date"},
+      roomID: {type: "number"},
     },
-    required: ["capacity","equipment","maintinance_start","maintinance_end"],
+    required: ["roomID"],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
-  const username= Client.getName()
-  const userID = await Database.getUserIdByName({username});
-  const {capacity, equipment,maintinance_start, maintinance_end} = Data;
-  
+    const username=Client.getName();
+    const userID = await Database.getUserIdByName({username});
+    const roomID = Data.roomID;
+    
+
   try {
-    await Database.addMeetingRoom({capacity, equipment,maintinance_start, maintinance_end,userID,username});
+    await Database.deleteMeetingRoom({roomID,userID,username});
     return {
       notification: {
         type: "success",
-        message: "Room  Added successfully!",
+        message: "Room Removed successfully!",
       },
       error: false,
     };
-    
   } catch (error) {
     let errorObject = {
       notification: {

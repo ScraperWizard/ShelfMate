@@ -1,19 +1,19 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 
-const command = new ServerCommandBuilder("add-room")
+const command = new ServerCommandBuilder("update-room")
   .setAccessLevel(UserAccessLevels.LIBRARIAN)
-  .setOutgoingChannel("add-room-response")
+  .setOutgoingChannel("update-room-response")
   .setIncomingValidationSchema({
     type: "object",
     properties: {
-        //capacity, equipment,maintinance_start, maintinance_end
+        roomID: {type: "number"},
         capacity: {type: "number"},
         equipment: {type: "string"},
         maintinance_start: {type: "date"},
         maintinance_end: {type: "date"},
     },
-    required: ["capacity","equipment","maintinance_start","maintinance_end"],
+    required: ["roomID","capacity","equipment","maintinance_start","maintinance_end"],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
@@ -22,10 +22,10 @@ const command = new ServerCommandBuilder("add-room")
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
   const username= Client.getName()
   const userID = await Database.getUserIdByName({username});
-  const {capacity, equipment,maintinance_start, maintinance_end} = Data;
+  const {roomID,capacity, equipment,maintinance_start, maintinance_end} = Data;
   
   try {
-    await Database.addMeetingRoom({capacity, equipment,maintinance_start, maintinance_end,userID,username});
+    await Database.updateMeetingRoom({roomID,capacity, equipment,maintinance_start, maintinance_end,userID,username});
     return {
       notification: {
         type: "success",

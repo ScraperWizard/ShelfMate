@@ -482,6 +482,29 @@ class MySqlDB implements Database {
 
   }
 
+  async getAllMeetingRooms(): Promise <object>| null{
+    const results = await this.connection.execute(`SELECT * FROM meeting_rooms;`);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0];
+    }
+  }
+  async addMeetingRoom({capacity, equipment,maintinance_start, maintinance_end,userID,username}:{capacity:number;equipment:string;maintinance_start:Date, maintinance_end:Date,userID:number,username:string} ): Promise<void>{
+    await this.connection.execute(`INSERT INTO meeting_rooms (capacity, equipment, maintinance_start, maintinance_end,availablity) VALUES (?,?,?,?,?)`, [capacity, equipment, maintinance_start, maintinance_end,1]);
+    this.createLog({ event: "add", details: `User ${username} added room`, initiator: userID });
+  }
+  async deleteMeetingRoom({roomID,userID,username}:{roomID:number,userID:number,username:string}): Promise<void>{
+    await this.connection.execute(`DELETE FROM meeting_rooms WHERE id=?`, [roomID]);
+    this.createLog({ event: "remove", details: `User ${username} removed room ${roomID}`, initiator: userID });
+  }
+  async updateMeetingRoom({roomID,capacity, equipment,maintinance_start, maintinance_end,userID,username}:{roomID:number;capacity:number;equipment:string;maintinance_start:Date, maintinance_end:Date,userID:number,username:string} ): Promise<void>{
+    await this.connection.execute(`UPDATE meeting_rooms SET capacity=?, equipment=?, maintinance_start=?, maintinance_end=? WHERE id=?`, [capacity, equipment, maintinance_start, maintinance_end,roomID]);
+    this.createLog({ event: "update", details: `User ${username} updated room ${roomID}`, initiator: userID });
+  }
+
+
   async getReservedMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM meeting_rooms  WHERE availablity=0`);
 
@@ -510,7 +533,7 @@ class MySqlDB implements Database {
   }
 
   async  viewAllStudnets(): Promise<object> | null {
-    const results = await this.connection.execute(`SELECT * FROM users WHERE type="student"`);
+    const results = await this.connection.execute(`SELECT * FROM users WHERE user_type="student"`);
     if (results[0].length === 0) {
       return null;
     } else {
