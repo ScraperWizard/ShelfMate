@@ -34,6 +34,7 @@ import AdminMain from "./pages/admin/adminMain.tsx";
 import AddRooms from "./pages/meeting-rooms/addRooms.tsx";
 import RemoveRooms from "./pages/meeting-rooms/removeRoom.tsx";
 import UpdateRoom from "./pages/meeting-rooms/updateRooms.tsx";
+import GetMaintenanceRooms from "./pages/meeting-rooms/ViewMaintenance.tsx";
 import LibrarianSetting from "./pages/LibrarianSettings/Main/LibrarianSetting.tsx";
 import Add from "./pages/LibrarianSettings/Add/Add.tsx";
 import View from "./pages/LibrarianSettings/View/View.tsx";
@@ -70,6 +71,7 @@ function Root() {
                   path="/meeting-room"
                   element={<MeetingRoomsPage />}
                 ></Route>
+                
                 <Route
                   path="/reserver-rooms"
                   element={<ReserveRooms />}
@@ -110,6 +112,10 @@ function Root() {
                   <Route
                     path="/admin/meeting-rooms-update"
                     element={<UpdateRoom />}
+                  ></Route>
+                  <Route
+                  path="/admin/getMaintenanceRooms"
+                  element={<GetMaintenanceRooms></GetMaintenanceRooms>}
                   ></Route>
                   
                   {/* <Route
