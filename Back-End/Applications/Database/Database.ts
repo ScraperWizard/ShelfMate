@@ -181,6 +181,7 @@ abstract class Database {
   abstract viewUnEnrolledStudents(): Promise <object>| null;
   abstract isStudentEnrolled(id:number): Promise<boolean>;
   abstract enrollStudent(id:number,initiator:number): Promise<void>;
+  abstract getAllUsers(): Promise <object>| null;
   abstract adduser({username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
     {username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>;
   abstract deactivateUser({id,initiator,initiatorName}:

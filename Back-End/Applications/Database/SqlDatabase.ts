@@ -669,6 +669,14 @@ class MySqlDB implements Database {
       throw new Error(error.message);
     }
   }
+  async getAllUsers(): Promise <object>| null{
+    const results = await this.connection.execute(`SELECT * FROM users INNER JOIN Address ON users.id=Address.userID`);
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0];
+    }
+  }
     async deactivateUser({id,initiator,initiatorName}:
     {id:number,initiator:number,initiatorName:string}): Promise<void>{
       await this.connection.execute(`UPDATE users SET active=0 WHERE id=?`, [id]);
@@ -680,8 +688,13 @@ class MySqlDB implements Database {
       this.createLog({ event: "update", details: `User ${initiatorName} updated user ${id}`, initiator: initiator });
       }
       async changePassword({oldPassword,newPassword,initiator,initiatorName}:
-      {oldPassword:string,newPassword:string,initiator:number,initiatorName:string}): Promise<void>{
-        await this.connection.execute(`UPDATE users SET password=? WHERE id=?`, [newPassword,initiator]);
+        {oldPassword:string,newPassword:string,initiator:number,initiatorName:string}): Promise<void>{
+          //check if old password is correct
+          const results = await this.connection.execute(`SELECT * FROM users WHERE id=? AND password=?`, [initiator,oldPassword]);
+          if (results[0].length === 0) {
+            throw new Error("Old password is incorrect");
+          }
+        await this.connection.execute(`UPDATE users SET password=? WHERE id=? AND password=?`, [newPassword,initiator,oldPassword]);
         this.createLog({ event: "change password", details: `User ${initiatorName} changed password`, initiator: initiator });
       }
 }

@@ -31,11 +31,10 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
 
   try {
     await Database.updateUser({ id,username, password, firstName, lastName,city,street_name, emailAddress, phoneNum,userType,initiator,initiatorName });
-    Client.setName(username);
     return {
       notification: {
         type: "success",
-        message: "Account created successfully!",
+        message: "Account Updated successfully!",
       },
       error: false,
     };

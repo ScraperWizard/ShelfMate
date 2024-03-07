@@ -2,7 +2,7 @@ import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 
 const command = new ServerCommandBuilder("deactivate-user")
-  .setAccessLevel(UserAccessLevels.LIBRARIAN)
+  .setAccessLevel(UserAccessLevels.ADMIN)
   .setOutgoingChannel("deactivate-user-response")
   .setIncomingValidationSchema({
     type: "object",

@@ -1,39 +1,43 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 
-const command = new ServerCommandBuilder("add-user")
+const command = new ServerCommandBuilder("change-password")
   .setAccessLevel(UserAccessLevels.ADMIN)
-  .setOutgoingChannel("add-user-response")
+  .setOutgoingChannel("change-password-response")
   .setIncomingValidationSchema({
     type: "object",
     properties: {
-      username: { type: "string" },
-      password: { type: "string" },
-      firstName: { type: "string" },
-      lastName: { type: "string" },
-      city: { type: "string" },
-      street_name: {type:"string"},
-      emailAddress: { type: "string" },
-      phoneNum: { type: "string" },
-      userType: { type: "string" },
+        oldPassword: { type: "string" },
+        newPassword: { type: "string" },
+        newpasswordConfirm: { type: "string" },
     },
-    required: ["username", "password", "firstName", "lastName", "city","street_name", "emailAddress", "phoneNum"],
+    required: ["oldPassword", "newPassword", "newpasswordConfirm"],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
-  const { username, password, firstName, lastName, city,street_name, emailAddress, phoneNum,userType} = Data;
+  const { oldPassword, newPassword, newpasswordConfirm } = Data;
   const initiatorName = Client.getName();
   const initiator = await Database.getUserIdByName({username:initiatorName});
 
   try {
-    await Database.adduser({ username, password, firstName, lastName,city,street_name, emailAddress, phoneNum,userType,initiator,initiatorName });
+    if(newPassword !== newpasswordConfirm){
+      return {
+        notification: {
+          type: "error",
+          message: "Passwords do not match!",
+        },
+        error: true,
+      };
+    }
+    await Database.changePassword({ oldPassword, newPassword,initiator,initiatorName});
+    
     return {
       notification: {
         type: "success",
-        message: "Account created successfully!",
+        message: "Password Updated successfully!",
       },
       error: false,
     };
@@ -45,11 +49,9 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       },
       error: true,
     };
-
-    if (error.message === "Username already exists") {
-      errorObject.notification.message = "Username already exists!";
+    if (error.message === "Old password is incorrect") {
+      errorObject.notification.message = "Old password is incorrect!";
     }
-
     console.log(error);
     console.log(error.message);
 
