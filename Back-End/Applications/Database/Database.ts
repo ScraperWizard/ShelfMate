@@ -190,6 +190,7 @@ abstract class Database {
       {id:number,username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>;
     abstract changePassword({oldPassword,newPassword,initiator,initiatorName}:
       {oldPassword:string,newPassword:string,initiator:number,initiatorName:string}): Promise<void>;
+      abstract getMyCards({id}:{id:number}): Promise<Object>;
 }
 
 enum DatabaseState {

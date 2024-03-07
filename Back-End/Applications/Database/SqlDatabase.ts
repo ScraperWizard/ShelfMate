@@ -697,6 +697,11 @@ class MySqlDB implements Database {
         await this.connection.execute(`UPDATE users SET password=? WHERE id=? AND password=?`, [newPassword,initiator,oldPassword]);
         this.createLog({ event: "change password", details: `User ${initiatorName} changed password`, initiator: initiator });
       }
+
+       async  getMyCards({ id }: { id: number; }): Promise<Object> {
+        const results = await this.connection.execute(`SELECT * FROM cards WHERE user_id=?`, [id]);
+        return results[0];
+      }
 }
 
 export default MySqlDB;
