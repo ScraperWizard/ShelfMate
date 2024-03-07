@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import socket from "../Socket";
+
 interface MeetingRoomProps {
   Reserver_SID: any;
-  availablity: number,
-  capacity: number,
-  equipment: string,
-  id: number,
-  maintinance_end: string,
-  maintenance_start: string,
+  availablity: number;
+  capacity: number;
+  equipment: string;
+  id: number;
+  maintinance_end: string;
+  maintenance_start: string;
 }
 
 const MeetingRoom: React.FC<MeetingRoomProps> = ({
@@ -39,10 +40,9 @@ const MeetingRoom: React.FC<MeetingRoomProps> = ({
   }
 
   return (
-    <div className="max-w-lg w-full lg:flex hover:shadow-lg transform hover:scale-105 transition-all" onClick={handleImageClick}>
+    <div className="max-w-lg w-full lg:flex hover:shadow-lg transform hover:scale-105 transition-all mb-4" onClick={handleImageClick}>
       {isImageClicked ? ( 
         <div className="p-4">
-          
           <div className="text-gray-900 font-bold text-xl mb-2" >{equipment} {id}</div> 
           <p className="text-gray-700 text-base">{capacity}</p>
         </div>
@@ -54,7 +54,6 @@ const MeetingRoom: React.FC<MeetingRoomProps> = ({
               backgroundImage: `url('https://source.unsplash.com/random/800x600?room')`,
             }}
             title="Meeting Room Image"
-            // onClick={handleImageClick}
           ></div>
           <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
             <div className="mb-8">

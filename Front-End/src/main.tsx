@@ -73,7 +73,7 @@ function Root() {
                   path="/meeting-room"
                   element={<MeetingRoomsPage />}
                 ></Route>
-                
+
                 <Route
                   path="/reserver-rooms"
                   element={<ReserveRooms />}
@@ -96,12 +96,12 @@ function Root() {
                     element={<UpdateBooks />}
                   ></Route>
                   <Route
-                  path="/admin/get-requests"
-                  element={<BookRequests></BookRequests>}
+                    path="/admin/get-requests"
+                    element={<BookRequests></BookRequests>}
                   ></Route>
                   <Route
-                  path="/admin/view-logs"
-                  element={<ViewLogs></ViewLogs>}
+                    path="/admin/view-logs"
+                    element={<ViewLogs></ViewLogs>}
                   ></Route>
                   <Route
                     path="/admin/meeting-rooms-add"
@@ -116,10 +116,15 @@ function Root() {
                     element={<UpdateRoom />}
                   ></Route>
                   <Route
-                  path="/admin/getMaintenanceRooms"
-                  element={<GetMaintenanceRooms></GetMaintenanceRooms>}
+                    path="/admin/getMaintenanceRooms"
+                    element={<GetMaintenanceRooms></GetMaintenanceRooms>}
                   ></Route>
-                  
+
+                  <Route
+                    path="/admin/reservedRooms"
+                    element={<ReservedRoomsLib></ReservedRoomsLib>}
+                  ></Route>
+
                   {/* <Route
                     path="/admin/manage-user"
                     element={<ManageUser />}
@@ -136,34 +141,31 @@ function Root() {
                 {/* this is for the librarian */}
                 <Route element={<LibraryLayout />} path="/Librarian-setting">
                   {/* <Route path="" element={<Dashboard />}></Route> */}
-                  <Route element={<LibMain></LibMain>} path="/Librarian-setting"></Route>
                   <Route
-                  path="/Librarian-setting/settings/view"
-                  element={<View></View>}
-                ></Route>
-                <Route
-                  path="/Librarian-setting/settings/add"
-                  element={<Add></Add>}
-                ></Route>
-                
-                <Route
-                  path="/Librarian-setting/settings/add-magazine"
-                  element={<AddMagazine></AddMagazine>}
-                ></Route>
-                <Route
-                  path="/Librarian-setting/settings/update"
-                  element={<Update></Update>}
-                ></Route>
-                <Route
-                  path="/Librarian-setting/settings/remove"
-                  element={<Remove></Remove>}
-                ></Route>
-                <Route
-                path="/Librarian-setting/reservedRooms"
-                element={<ReservedRoomsLib></ReservedRoomsLib>}
-                >
+                    element={<LibMain></LibMain>}
+                    path="/Librarian-setting"
+                  ></Route>
+                  <Route
+                    path="/Librarian-setting/settings/view"
+                    element={<View></View>}
+                  ></Route>
+                  <Route
+                    path="/Librarian-setting/settings/add"
+                    element={<Add></Add>}
+                  ></Route>
 
-                </Route>
+                  <Route
+                    path="/Librarian-setting/settings/add-magazine"
+                    element={<AddMagazine></AddMagazine>}
+                  ></Route>
+                  <Route
+                    path="/Librarian-setting/settings/update"
+                    element={<Update></Update>}
+                  ></Route>
+                  <Route
+                    path="/Librarian-setting/settings/remove"
+                    element={<Remove></Remove>}
+                  ></Route>
                 </Route>
               </Routes>
             </AuthProvider>
