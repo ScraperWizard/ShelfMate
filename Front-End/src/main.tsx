@@ -46,6 +46,8 @@ import LibMain from "./pages/LibrarianSettings/Main/LibMain.tsx";
 import BookdRequests from "./pages/Users-enrollment/EnrollUser.tsx";
 import ViewLogs from "./pages/UserLogs/ViewLogs.tsx";
 import BookRequests from "./pages/Users-enrollment/EnrollUser.tsx";
+import ReservedRooms from "./pages/ReservedRooms.tsx";
+import ReservedRoomsLib from "./pages/meeting-rooms/ReservedRooms.tsx";
 function Root() {
   return (
     <>
@@ -156,6 +158,12 @@ function Root() {
                   path="/Librarian-setting/settings/remove"
                   element={<Remove></Remove>}
                 ></Route>
+                <Route
+                path="/Librarian-setting/reservedRooms"
+                element={<ReservedRoomsLib></ReservedRoomsLib>}
+                >
+
+                </Route>
                 </Route>
               </Routes>
             </AuthProvider>
