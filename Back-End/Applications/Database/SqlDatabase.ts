@@ -81,6 +81,15 @@ class MySqlDB implements Database {
       return results[0]; 
     }
   }
+  async getSearchBooks({ search }: { search: string }): Promise<Object> | null {
+    const results = await this.connection.execute(`SELECT * FROM inventory WHERE title LIKE ?`, [`%${search}%`]);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0];
+    }
+  }
   
   async  getRequests(): Promise<Object> {
     const results = await this.connection.execute(`SELECT r.id,username,userID,barcode,title,image,date FROM requests r  NATURAL JOIN inventory INNER JOIN users on userID=users.id;`);
@@ -494,7 +503,7 @@ class MySqlDB implements Database {
     }
   }
   async addMeetingRoom({capacity, equipment,maintinance_start, maintinance_end,userID,username}:{capacity:number;equipment:string;maintinance_start:Date, maintinance_end:Date,userID:number,username:string} ): Promise<void>{
-    await this.connection.execute(`INSERT INTO meeting_rooms (capacity, equipment, maintinance_start, maintinance_end,availablity) VALUES (?,?,?,?,?)`, [capacity, equipment, maintinance_start, maintinance_end,1]);
+    await this.connection.execute(`INSERT INTO meeting_rooms (capacity, equipment, maintinance_start, maintinance_end,availablity) VALUES (?,?,STR_TO_DATE(?, '%Y-%m-%d'),STR_TO_DATE(?, '%Y-%m-%d'),?)`, [capacity, equipment, maintinance_start, maintinance_end,1]);
     this.createLog({ event: "add", details: `User ${username} added room`, initiator: userID });
   }
   async deleteMeetingRoom({roomID,userID,username}:{roomID:number,userID:number,username:string}): Promise<void>{
@@ -502,7 +511,7 @@ class MySqlDB implements Database {
     this.createLog({ event: "remove", details: `User ${username} removed room ${roomID}`, initiator: userID });
   }
   async updateMeetingRoom({roomID,capacity, equipment,maintinance_start, maintinance_end,userID,username}:{roomID:number;capacity:number;equipment:string;maintinance_start:Date, maintinance_end:Date,userID:number,username:string} ): Promise<void>{
-    await this.connection.execute(`UPDATE meeting_rooms SET capacity=?, equipment=?, maintinance_start=?, maintinance_end=? WHERE id=?`, [capacity, equipment, maintinance_start, maintinance_end,roomID]);
+    await this.connection.execute(`UPDATE meeting_rooms SET capacity=?, equipment=?, maintinance_start=STR_TO_DATE(?, '%Y-%m-%d'), maintinance_end=STR_TO_DATE(?, '%Y-%m-%d') WHERE id=?`, [capacity, equipment, maintinance_start, maintinance_end,roomID]);
     this.createLog({ event: "update", details: `User ${username} updated room ${roomID}`, initiator: userID });
   }
 

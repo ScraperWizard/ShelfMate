@@ -4,6 +4,7 @@ abstract class Database {
   abstract getUserByAccessToken({ accessToken }: { accessToken: string }): Promise<Object> | null;
   abstract generateJsonWebToken({ username }: { username: string }): Promise<Object> | null;
   abstract getAvailableBooks(): Promise<Object> | null;
+  abstract getSearchBooks({ search }: { search: string }): Promise<Object> | null;
   abstract addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }): Promise<void> | null;
   abstract getUserIdByName({ username }: { username: string }): Promise<number> | null;
   abstract removeAccessTokenByUserId({ id }: { id: number }): Promise<void> | null;

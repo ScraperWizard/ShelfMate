@@ -10,8 +10,9 @@ const command = new ServerCommandBuilder("add-room")
         //capacity, equipment,maintinance_start, maintinance_end
         capacity: {type: "number"},
         equipment: {type: "string"},
-        maintinance_start: {type: "date"},
-        maintinance_end: {type: "date"},
+        maintinance_start: {type: "string"},
+        maintinance_end: {type: "string"},
+        
     },
     required: ["capacity","equipment","maintinance_start","maintinance_end"],
   })
@@ -20,7 +21,7 @@ const command = new ServerCommandBuilder("add-room")
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
-
+  console.log(Data);
 
   const username= Client.getName()
   const userID = await Database.getUserIdByName({username});
@@ -44,6 +45,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       },
       error: true,
     };
+    console.log(Data);
     console.log(error);
     return errorObject
   }

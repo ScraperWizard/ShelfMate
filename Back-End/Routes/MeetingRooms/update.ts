@@ -10,8 +10,8 @@ const command = new ServerCommandBuilder("update-room")
         roomID: {type: "number"},
         capacity: {type: "number"},
         equipment: {type: "string"},
-        maintinance_start: {type: "date"},
-        maintinance_end: {type: "date"},
+        maintinance_start: {type: "string"},
+        maintinance_end: {type: "string"},
     },
     required: ["roomID","capacity","equipment","maintinance_start","maintinance_end"],
   })
