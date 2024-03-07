@@ -1,33 +1,37 @@
-
 import Navbar from "../components/Navbar";
-import book1 from "../assets/book_1.jpg";
-import book2 from "../assets/book_2.jpg";
-import book3 from "../assets/book_3.jpg";
-import book4 from "../assets/book_4.jpg";
-import book5 from "../assets/book_5.jpg";
-import book6 from "../assets/book_7.png";
-import book7 from "../assets/book_8.png";
 import "../styles/myBooks.css";
 import socket from "../Socket";
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthProvider";
 
 type Book = {
-  id: number;
+  author: string;
+  barcode: number;
+  borrower: number;
   image: string;
-  genre: string;
+  language: string;
+  no_of_pages: number;
+  price: number;
+  publisher: string;
+  rack: number;
+  subjects: string;
   title: string;
-  copies: string;
+  type: string;
+  year_of_prod: number;
 };
 function BookTable() {
-  const [borrowedBooks, setBorrowedBooks] = useState<Book[]>([]);
+  const [borrowedBooks, setBorrowedBooks] = useState<Book[] | null>(null);
   const { accessToken } = useAuth();
   useEffect(() => {
     if (accessToken) {
-      socket.emit("get-borrowed-books", { UserToken: accessToken });
+      socket.emit("get-borrowed-books", {});
 
-      socket.on("borrowed-books-response", (response: Book[]) => {
+      socket.on("get-borrowed-books-response", (response) => {
         setBorrowedBooks(response);
+        console.log(
+          "This is the response from borrowed-books-response",
+          response
+        );
       });
 
       return () => {
@@ -36,142 +40,43 @@ function BookTable() {
     }
   }, [accessToken]);
 
-  const handleReturn = (bookId: number) => {
-    socket.emit("return-book", { accessToken });
-
-    setBorrowedBooks((prevBooks) =>
-      prevBooks.map((book) =>
-        book.id === bookId ? { ...book, copies: book.copies + 1 } : book
-      )
-    );
-  };
   return (
     <>
       <Navbar></Navbar>
-      <div className="myBooks" data-name="book-table">
-        <h1>My Books</h1>
-        <div className="myBooksBox">
-          {borrowedBooks.map((book) => (
-            <div className="myBooksCard" key={book.id}>
-              <div className="myBooksImg">
-                <img src={book.image} className="Img" />
-                <div className="myBoogTag">
-                  <p className="writer">{book.title}</p>
-                  <div className="categories">{book.genre}</div>
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleReturn(book.id);
-                    }}
-                    className="returnBtn"
-                  >
-                    Return
-                  </a>
-                </div>
+      <div className="libraryBox grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        {borrowedBooks && borrowedBooks.length > 0 ? (
+          borrowedBooks.map((book) => (
+            <div
+              className="libraryCards bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between transition-transform duration-300 ease-in-out transform hover:scale-105"
+              key={book.author}
+            >
+              <div className="libraryImage relative">
+                <img src={book.image} className="Image" alt={book.title} />
               </div>
-            </div>
-          ))}
-
-          {/* this is like a placeholder done by yaman and I will remove it as soon as I check everything is right */}
-          <div className="myBooksCard">
-            <div className="myBooksImg">
-              <img src={book1} className="Img" />
-
-              <div className="myBoogTag">
-                <p className="writer">John Deo</p>
-                <div className="categories">Thriller, Horror, Romance </div>
-                <a href="#" className="returnBtn">
-                  Return
+              <div className="libraryTag flex flex-col justify-center items-center mt-2">
+                <p className="text-xl font-semibold text-center">
+                  {book.title}
+                </p>
+                <p className="text-sm text-gray-500">{book.subjects}</p>
+                <div className="libraryIcons mt-2">
+                  <i className="fa-solid fa-star"></i>
+                  <i className="fa-solid fa-star"></i>
+                  <i className="fa-solid fa-star"></i>
+                  <i className="fa-solid fa-star"></i>
+                  <i className="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <a
+                  href="#"
+                  className="borrowBtn mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-transform duration-300 ease-in-out transform hover:scale-105"
+                >
+                  return
                 </a>
               </div>
             </div>
-          </div>
-
-          <div className="myBooksCard">
-            <div className="myBooksImg">
-              <img src={book2} className="Img" />
-            </div>
-
-            <div className="myBoogTag">
-              <p className="writer">John Deo</p>
-              <div className="categories">Thriller, Horror, Romance</div>
-              <a href="#" className="returnBtn">
-                Return
-              </a>
-            </div>
-          </div>
-
-          <div className="myBooksCard">
-            <div className="myBooksImg">
-              <img src={book3} className="Img" />
-            </div>
-
-            <div className="myBoogTag">
-              <p className="writer">John Deo</p>
-              <div className="categories">Thriller, Horror, Romance</div>
-              <a href="#" className="returnBtn">
-                Return
-              </a>
-            </div>
-          </div>
-
-          <div className="myBooksCard">
-            <div className="myBooksImg">
-              <img src={book4} className="Img" />
-            </div>
-
-            <div className="myBoogTag">
-              <p className="writer">John Deo</p>
-              <div className="categories">Thriller, Horror, Romance</div>
-              <a href="#" className="returnBtn">
-                Return
-              </a>
-            </div>
-          </div>
-
-          <div className="myBooksCard">
-            <div className="myBooksImg">
-              <img src={book5} className="Img" />
-            </div>
-
-            <div className="myBoogTag">
-              <p className="writer">John Deo</p>
-              <div className="categories">Thriller, Horror, Romance</div>
-              <a href="#" className="returnBtn">
-                Return
-              </a>
-            </div>
-          </div>
-
-          <div className="myBooksCard">
-            <div className="myBooksImg">
-              <img src={book6} className="Img" />
-            </div>
-
-            <div className="myBoogTag">
-              <p className="writer">John Deo</p>
-              <div className="categories">Thriller, Horror, Romance</div>
-              <a href="#" className="returnBtn">
-                Return
-              </a>
-            </div>
-          </div>
-
-          <div className="myBooksCard">
-            <div className="myBooksImg">
-              <img src={book7} className="Img" />
-            </div>
-
-            <div className="myBoogTag">
-              <p className="writer">John Deo</p>
-              <div className="categories">Thriller, Horror, Romance</div>
-              <a href="#" className="returnBtn">
-                Return
-              </a>
-            </div>
-          </div>
-        </div>
+          ))
+        ) : (
+          <p>No books found.</p>
+        )}
       </div>
     </>
   );
