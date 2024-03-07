@@ -33,7 +33,7 @@ import UpdateBooks from "./pages/books-managment/updateBooks.tsx";
 import AdminMain from "./pages/admin/adminMain.tsx";
 import AddRooms from "./pages/meeting-rooms/addRooms.tsx";
 import RemoveRooms from "./pages/meeting-rooms/removeRoom.tsx";
-import UpdateRoom from "./pages/meeting-rooms/updateRooms.tsx";
+// import UpdateRoom from "./pages/meeting-rooms/updateRooms.tsx";
 import GetMaintenanceRooms from "./pages/meeting-rooms/ViewMaintenance.tsx";
 import LibrarianSetting from "./pages/LibrarianSettings/Main/LibrarianSetting.tsx";
 import Add from "./pages/LibrarianSettings/Add/Add.tsx";
@@ -135,10 +135,10 @@ function Root() {
                   path="/admin/unenrolled"
                   element={<Unenrolled></Unenrolled>}
                   ></Route>
-                  <Route
+                  {/* <Route
                     path="/admin/meeting-rooms-update"
                     element={<UpdateRoom />}
-                  ></Route>
+                  ></Route> */}
                   <Route
                     path="/admin/getMaintenanceRooms"
                     element={<GetMaintenanceRooms></GetMaintenanceRooms>}
