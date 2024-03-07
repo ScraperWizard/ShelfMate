@@ -1,7 +1,7 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 const command = new ServerCommandBuilder("view-unenrolled-students")
-  .setAccessLevel(UserAccessLevels.LIBRARIAN)
+  .setAccessLevel(UserAccessLevels.ADMIN)
   .setOutgoingChannel("view-unenrolled-students-response")
   .setIncomingValidationSchema({
     type: "object",
