@@ -20,7 +20,7 @@ function AddRooms() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
   
-    const parsedValue = name.includes("maintinance") ? new Date(value) : value;
+    const parsedValue =  value;
   
     setFormData((prevFormData) => ({
       ...prevFormData,
