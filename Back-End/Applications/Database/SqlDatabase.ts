@@ -542,7 +542,7 @@ class MySqlDB implements Database {
   }
 
   async viewEnrolledStudents(): Promise <object>| null{
-    const results = await this.connection.execute(`SELECT * FROM users WHERE enrolled=1 AND type="student"`);
+    const results = await this.connection.execute(`SELECT * FROM users WHERE enrolled=1 AND user_type="student"`);
     if (results[0].length === 0) {
       return null;
     } else {
@@ -552,7 +552,7 @@ class MySqlDB implements Database {
   }
 
   async  viewUnEnrolledStudents(): Promise<object> | null{
-    const results = await this.connection.execute(`SELECT * FROM users WHERE enrolled=0 AND type="student"`);
+    const results = await this.connection.execute(`SELECT * FROM users WHERE enrolled=0 AND user_type="student"`);
     if (results[0].length === 0) {
       return null;
     } else {
@@ -640,6 +640,48 @@ class MySqlDB implements Database {
   async createLog({ event, details, initiator }: { event: string; details: string; initiator: number }): Promise<void> {
     await this.connection.execute(`INSERT INTO Logs (event,details,initiator) VALUES (?,?,?)`, [event, details, initiator]);
   }
+
+  async adduser({username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
+    {username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>{
+    try {
+      let enrolled=0;
+      if(userType=="librarian" || userType=="admin"){
+         enrolled=1;
+      }
+      
+
+      await this.connection.execute(
+        `INSERT INTO users (username, password, first_name, last_name, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,?)`,
+        [username, password, firstName, lastName,emailAddress, phoneNum,enrolled,userType]
+      );
+
+      const userQ =await this.connection.execute(`SELECT id from users WHERE username='${username}'`) 
+      const userID=userQ[0][0].id;
+      await this.connection.execute(`INSERT INTO Address (City,Street_name,userID) VALUES ('${city}','${street_name}',${userID})`);
+      this.createLog({ event: "register", details: `User ${username} registered`, initiator: initiator});
+    } catch (error) {
+      if (error.code === "ER_DUP_ENTRY") {
+        throw new Error("Username already exists");
+      }
+
+      throw new Error(error.message);
+    }
+  }
+    async deleteUser({id,initiator,initiatorName}:
+    {id:number,initiator:number,initiatorName:string}): Promise<void>{
+      await this.connection.execute(`DELETE FROM users WHERE id=?`, [id]);
+      this.createLog({ event: "delete", details: `User ${initiatorName} deleted user ${id}`, initiator: initiator });
+    }
+    async updateUser({id,username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
+      {id:number,username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>{
+      await this.connection.execute(`UPDATE users SET username=?,password=?,first_name=?,last_name=?,email_address=?,mobile_number=?,user_type=? WHERE id=?`, [username,password,firstName,lastName,emailAddress,phoneNum,userType,id]);
+      this.createLog({ event: "update", details: `User ${initiatorName} updated user ${id}`, initiator: initiator });
+      }
+      async changePassword({oldPassword,newPassword,initiator,initiatorName}:
+      {oldPassword:string,newPassword:string,initiator:number,initiatorName:string}): Promise<void>{
+        await this.connection.execute(`UPDATE users SET password=? WHERE id=?`, [newPassword,initiator]);
+        this.createLog({ event: "change password", details: `User ${initiatorName} changed password`, initiator: initiator });
+      }
 }
 
 export default MySqlDB;

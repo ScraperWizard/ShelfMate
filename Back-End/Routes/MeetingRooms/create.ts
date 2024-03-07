@@ -20,6 +20,8 @@ const command = new ServerCommandBuilder("add-room")
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
+
+
   const username= Client.getName()
   const userID = await Database.getUserIdByName({username});
   const {capacity, equipment,maintinance_start, maintinance_end} = Data;

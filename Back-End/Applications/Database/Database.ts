@@ -181,7 +181,14 @@ abstract class Database {
   abstract viewUnEnrolledStudents(): Promise <object>| null;
   abstract isStudentEnrolled(id:number): Promise<boolean>;
   abstract enrollStudent(id:number,initiator:number): Promise<void>;
-
+  abstract adduser({username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
+    {username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>;
+  abstract deleteUser({id,initiator,initiatorName}:
+    {id:number,initiator:number,initiatorName:string}): Promise<void>;
+    abstract updateUser({id,username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
+      {id:number,username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>;
+    abstract changePassword({oldPassword,newPassword,initiator,initiatorName}:
+      {oldPassword:string,newPassword:string,initiator:number,initiatorName:string}): Promise<void>;
 }
 
 enum DatabaseState {
