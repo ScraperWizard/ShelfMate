@@ -1,3 +1,4 @@
+import { error } from "ajv/dist/vocabularies/applicator/dependencies.js";
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 import { v4 as uuidv4 } from "uuid";
@@ -39,6 +40,8 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
   } else {
     UserData = await Database.authenticateUser({ username, password });
 
+    
+
     if (UserData) {
       const newAccessToken = uuidv4();
       await Database.addAccessToken({ id: UserData.id, newAccessToken });
@@ -55,6 +58,15 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       error: "Invalid username or password!",
     };
   }
+  else if(UserData.active==0){
+    return {
+      notification: {
+        type: "error",
+        message: "Account is deactivated!",
+      },
+    };
+  }
+  
 
   Client.setName(UserData.username);
   Client.setId(UserData.id);

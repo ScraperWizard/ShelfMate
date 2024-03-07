@@ -3,6 +3,7 @@ import mysql from "mysql2/promise";
 import jwt from "jsonwebtoken";
 import { register } from "ts-node";
 import { error } from "ajv/dist/vocabularies/applicator/dependencies.js";
+import Client from "Components/Client/Client.js";
 
 class MySqlDB implements Database {
   private connection: any;
@@ -47,9 +48,10 @@ class MySqlDB implements Database {
     const results = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [username, password]);
    
     
+    
     if (results[0].length === 0) {
       return false;
-    } else {
+    }  else {
       this.createLog({ event: "login", details: `User ${username} logged in`, initiator: results[0][0].id });
       return results[0][0];
     }
@@ -658,7 +660,7 @@ class MySqlDB implements Database {
       const userQ =await this.connection.execute(`SELECT id from users WHERE username='${username}'`) 
       const userID=userQ[0][0].id;
       await this.connection.execute(`INSERT INTO Address (City,Street_name,userID) VALUES ('${city}','${street_name}',${userID})`);
-      this.createLog({ event: "register", details: `User ${username} registered`, initiator: initiator});
+      this.createLog({ event: "register", details: `User ${initiatorName} added new user ${username}`, initiator: initiator});
     } catch (error) {
       if (error.code === "ER_DUP_ENTRY") {
         throw new Error("Username already exists");
@@ -667,10 +669,10 @@ class MySqlDB implements Database {
       throw new Error(error.message);
     }
   }
-    async deleteUser({id,initiator,initiatorName}:
+    async deactivateUser({id,initiator,initiatorName}:
     {id:number,initiator:number,initiatorName:string}): Promise<void>{
-      await this.connection.execute(`DELETE FROM users WHERE id=?`, [id]);
-      this.createLog({ event: "delete", details: `User ${initiatorName} deleted user ${id}`, initiator: initiator });
+      await this.connection.execute(`UPDATE users SET active=0 WHERE id=?`, [id]);
+      this.createLog({ event: "deactivate", details: `User ${initiatorName} deactivated user ${id}`, initiator: initiator });
     }
     async updateUser({id,username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
       {id:number,username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>{

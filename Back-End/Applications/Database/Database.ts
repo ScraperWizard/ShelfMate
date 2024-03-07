@@ -183,7 +183,7 @@ abstract class Database {
   abstract enrollStudent(id:number,initiator:number): Promise<void>;
   abstract adduser({username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
     {username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>;
-  abstract deleteUser({id,initiator,initiatorName}:
+  abstract deactivateUser({id,initiator,initiatorName}:
     {id:number,initiator:number,initiatorName:string}): Promise<void>;
     abstract updateUser({id,username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
       {id:number,username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>;
