@@ -47,6 +47,21 @@ function MeetingRooms({ children }: any) {
                   Add a meeting Room
                 </li>
               </Link>
+
+              <Link
+                to="/admin/allRooms"
+                onClick={() => handleLinkClick("all")}
+              >
+                <li
+                  className={`mt-5 cursor-pointer border-l-blue-700 px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
+                    activeLink === "all" ? "text-blue-700 border-l-2" : ""
+                  }`}
+                  onClick={() => handleLinkClick("all")}
+                >
+                  View all meeting rooms
+                </li>
+              </Link>
+
               <Link
                 to="/admin/getMaintenanceRooms"
                 onClick={() => handleLinkClick("main")}

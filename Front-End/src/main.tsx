@@ -52,6 +52,7 @@ import ManageStudents from "./pages/students-management/ManageStudents.tsx";
 import AllStudents from "./pages/students-management/AllStudents.tsx";
 import Enrolled from "./pages/students-management/EnrolledStudents.tsx";
 import Unenrolled from "./pages/students-management/UnerolledStudents.tsx";
+import AllRooms from "./pages/meeting-rooms/AllRooms.tsx";
 function Root() {
   return (
     <>
@@ -110,6 +111,10 @@ function Root() {
                   <Route
                     path="/admin/meeting-rooms-add"
                     element={<AddRooms />}
+                  ></Route>
+                  <Route
+                  path="/admin/allRooms"
+                  element={<AllRooms></AllRooms>}
                   ></Route>
                   <Route
                     path="/admin/meeting-rooms-remove"
