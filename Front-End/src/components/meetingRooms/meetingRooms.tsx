@@ -130,37 +130,7 @@ function MeetingRooms({ children }: any) {
           </div>
         </div>
       </div>
-      {/* <BookModal isVisible={showModal} onClose={() => setShowModal(false)}>
-        <div className="p-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-5">
-            Remove a book
-          </h3>
-          <form>
-            <div className="mb-4">
-              <label
-                htmlFor="barcode"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Barcode of the book to be removed
-              </label>
-              <input
-                type="number"
-                id="barcode"
-                name="barcode"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <div className="mb-4">
-              <button
-                type="submit"
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Remove Book
-              </button>
-            </div>
-          </form>
-        </div>
-      </BookModal> */}
+      
     </Fragment>
   );
 }

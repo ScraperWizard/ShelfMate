@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MeetingRooms from "../../components/meetingRooms/meetingRooms";
 import socket from "../../Socket";
-import MeetingRoom from "../../components/MeetingRoom";
+import MeetingRoom from "./template/MeetingRoom";
 import { useAuth } from "../../context/AuthProvider";
 import SettingsModal from "../../components/LibrarianPanel/settings/SettingsModal";
 interface Room {
