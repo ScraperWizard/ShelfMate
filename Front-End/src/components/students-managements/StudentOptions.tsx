@@ -1,71 +1,14 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
-function StudentOptions({children}: any) {
+function StudentOptions({ children }: any) {
   const [activeLink, setActiveLink] = useState("");
   const handleLinkClick = (link: string) => {
     setActiveLink(link);
   };
   return (
     <Fragment>
-      {/* <div className="col-span-2 hidden sm:block">
-        <ul>
-          <Link
-            to="/library/settings/view"
-            className={`mt-5 cursor-pointer border-l-blue-700 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
-              activeLink === "viewStudent" ? "text-blue-700 border-l-2" : ""
-            }`}
-            onClick={() => handleLinkClick("viewStudent")}
-          >
-            <li
-              className={`mt-5 cursor-pointer border-l-blue-700 px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
-                activeLink === "enroll" ? "text-blue-700 border-l-2" : ""
-              }`}
-              onClick={() => handleLinkClick("enroll")}
-            >
-              View enrolled students
-            </li>
-          </Link>
-          <Link
-            to="/library/settings/add"
-            className={`mt-5 cursor-pointer border-l-blue-700 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
-              activeLink === "unenroll" ? "text-blue-700 border-l-2" : ""
-            }`}
-            onClick={() => handleLinkClick("unenroll")}
-          >
-            <li
-              className={`mt-5 cursor-pointer border-l-blue-700 px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
-                activeLink === "addBooks" ? "text-blue-700 border-l-2" : ""
-              }`}
-              onClick={() => handleLinkClick("addBooks")}
-            >
-              View Unenrolled students
-            </li>
-          </Link>
-          <Link
-            to="/library/settings/update"
-            className={`mt-5 cursor-pointer border-l-blue-700 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
-              activeLink === "updateBooks" ? "text-blue-700 border-l-2" : ""
-            }`}
-            onClick={() => handleLinkClick("updateBooks")}
-          >
-            <li
-              className={`mt-5 cursor-pointer border-l-blue-700 px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
-                activeLink === "manage" ? "text-blue-700 border-l-2" : ""
-              }`}
-              onClick={() => handleLinkClick("manage")}
-            >
-              Manage students
-            </li>
-          </Link>
-        </ul>
-      </div>
-
-      <div className="col-span-8 overflow-hidden rounded-xl sm:bg-gray-50 sm:px-8 sm:shadow">
-        {children}
-      </div> */}
-
-<div
+      <div
         className="mx-4 min-h-screen max-w-screen-xl sm:mx-8 xl:mx-auto"
         data-name="settings"
       >
@@ -85,7 +28,7 @@ function StudentOptions({children}: any) {
           <div className="col-span-2 hidden sm:block">
             <ul>
               <Link
-                to="/admin/meeting-rooms-add"
+                to="/admin/manageStudents"
                 onClick={() => handleLinkClick("view")}
               >
                 <li
@@ -98,7 +41,7 @@ function StudentOptions({children}: any) {
                 </li>
               </Link>
               <Link
-                to="/admin/getMaintenanceRooms"
+                to="/admin/Enrolled"
                 onClick={() => handleLinkClick("enrolled")}
               >
                 <li
@@ -111,12 +54,14 @@ function StudentOptions({children}: any) {
                 </li>
               </Link>
               <Link
-                to="/admin/reservedRooms"
+                to="/admin/unenrolled"
                 onClick={() => handleLinkClick("unenrolled")}
               >
                 <li
                   className={`mt-5 cursor-pointer border-l-blue-700 px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
-                    activeLink === "unenrolled" ? "text-blue-700 border-l-2" : ""
+                    activeLink === "unenrolled"
+                      ? "text-blue-700 border-l-2"
+                      : ""
                   }`}
                   onClick={() => handleLinkClick("unenrolled")}
                 >

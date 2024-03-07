@@ -14,21 +14,21 @@ interface Student {
   user_type: string;
 }
 
-function AllStudents() {
+function Unenrolled() {
   const [students, setStudents] = useState<Student[]>([]);
 
   useEffect(() => {
-    socket.emit("view-all-students", {});
+    socket.emit("view-unenrolled-students", {});
 
-    socket.on("view-all-students-response", (response: Student[]) => {
+    socket.on("view-unenrolled-students-response", (response: Student[]) => {
       console.log(
-        "This is the response from the viewing all students",
+        "This is the response from the viewing enrolled students",
         response
       );
       setStudents(response); 
     });
     return () => {
-      socket.off("view-all-students-response");
+      socket.off("view-enrolled-students-response");
     };
   }, []);
 
@@ -55,8 +55,12 @@ function AllStudents() {
             {student.enrolled === 1 ? "Enrolled" : "Not Enrolled"}
           </p>
 
+          <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-3">
+            Accept
+          </button>
+
           <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Edit
+            Reject
           </button>
         </div>
       ))}
@@ -65,4 +69,4 @@ function AllStudents() {
   );
 }
 
-export default AllStudents;
+export default Unenrolled;

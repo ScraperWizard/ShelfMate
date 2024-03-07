@@ -50,6 +50,8 @@ import ReservedRooms from "./pages/ReservedRooms.tsx";
 import ReservedRoomsLib from "./pages/meeting-rooms/ReservedRooms.tsx";
 import ManageStudents from "./pages/students-management/ManageStudents.tsx";
 import AllStudents from "./pages/students-management/AllStudents.tsx";
+import Enrolled from "./pages/students-management/EnrolledStudents.tsx";
+import Unenrolled from "./pages/students-management/UnerolledStudents.tsx";
 function Root() {
   return (
     <>
@@ -113,16 +115,21 @@ function Root() {
                     path="/admin/meeting-rooms-remove"
                     element={<RemoveRooms />}
                   ></Route>
-                  {/* <Route
-                  path="/admin/manageStudents"
-                  element={<ManageStudents></ManageStudents>}
-                  ></Route> */}
+                  
                   <Route
                   path="/admin/manageStudents"
                   element={<AllStudents></AllStudents>}
                   >
 
                   </Route>
+                  <Route
+                  path="/admin/Enrolled"
+                  element={<Enrolled></Enrolled>}
+                  ></Route>
+                  <Route
+                  path="/admin/unenrolled"
+                  element={<Unenrolled></Unenrolled>}
+                  ></Route>
                   <Route
                     path="/admin/meeting-rooms-update"
                     element={<UpdateRoom />}
