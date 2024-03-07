@@ -38,7 +38,7 @@ function ReservedRoomsLib() {
       <MeetingRooms data-name="meeting-rooms-add">
         <div className="pt-4 div" data-name="add-book-admin">
           <h1 className="py-2 text-2xl font-semibold">
-            View maintenance meeting rooms
+            View reserved meeting rooms
           </h1>
         </div>
         <div className="p-6" style={{ maxHeight: "500px", overflowY: "auto" }}>
