@@ -18,7 +18,7 @@ async function callback({ Database,Data,Client }: CommandExecuteArguments) {
     try{
         const studentID = Data.userID;
         const initiator = Client.getId();
-        if(Database.isStudentEnrolled(studentID)){
+        if(!Database.isStudentEnrolled(studentID)){
             return{
                 notification: {
                     type: "error",
