@@ -78,6 +78,14 @@ const LibSidebar = () => {
                 <span className="menu-link-text">Add Magazine</span>
               </Link>
             </li>
+            <li className="menu-item">
+              <Link to="/Librarian-setting/reservedRooms" className={`menu-link ${activeLink === 'reserve' ? 'active' : ''}`} onClick={() => handleLinkClick('reserve')}>
+                <span className="menu-link-icon">
+                <MdOutlineAmpStories size={20} />
+                </span>
+                <span className="menu-link-text">test for reserved rooms</span>
+              </Link>
+            </li>
             
           </ul>
           </div>
