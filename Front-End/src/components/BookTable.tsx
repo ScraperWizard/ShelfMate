@@ -40,6 +40,19 @@ function BookTable() {
     }
   }, [accessToken]);
 
+  const handleReturnBook = (bookId: number) => {
+    socket.emit("return-book", { bookId: bookId });
+    socket.on("return-book-response", (response) => {
+      socket.emit("get-borrowed-books", {});
+      socket.on("get-borrowed-books-response", (response) => {
+        console.log("book with the barcode", bookId, "is returned");
+      });
+      return () => {
+        socket.off("borrowed-books-response");
+      };
+    });
+  }
+
   return (
     <>
       <Navbar></Navbar>
@@ -68,6 +81,7 @@ function BookTable() {
                 <a
                   href="#"
                   className="borrowBtn mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-transform duration-300 ease-in-out transform hover:scale-105"
+                  onClick={() => handleReturnBook(book.barcode)}
                 >
                   return
                 </a>
