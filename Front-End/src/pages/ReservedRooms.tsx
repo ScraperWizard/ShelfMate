@@ -23,19 +23,12 @@ const ReserveRooms: React.FC = () => {
 
   useEffect(() => {
     if (accessToken) {
-      socket.emit("get-reserved-rooms", { userToken: accessToken });
+      socket.emit("get-reserved-mr", {});
 
-      socket.on("cancel-room-response", (response) => {
-        const filteredRooms = response.map((room: Room) => ({
-          id: room.id,
-          availablity: room.availablity,
-          capacity: room.capacity,
-          equipment: room.equipment,
-          maintinance_end: room.maintinance_end,
-          maintenance_start: room.maintenance_start,
-        }));
+      socket.on("get-reserved-mr-response", (response) => {
+        console.log("This is the response from the get reserved meeting rooms", response)
 
-        setMeetingRooms(filteredRooms);
+        setMeetingRooms(response);
       });
     }
   }, [accessToken]);
