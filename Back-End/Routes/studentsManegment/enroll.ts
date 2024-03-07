@@ -6,7 +6,7 @@ const command = new ServerCommandBuilder("enrolled-student")
   .setIncomingValidationSchema({
     type: "object",
     additionalProperties: false,
-    properties: {userID: { type: "number" } },
+    properties: {userID: { type: "number"} },
     required: ["userID"],
   })
   .setExecute(callback)
@@ -14,11 +14,11 @@ const command = new ServerCommandBuilder("enrolled-student")
   .build();
 
 async function callback({ Database,Data,Client }: CommandExecuteArguments) {
-
+    
     try{
-        const studentID = Data.userID;
+        const studentID = Data.userId;
         const initiator = Client.getId();
-        if(!Database.isStudentEnrolled(studentID)){
+        if(await Database.isStudentEnrolled(studentID)==true){
             return{
                 notification: {
                     type: "error",
