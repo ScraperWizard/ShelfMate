@@ -174,7 +174,7 @@ abstract class Database {
   abstract viewEnrolledStudents(): Promise <object>| null;
   abstract viewUnEnrolledStudents(): Promise <object>| null;
   abstract isStudentEnrolled(id:number): Promise<boolean>;
-  abstract enrollStudent(id:number,initiatorID:number): Promise<void>;
+  abstract enrollStudent(id:number,initiator:number): Promise<void>;
 
 }
 
