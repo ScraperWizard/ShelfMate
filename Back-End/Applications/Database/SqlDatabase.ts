@@ -494,7 +494,7 @@ class MySqlDB implements Database {
   }
 
   async  reserveMeetingRoom({ roomID, userID }: { roomID: number; userID: number; }): Promise<void> {
-    await this.connection.execute(`UPDATE meeting_rooms SET availablity=0 Reserver_SID=? WHERE roomID=?`, [userID,roomID]);
+    await this.connection.execute(`UPDATE meeting_rooms SET availablity=0 , Reserver_SID=? WHERE roomID=?`, [userID,roomID]);
     this.createLog({ event: "reserve", details: `User ${userID} reserved room ${roomID}`, initiator: userID });
   }
 
