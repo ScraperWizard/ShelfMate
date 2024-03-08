@@ -16,6 +16,7 @@ const command = new ServerCommandBuilder("deactivate-user")
   .build();
 
 async function callback({ Client, Data, Database }: CommandExecuteArguments) {
+    console.log(Data, "deactivate Data");
     const initiatorName=Client.getName();
     const initiator = await Database.getUserIdByName({username:initiatorName});
     const id = Data.id;
@@ -23,7 +24,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
 
   try {
     const books=await Database.getBooksBorrowedByUserId({id});
-    if(books[0].length>0){
+    if(books){
         return {
             notification: {
             type: "error",
@@ -33,6 +34,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
         };
         }
         else{           
+            console.log({id,initiator,initiatorName},"data for deactivation");
             await Database.deactivateUser({id,initiator,initiatorName});
             return {
             notification: {

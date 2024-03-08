@@ -67,6 +67,10 @@ class MySqlDB implements Database {
     }
   }
 
+  async dropSearch(): Promise<void> {
+    await this.connection.execute(` DROP TEMPORARY TABLE IF EXISTS SearchResultTable`);
+  }
+
   async generateJsonWebToken({ username }: { username: string }): Promise<Object> | null {
     // await this.connection.execute(`INSERT INTO access_tokens (token) VALUES (?)`, []);
     return null;
@@ -82,7 +86,8 @@ class MySqlDB implements Database {
     }
   }
   async getSearchBooks({ search }: { search: string }): Promise<Object> | null {
-    const results = await this.connection.execute(`SELECT * FROM inventory WHERE title LIKE ?`, [`%${search}%`]);
+   
+    const results = await this.connection.execute(`CALL SearchBooks(?)`,[search]);
 
     if (results[0].length === 0) {
       return null;

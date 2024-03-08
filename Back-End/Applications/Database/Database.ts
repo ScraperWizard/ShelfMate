@@ -187,11 +187,12 @@ abstract class Database {
     {username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>;
   abstract deactivateUser({id,initiator,initiatorName}:
     {id:number,initiator:number,initiatorName:string}): Promise<void>;
-    abstract updateUser({id,username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
+  abstract updateUser({id,username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
       {id:number,username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>;
-    abstract changePassword({oldPassword,newPassword,initiator,initiatorName}:
+  abstract changePassword({oldPassword,newPassword,initiator,initiatorName}:
       {oldPassword:string,newPassword:string,initiator:number,initiatorName:string}): Promise<void>;
-      abstract getMyCards({id}:{id:number}): Promise<Object>;
+  abstract getMyCards({id}:{id:number}): Promise<Object>;
+  abstract dropSearch(): Promise<void>;
 }
 
 enum DatabaseState {
