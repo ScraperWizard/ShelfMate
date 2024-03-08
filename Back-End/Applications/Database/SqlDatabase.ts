@@ -730,6 +730,10 @@ class MySqlDB implements Database {
           const result = await this.connection.execute(`SELECT * FROM overdue_inventory_view`);
           return result[0];
       }
+      async  roomCheckout({ roomID, userID, username }: { roomID: number; userID: number; username: string; }): Promise<void> {
+        await this.connection.execute(`UPDATE meeting_rooms SET availablity=1 , Reserver_SID=NULL WHERE Reserver_SID=? AND id=?`, [userID,roomID]);
+        this.createLog({ event: "checkout", details: `User ${username} checked out room ${roomID}`, initiator: userID });
+      }
 }
 
 export default MySqlDB;
