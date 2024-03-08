@@ -1,44 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MeetingRoom from "../components/MeetingRoom";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 import socket from "../Socket";
+
 interface Room {
   Reserver_SID: any;
-  availablity: number,
-  capacity: number,
-  equipment: string,
-  id: number,
-  maintinance_end: string,
-  maintenance_start: string,
+  availablity: number;
+  capacity: number;
+  equipment: string;
+  id: number;
+  maintinance_end: string;
+  maintenance_start: string;
 }
 
 const MeetingRoomsPage: React.FC = () => {
   const [meetingRooms, setMeetingRooms] = useState<Room[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
-    socket.emit("get-meeting-rooms");
+    console.log("Getting meeting rooms",{query: searchQuery} );
+    socket.emit("get-meeting-rooms", {query: searchQuery});
 
     socket.on("get-meeting-rooms-response", (message) => {
       console.log(message);
 
-      const filteredRooms = message.map((room: Room) => ({
-        id: room.id,
-        availablity: room.availablity,
-        capacity: room.capacity,
-        equipment: room.equipment,
-        maintinance_end: room.maintinance_end,
-        maintenance_start: room.maintenance_start,
-      }));
 
-      setMeetingRooms(filteredRooms);
+
+      setMeetingRooms(message);
     });
 
     return () => {
       socket.off("meetingRoomsData");
     };
-  }, []);
+  }, [searchQuery]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
 
   return (
     <>
@@ -47,7 +47,15 @@ const MeetingRoomsPage: React.FC = () => {
         className="container mx-auto flex flex-col items-center h-screen mt-10 px-12"
         data-name="meeting-room"
       >
-        {/* <h1 className="text-3xl font-bold mb-4">Meeting Rooms</h1> */}
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search meeting rooms by equipment..."
+            value={searchQuery}
+            onChange={handleSearch}
+            className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
         <div className="mb-4">
           <Link
             to="/meeting-room"
@@ -65,6 +73,7 @@ const MeetingRoomsPage: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {meetingRooms.map((room) => (
             <MeetingRoom
+              key={room.id}
               id={room.id}
               Reserver_SID={room.Reserver_SID}
               maintinance_end={room.maintinance_end}
