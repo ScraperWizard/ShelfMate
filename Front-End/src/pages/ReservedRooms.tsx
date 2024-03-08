@@ -26,7 +26,10 @@ const ReserveRooms: React.FC = () => {
       socket.emit("get-reserved-mr", {});
 
       socket.on("get-reserved-mr-response", (response) => {
-        console.log("This is the response from the get reserved meeting rooms", response)
+        console.log(
+          "This is the response from the get reserved meeting rooms",
+          response
+        );
 
         setMeetingRooms(response);
       });
@@ -55,17 +58,22 @@ const ReserveRooms: React.FC = () => {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {meetingRooms.map((room) => (
-            <MeetingRoom
-              id={room.id}
-              Reserver_SID={room.Reserver_SID}
-              maintinance_end={room.maintinance_end}
-              maintenance_start={room.maintenance_start}
-              equipment={room.equipment}
-              availablity={room.availablity}
-              capacity={room.capacity}
-            />
-          ))}
+          {meetingRooms.length > 0 ? (
+            meetingRooms.map((room) => (
+              <MeetingRoom
+                key={room.id}
+                id={room.id}
+                Reserver_SID={room.Reserver_SID}
+                maintinance_end={room.maintinance_end}
+                maintenance_start={room.maintenance_start}
+                equipment={room.equipment}
+                availablity={room.availablity}
+                capacity={room.capacity}
+              />
+            ))
+          ) : (
+            <p>No meeting rooms available</p>
+          )}
         </div>
       </div>
     </>
