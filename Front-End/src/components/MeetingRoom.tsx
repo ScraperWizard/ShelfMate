@@ -38,6 +38,20 @@ const MeetingRoom: React.FC<MeetingRoomProps> = ({
 
     });
   }
+  const handleUnreserve = (roomId: number) => {
+    console.log("Unreserving room with id", { roomId: roomId});
+    socket.emit("check-out", {roomID: roomId});
+
+
+    socket.on("check-out-response", (response) => {
+      console.log(
+        "This is the response for un reserving a room",
+        response
+      );
+
+    });
+  }
+  
 
   return (
     <div className="max-w-lg w-full lg:flex hover:shadow-lg transform hover:scale-105 transition-all mb-4 mr-4">
@@ -74,7 +88,7 @@ const MeetingRoom: React.FC<MeetingRoomProps> = ({
               ) : (
                 <button
                   className="bg-gray-300 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  disabled
+                  onClick={() => handleUnreserve(id)}
                 >
                   Not Available
                 </button>
