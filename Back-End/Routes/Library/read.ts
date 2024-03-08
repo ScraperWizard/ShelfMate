@@ -16,7 +16,7 @@ const command = new ServerCommandBuilder("get-library-books")
   .build();
 
 async function callback({ Database,Data }: CommandExecuteArguments) {
-  if(Data.query=="") {
+  if(Data==null||Data.query=="") {
   const books: any = await Database.getAvailableBooks();
   return books;
   }
