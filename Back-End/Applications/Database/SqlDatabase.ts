@@ -734,6 +734,11 @@ class MySqlDB implements Database {
         await this.connection.execute(`UPDATE meeting_rooms SET availablity=1 , Reserver_SID=NULL WHERE Reserver_SID=? AND id=?`, [userID,roomID]);
         this.createLog({ event: "checkout", details: `User ${username} checked out room ${roomID}`, initiator: userID });
       }
+
+        async  roomsSearch({ search }: { search: string; }): Promise<Object> {
+        const results = await this.connection.execute(`CALL searchRooms(?)`, [search]);
+        return results[0];
+      }
 }
 
 export default MySqlDB;

@@ -5,16 +5,29 @@ const command = new ServerCommandBuilder("get-meeting-rooms")
   .setOutgoingChannel("get-meeting-rooms-response")
   .setIncomingValidationSchema({
     type: "object",
-    additionalProperties: false,
-    properties: {},
+    additionalProperties: true,
+    properties: {
+      query: { type: "string" },
+    },
+    required: [],
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
-async function callback({ Database }: CommandExecuteArguments) {
-  const meetingRooms: any = await Database.getMeetingRooms();
-  return meetingRooms;
+async function callback({ Database,Data }: CommandExecuteArguments) {
+  if(Data==null||Data.query=="") {
+    const meetingRooms: any = await Database.getMeetingRooms();
+    return meetingRooms;
+    }
+    else{
+      const query = Data.query.toString();
+      console.log(query);
+      const meetingRooms: any = await Database.roomsSearch({ search: query});
+      return meetingRooms[0];
+
+    }
+  
 }
 
 export default command;

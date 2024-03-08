@@ -7,20 +7,29 @@ const command = new ServerCommandBuilder("check-out")
     type: "object",
     additionalProperties: false,
     properties: {
-        roomId: { type: "number" },
-    },required:["roomId"]
+        roomID: { type: "number" },
+    },required:["roomID"]
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
 async function callback({ Database,Data,Client }: CommandExecuteArguments) {
+    console.log(Data);
     const username = Client.getName();
     const userID= await Database.getUserIdByName({username});
 
   try {
-    const roomID = Data.roomId;
+    const roomID = Data.roomID;
     await Database.roomCheckout({roomID,userID,username});
+
+    return {
+        notification: {
+        type: "success",
+        message: "Room checked out successfully!",
+        },
+        error: false,
+    };
 }catch(error){
     console.log(error);
     return {
