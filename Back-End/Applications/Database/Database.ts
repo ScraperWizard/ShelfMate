@@ -194,6 +194,7 @@ abstract class Database {
   abstract getMyCards({id}:{id:number}): Promise<Object>;
   abstract dropSearch(): Promise<void>;
   abstract getMyMeetingRooms({id}:{id:number}): Promise<Object>;
+  abstract getOverdueBooks(): Promise<Object>;
 }
 
 enum DatabaseState {

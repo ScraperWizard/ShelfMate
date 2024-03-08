@@ -130,7 +130,7 @@ class MySqlDB implements Database {
   }
 
   async acceptRequest(barcode: number, borrower: number): Promise<void> {
-    await this.connection.execute("UPDATE inventory SET borrower = ? WHERE barcode = ?", [borrower, barcode]);
+    await this.connection.execute("UPDATE inventory SET borrower = ?,borrow_date=CURDATE() WHERE barcode = ?", [borrower, barcode]);
     this.createLog({ event: "borrow", details: `User ${borrower} borrowed book ${barcode}`, initiator: borrower });
     await this.connection.execute("DELETE FROM requests WHERE barcode = ?", [barcode]);
     console.log("deleted");
@@ -725,6 +725,10 @@ class MySqlDB implements Database {
        async  getMyCards({ id }: { id: number; }): Promise<Object> {
         const results = await this.connection.execute(`SELECT * FROM cards WHERE user_id=?`, [id]);
         return results[0];
+      }
+      async  getOverdueBooks(): Promise<Object> {
+          const result = await this.connection.execute(`SELECT * FROM overdue_inventory_view`);
+          return result[0];
       }
 }
 
