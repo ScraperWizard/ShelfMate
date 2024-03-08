@@ -3,7 +3,7 @@ import socket from "../../Socket";
 import SettingsPanel from "../../components/settings/settingsModal";
 import { useAuth } from "../../context/AuthProvider";
 
-function Settings() {
+function SettingsLib() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newpasswordConfirm, setConfirmPassword] = useState("");
@@ -94,4 +94,4 @@ function Settings() {
   );
 }
 
-export default Settings;
+export default SettingsLib;

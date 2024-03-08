@@ -71,7 +71,7 @@ function StudentOptions({ children }: any) {
                 </li>
               </Link>
               <Link
-                to="/admin/meeting-rooms-update"
+                to="/admin/add-students"
                 className={`mt-5 cursor-pointer border-l-blue-700 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
                   activeLink === "upcoming" ? "text-blue-700 border-l-2" : ""
                 }`}
@@ -83,7 +83,7 @@ function StudentOptions({ children }: any) {
                   }`}
                   onClick={() => handleLinkClick("upcoming")}
                 >
-                  Manage upcoming students
+                  Add students
                 </li>
               </Link>
             </ul>

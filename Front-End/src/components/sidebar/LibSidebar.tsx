@@ -85,7 +85,7 @@ const LibSidebar = () => {
           <div className="sidebar-menu sidebar-menu2">
           <ul className="menu-list">
             <li className="menu-item">
-              <Link to="" className={`menu-link ${activeLink === 'Settings' ? 'active' : ''}`} onClick={() => handleLinkClick('Settings')}>
+              <Link to="/Librarian-setting/Settings" className={`menu-link ${activeLink === 'Settings' ? 'active' : ''}`} onClick={() => handleLinkClick('Settings')}>
                 <span className="menu-link-icon">
                   <MdOutlineSettings size={20} />
                 </span>

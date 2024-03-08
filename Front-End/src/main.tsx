@@ -53,6 +53,8 @@ import AllStudents from "./pages/students-management/AllStudents.tsx";
 import Enrolled from "./pages/students-management/EnrolledStudents.tsx";
 import Unenrolled from "./pages/students-management/UnerolledStudents.tsx";
 import AllRooms from "./pages/meeting-rooms/AllRooms.tsx";
+import SettingsLib from "./pages/LibrarianSettings/Settings.tsx";
+import AddStudents from "./pages/students-management/ManageStudents.tsx";
 function Root() {
   return (
     <>
@@ -128,6 +130,12 @@ function Root() {
 
                   </Route>
                   <Route
+                  path="/admin/add-students"
+                  element={<AddStudents></AddStudents>}
+                  >
+
+                  </Route>
+                  <Route
                   path="/admin/Enrolled"
                   element={<Enrolled></Enrolled>}
                   ></Route>
@@ -164,6 +172,7 @@ function Root() {
                     element={<LibMain></LibMain>}
                     path="/Librarian-setting"
                   ></Route>
+                   <Route path="/Librarian-setting/Settings" element={<SettingsLib />}></Route>
                   <Route
                     path="/Librarian-setting/settings/view"
                     element={<View></View>}
