@@ -498,6 +498,16 @@ class MySqlDB implements Database {
 
   }
 
+  async getMyMeetingRooms({id}:{id:number}): Promise<Object>{
+    const results = await this.connection.execute(`SELECT * FROM meeting_rooms WHERE Reserver_SID=?`,[id]);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0];
+    }
+  }
+
   async getAllMeetingRooms(): Promise <object>| null{
     const results = await this.connection.execute(`SELECT * FROM meeting_rooms;`);
 

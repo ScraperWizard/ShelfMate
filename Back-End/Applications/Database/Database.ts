@@ -193,6 +193,7 @@ abstract class Database {
       {oldPassword:string,newPassword:string,initiator:number,initiatorName:string}): Promise<void>;
   abstract getMyCards({id}:{id:number}): Promise<Object>;
   abstract dropSearch(): Promise<void>;
+  abstract getMyMeetingRooms({id}:{id:number}): Promise<Object>;
 }
 
 enum DatabaseState {
