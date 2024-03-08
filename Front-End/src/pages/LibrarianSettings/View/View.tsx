@@ -33,7 +33,8 @@ export default function View() {
 
 
   useEffect(() => {
-    socket.emit("get-library-books");
+    console.log("This is the value of q",{ query: searchQuery })
+    socket.emit("get-library-books", { query: searchQuery });
 
     socket.on("library-books-response", (response: Book[]) => {
       setBooks(response);
@@ -43,7 +44,7 @@ export default function View() {
     return () => {
       socket.off("library-books-response");
     };
-  }, []);
+  }, [searchQuery]);
 
   const handleView = (book: Book) => {
     setSelectedBook(book);
