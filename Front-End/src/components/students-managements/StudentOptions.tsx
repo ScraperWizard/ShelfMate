@@ -86,6 +86,23 @@ function StudentOptions({ children }: any) {
                   Add students
                 </li>
               </Link>
+
+              <Link
+                to="/admin/all-users"
+                className={`mt-5 cursor-pointer border-l-blue-700 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
+                  activeLink === "all-users" ? "text-blue-700 border-l-2" : ""
+                }`}
+                onClick={() => handleLinkClick("all-users")}
+              >
+                <li
+                  className={`mt-5 cursor-pointer border-l-blue-700 px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
+                    activeLink === "all-users" ? "text-blue-700 border-l-2" : ""
+                  }`}
+                  onClick={() => handleLinkClick("all-users")}
+                >
+                  View all users
+                </li>
+              </Link>
             </ul>
           </div>
           <div className="col-span-8 overflow-hidden rounded-xl sm:bg-gray-50 sm:px-8 sm:shadow">
