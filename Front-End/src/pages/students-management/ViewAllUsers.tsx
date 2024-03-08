@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import socket from "../../Socket";
 import StudentOptions from "../../components/students-managements/StudentOptions";
+import UpdateSuer from "./EditUser/EditUser";
 
 interface User {
   id: number;
@@ -12,15 +13,30 @@ interface User {
   mobile_number: string;
   enrolled: number;
   user_type: string;
-  city: string;
-  street_name: string;
+  City: string;
+  Street_name: string;
   active: number;
   addressId: number;
   userID: number;
 }
 
+type GlobalUser = {
+  id: number;
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  City: string;
+  Street_name: string;
+  emailAddress: string;
+  phoneNum: string;
+  userType: string;
+};
+
 function AllUsers() {
   const [students, setStudents] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<GlobalUser | null>(null);
+  const [isUpdateFormVisible, setIsUpdateFormVisible] = useState(false);
 
   useEffect(() => {
     socket.emit("get-all-users", {});
@@ -34,6 +50,35 @@ function AllUsers() {
       socket.off("get-all-users-response");
     };
   }, []);
+
+  function convertToGlobalUser(user: User): GlobalUser {
+    
+    return {
+      id: user.id,
+      username: user.username,
+      password: user.password,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      City: user.City,
+      Street_name: user.Street_name,
+      emailAddress: user.email_address,
+      phoneNum: user.mobile_number,
+      userType: user.user_type,
+    };
+  }
+  function printSelectedUser(user: User) {
+    setSelectedUser(convertToGlobalUser(user));
+    console.log("Selected User", user);
+  }
+
+  const handleEditClick = (user: User) => {
+    setSelectedUser(convertToGlobalUser(user));
+    if(selectedUser === null) return;
+    selectedUser.City = user.City;
+    selectedUser.Street_name = user.Street_name;
+    console.log("These are the attributes of Selected User", selectedUser);
+    setIsUpdateFormVisible(true);
+  };
 
   return (
     <StudentOptions>
@@ -60,21 +105,35 @@ function AllUsers() {
               {student.enrolled === 1 ? "Enrolled" : "Not Enrolled"}
             </p>
             <p>
-              <strong>City:</strong> {student.city}
+              <strong>City:</strong> {student.City}
             </p>
             <p>
-              <strong>Street Name:</strong> {student.street_name}
+              <strong>Street Name:</strong> {student.Street_name}
             </p>
             <p>
               <strong>User Type:</strong> {student.user_type}
             </p>
 
-            <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={() => {
+                handleEditClick(student);
+                printSelectedUser(student);
+              }}
+            >
               Edit
             </button>
           </div>
         ))}
       </div>
+
+      {isUpdateFormVisible && (
+        <UpdateSuer
+          isVisible={isUpdateFormVisible}
+          onClose={() => setIsUpdateFormVisible(false)}
+          selectedUser={selectedUser}
+        />
+      )}
     </StudentOptions>
   );
 }
