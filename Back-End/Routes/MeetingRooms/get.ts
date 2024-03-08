@@ -16,6 +16,7 @@ const command = new ServerCommandBuilder("get-meeting-rooms")
   .build();
 
 async function callback({ Database,Data }: CommandExecuteArguments) {
+  console.log(Data);
   if(Data==null||Data.query=="") {
     const meetingRooms: any = await Database.getMeetingRooms();
     return meetingRooms;
