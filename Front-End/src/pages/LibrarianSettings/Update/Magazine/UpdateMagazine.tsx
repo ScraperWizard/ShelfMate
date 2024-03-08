@@ -129,6 +129,7 @@ const UpdateMagazine: React.FC<BookModalProps> = ({
         console.log(message);
       });
     });
+    socket.off("update-magazine-book");
   };
 
   type Book = {
