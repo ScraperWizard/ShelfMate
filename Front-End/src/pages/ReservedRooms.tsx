@@ -23,9 +23,9 @@ const ReserveRooms: React.FC = () => {
 
   useEffect(() => {
     if (accessToken) {
-      socket.emit("get-reserved-mr", {});
+      socket.emit("get-my-meeting-rooms", {});
 
-      socket.on("get-reserved-mr-response", (response) => {
+      socket.on("get-my-meeting-rooms-response", (response) => {
         console.log(
           "This is the response from the get reserved meeting rooms",
           response

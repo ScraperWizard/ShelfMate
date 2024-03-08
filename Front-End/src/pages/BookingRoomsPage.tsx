@@ -49,7 +49,7 @@ const MeetingRoomsPage: React.FC = () => {
       >
         {/* <h1 className="text-3xl font-bold mb-4">Meeting Rooms</h1> */}
         <div className="mb-4">
-          {/* <Link
+          <Link
             to="/meeting-room"
             className="mr-4 bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
@@ -60,7 +60,7 @@ const MeetingRoomsPage: React.FC = () => {
             className="bg-gray-500 hover:bg-gray-700 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Reserved Rooms
-          </Link> */}
+          </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {meetingRooms.map((room) => (
