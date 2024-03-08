@@ -81,8 +81,8 @@ export default function View() {
         />
       </div>
       <div className="libraryBox grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {filteredBooks.length > 0 ? (
-          filteredBooks.map((book) => (
+        {books.length > 0 ? (
+          books.map((book) => (
             <div
               className="libraryCards bg-white rounded-lg shadow-lg p-4 flex flex-col justify-between transition-transform duration-300 ease-in-out transform hover:scale-105"
               key={book.id}
