@@ -48,7 +48,7 @@ function AddStudents() {
   return (
     <StudentOptions data-name="add-students">
       <div className="pt-4 div" data-name="add-book-admin">
-        <h1 className="py-2 text-2xl font-semibold">Add rooms settings</h1>
+        <h1 className="py-2 text-2xl font-semibold">Add users settings</h1>
       </div>
       <div className="p-6" style={{ maxHeight: "500px", overflowY: "auto" }}>
         <h3 className="text-xl font-semibold text-gray-900 mb-5">

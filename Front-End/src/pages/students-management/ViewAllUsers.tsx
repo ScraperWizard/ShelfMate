@@ -80,6 +80,15 @@ function AllUsers() {
     setIsUpdateFormVisible(true);
   };
 
+  const handleDeactivate = (id: number) => {
+    console.log("this is the id of the user to be deactivated", {id : id});
+    socket.emit("deactivate-user", {id : id});
+    socket.on("deactivate-user-response", (response) => {
+        console.log("this is the response from deactivating a user", response);
+        
+    })
+  }
+
   return (
     <StudentOptions>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -115,13 +124,32 @@ function AllUsers() {
             </p>
 
             <button
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
               onClick={() => {
                 handleEditClick(student);
                 printSelectedUser(student);
               }}
             >
               Edit
+            </button>
+
+            <button
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+              onClick={() => {
+                handleDeactivate(student.id)
+              }}
+            >
+              Deactivate
+            </button>
+
+            <button
+              className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+              onClick={() => {
+                handleEditClick(student);
+                printSelectedUser(student);
+              }}
+            >
+              Remove
             </button>
           </div>
         ))}
