@@ -56,6 +56,7 @@ import AllRooms from "./pages/meeting-rooms/AllRooms.tsx";
 import SettingsLib from "./pages/LibrarianSettings/Settings.tsx";
 import AddStudents from "./pages/students-management/ManageStudents.tsx";
 import AllUsers from "./pages/students-management/ViewAllUsers.tsx";
+import OverDueBooks from "./pages/Users-enrollment/OverDueBooks.tsx";
 function Root() {
   return (
     <>
@@ -106,6 +107,10 @@ function Root() {
                   <Route
                     path="/admin/get-requests"
                     element={<BookRequests></BookRequests>}
+                  ></Route>
+                  <Route
+                  path="/admin/due-books"
+                  element={<OverDueBooks></OverDueBooks>}
                   ></Route>
                   <Route
                     path="/admin/view-logs"

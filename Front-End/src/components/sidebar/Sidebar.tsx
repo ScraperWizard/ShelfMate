@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import './Sidebar.scss';
 import { SidebarContext } from '../../context/SidebarContext';
 import { AuthContext } from '../../context/AuthProvider';
+import socket from '../../Socket';
 const Sidebar = () => {
   const {theme} = useContext(ThemeContext);
   const {isSidebarOpen, closeSidebar} = useContext(SidebarContext);
@@ -27,6 +28,12 @@ const Sidebar = () => {
       closeSidebar();
     }
   };
+  const handleLoggingOut = () => {
+    socket.emit("logout");
+    socket.on("logout-response", (response: any) => {
+      console.log("this is the response from logging out",response);
+    })
+  }
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -78,6 +85,16 @@ const Sidebar = () => {
                 <span className="menu-link-text">View Requested Books</span>
               </Link>
             </li>
+
+            <li className="menu-item">
+              <Link to="/admin/due-books" className={`menu-link ${activeLink === 'due' ? 'active' : ''}`} onClick={() => handleLinkClick('due')}>
+                <span className="menu-link-icon">
+                <MdOutlineMailOutline size={20} />
+                </span>
+                <span className="menu-link-text">View due books</span>
+              </Link>
+            </li>
+
             <li className="menu-item">
               <Link to="/admin/view-logs" className={`menu-link ${activeLink === 'logs' ? 'active' : ''}`} onClick={() => handleLinkClick('logs')}>
                 <span className="menu-link-icon">
@@ -136,7 +153,7 @@ const Sidebar = () => {
                     <span className="menu-link-icon">
                       <MdOutlineLogout size={20} />
                     </span>
-                    <span className="menu-link-text"  onClick={() => context.setAccessToken(undefined)}>Logout</span>
+                    <span className="menu-link-text"  onClick={() => {handleLoggingOut();context.setAccessToken(undefined)}}>Logout</span>
                   </Link>
                 )
               }

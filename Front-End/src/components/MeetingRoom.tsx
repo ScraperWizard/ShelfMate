@@ -22,9 +22,9 @@ const MeetingRoom: React.FC<MeetingRoomProps> = ({
 }) => {
   const [isImageClicked, setIsImageClicked] = useState(false);
 
-  const handleImageClick = () => {
-    setIsImageClicked(!isImageClicked);
-  };
+  // const handleImageClick = () => {
+  //   setIsImageClicked(!isImageClicked);
+  // };
   const handleReserve = (roomId: number) => {
     
     console.log("Reserving room with id", { roomId: roomId});
@@ -40,7 +40,7 @@ const MeetingRoom: React.FC<MeetingRoomProps> = ({
   }
 
   return (
-    <div className="max-w-lg w-full lg:flex hover:shadow-lg transform hover:scale-105 transition-all mb-4 mr-4" onClick={handleImageClick}>
+    <div className="max-w-lg w-full lg:flex hover:shadow-lg transform hover:scale-105 transition-all mb-4 mr-4">
       {isImageClicked ? ( 
         <div className="p-4">
           <div className="text-gray-900 font-bold text-xl mb-2" >{equipment} {id}</div> 
