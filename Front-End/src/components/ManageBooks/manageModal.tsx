@@ -68,7 +68,7 @@ function manageModal({ children }: any) {
                 </li>
               </Link>
               <Link
-                to="/admin/update-book-admin"
+                to="/admin/add-magazine"
                 className={`mt-5 cursor-pointer border-l-blue-700 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
                   activeLink === "update" ? "text-blue-700 border-l-2" : ""
                 }`}
@@ -80,21 +80,10 @@ function manageModal({ children }: any) {
                   }`}
                   onClick={() => handleLinkClick("update")}
                 >
-                  Update a book
+                  Add a magazine
                 </li>
               </Link>
               
-                <li
-                  className={`mt-5 cursor-pointer border-l-blue-700 px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
-                    activeLink === "remove" ? "text-blue-700 border-l-2" : ""
-                  }`}
-                  onClick={() => {
-                    handleLinkClick("remove");
-                    setShowModal(true);
-                  }}
-                >
-                  Remove a book
-                </li>
               
             </ul>
           </div>

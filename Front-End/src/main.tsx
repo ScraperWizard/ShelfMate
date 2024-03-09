@@ -57,6 +57,7 @@ import SettingsLib from "./pages/LibrarianSettings/Settings.tsx";
 import AddStudents from "./pages/students-management/ManageStudents.tsx";
 import AllUsers from "./pages/students-management/ViewAllUsers.tsx";
 import OverDueBooks from "./pages/Users-enrollment/OverDueBooks.tsx";
+import AddMagazines from "./pages/books-managment/AddMagazines.tsx";
 function Root() {
   return (
     <>
@@ -111,6 +112,14 @@ function Root() {
                   <Route
                   path="/admin/due-books"
                   element={<OverDueBooks></OverDueBooks>}
+                  ></Route>
+                  <Route
+                  path="/admin/view-books"
+                  element={<View></View>}
+                  ></Route>
+                  <Route
+                  path="/admin/add-magazine"
+                  element={<AddMagazines></AddMagazines>}
                   ></Route>
                   <Route
                     path="/admin/view-logs"
