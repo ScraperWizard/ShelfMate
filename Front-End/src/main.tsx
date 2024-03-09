@@ -202,7 +202,10 @@ function Root() {
                     path="/Librarian-setting/settings/add"
                     element={<Add></Add>}
                   ></Route>
-
+                  <Route
+                  path="/Librarian-setting/settings/view-rooms"
+                  element={<AddRooms />}
+                  ></Route>
                   <Route
                     path="/Librarian-setting/settings/add-magazine"
                     element={<AddMagazine></AddMagazine>}

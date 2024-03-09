@@ -41,7 +41,7 @@ function getMaintenanceRooms() {
             <MeetingRoom
               id={room.id}
               Reserver_SID={room.Reserver_SID}
-              maintinance_end={room.maintinance_end}
+              maintenance_end={room.maintinance_end}
               maintenance_start={room.maintenance_start}
               equipment={room.equipment}
               availablity={room.availablity}

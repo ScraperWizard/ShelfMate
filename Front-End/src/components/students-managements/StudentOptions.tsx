@@ -83,7 +83,7 @@ function StudentOptions({ children }: any) {
                   }`}
                   onClick={() => handleLinkClick("upcoming")}
                 >
-                  Add students
+                  Add Users
                 </li>
               </Link>
 

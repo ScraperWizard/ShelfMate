@@ -88,7 +88,7 @@ function MeetingRooms({ children }: any) {
                   View reserved Rooms
                 </li>
               </Link>
-              <Link
+              {/* <Link
                 to="/admin/meeting-rooms-update"
                 className={`mt-5 cursor-pointer border-l-blue-700 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${
                   activeLink === "update" ? "text-blue-700 border-l-2" : ""
@@ -103,7 +103,7 @@ function MeetingRooms({ children }: any) {
                 >
                   Edit a meeting room
                 </li>
-              </Link>
+              </Link> */}
               <Link
                 to="/admin/meeting-rooms-remove"
                 className={`mt-5 cursor-pointer border-l-blue-700 font-semibold transition hover:border-l-blue-700 hover:text-blue-700 ${

@@ -134,22 +134,12 @@ function AllUsers() {
             </button>
 
             <button
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+              className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
               onClick={() => {
                 handleDeactivate(student.id)
               }}
             >
               Deactivate
-            </button>
-
-            <button
-              className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
-              onClick={() => {
-                handleEditClick(student);
-                printSelectedUser(student);
-              }}
-            >
-              Remove
             </button>
           </div>
         ))}

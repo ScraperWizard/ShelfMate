@@ -63,7 +63,7 @@ const LibSidebar = () => {
               
             </li>
             <li className="menu-item">
-              <Link to="/Librarian-setting/settings/add" className={`menu-link ${activeLink === 'rooms' ? 'active' : ''}`} onClick={() => handleLinkClick('rooms')}>
+              <Link to="/Librarian-setting/settings/add" className={`menu-link ${activeLink === 'random' ? 'active' : ''}`} onClick={() => handleLinkClick('random')}>
                 <span className="menu-link-icon">
                 <MdOutlineMeetingRoom size={20} />
                 </span>
@@ -79,6 +79,14 @@ const LibSidebar = () => {
               </Link>
             </li>
           
+            <li className="menu-item">
+              <Link to="/Librarian-setting/settings/view-rooms" className={`menu-link ${activeLink === 'rooms' ? 'active' : ''}`} onClick={() => handleLinkClick('rooms')}>
+                <span className="menu-link-icon">
+                <MdOutlineAmpStories size={20} />
+                </span>
+                <span className="menu-link-text">Meeting rooms</span>
+              </Link>
+            </li>
             
           </ul>
           </div>
