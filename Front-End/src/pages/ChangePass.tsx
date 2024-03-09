@@ -4,7 +4,7 @@ import { showNotification, Notification } from "../context/NotificationProvider"
 import socket from "../Socket";
 import { useNavigate } from "react-router-dom";
 
-function ChangePass() {
+function  ChangePass() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");

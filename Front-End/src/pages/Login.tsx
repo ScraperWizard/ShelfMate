@@ -70,9 +70,9 @@ function Login() {
               Remember Me
             </p>
 
-            <p className="text-center mt-6 text-slate-400 hover:text-sky-400">
+            {/* <p className="text-center mt-6 text-slate-400 hover:text-sky-400">
               forgot password?? <a href="/change-pass">change password</a>
-            </p>
+            </p> */}
 
             <p className="text-center mt-6 text-slate-400 hover:text-sky-400">
               Not a member? <a href="/signup">Sign up now</a>

@@ -211,6 +211,10 @@ function Root() {
                     element={<AddMagazine></AddMagazine>}
                   ></Route>
                   <Route
+                  path="/Librarian-setting/settings/view-requestedBooks"
+                  element={<BookRequests></BookRequests>}
+                  ></Route>
+                  <Route
                     path="/Librarian-setting/settings/update"
                     element={<Update></Update>}
                   ></Route>

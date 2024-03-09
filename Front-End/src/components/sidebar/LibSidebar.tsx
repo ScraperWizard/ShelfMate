@@ -62,6 +62,16 @@ const LibSidebar = () => {
               </Link>
               
             </li>
+
+            <li className="menu-item">
+              <Link to="/Librarian-setting/settings/view-requestedBooks" className={`menu-link ${activeLink === 'request' ? 'active' : ''}`} onClick={() => handleLinkClick('request')}>
+                <span className="menu-link-icon">
+                <MdOutlineMeetingRoom size={20} />
+                </span>
+                <span className="menu-link-text">View requested books</span>
+              </Link>
+            </li>
+
             <li className="menu-item">
               <Link to="/Librarian-setting/settings/add" className={`menu-link ${activeLink === 'random' ? 'active' : ''}`} onClick={() => handleLinkClick('random')}>
                 <span className="menu-link-icon">
