@@ -11,7 +11,7 @@ interface Room {
   equipment: string;
   id: number;
   maintinance_end: string;
-  maintenance_start: string;
+  maintinance_start: string;
 }
 
 const MeetingRoomsPage: React.FC = () => {
@@ -19,14 +19,11 @@ const MeetingRoomsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
-    console.log("Getting meeting rooms",{query: searchQuery} );
-    socket.emit("get-meeting-rooms", {query: searchQuery});
+    console.log("Getting meeting rooms", { query: searchQuery });
+    socket.emit("get-meeting-rooms", { query: searchQuery });
 
     socket.on("get-meeting-rooms-response", (message) => {
-      console.log(message);
-
-
-
+      console.log("This is the response from the get meeting rooms", message);
       setMeetingRooms(message);
     });
 
@@ -39,10 +36,9 @@ const MeetingRoomsPage: React.FC = () => {
     setSearchQuery(e.target.value);
   };
 
-
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar />
       <div
         className="container mx-auto flex flex-col items-center h-screen mt-10 px-12"
         data-name="meeting-room"
@@ -70,20 +66,25 @@ const MeetingRoomsPage: React.FC = () => {
             Reserved Rooms
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {meetingRooms.map((room) => (
-            <MeetingRoom
-              key={room.id}
-              id={room.id}
-              Reserver_SID={room.Reserver_SID}
-              maintinance_end={room.maintinance_end}
-              maintenance_start={room.maintenance_start}
-              equipment={room.equipment}
-              availablity={room.availablity}
-              capacity={room.capacity}
-            />
-          ))}
-        </div>
+        {meetingRooms && meetingRooms.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {meetingRooms.map((room) => (
+              <MeetingRoom
+                key={room.id}
+                id={room.id}
+                Reserver_SID={room.Reserver_SID}
+                maintenance_end={room.maintinance_end}
+                maintenance_start={room.maintinance_start}
+                equipment={room.equipment}
+                availablity={room.availablity}
+                capacity={room.capacity}
+              />
+            ))}
+          </div>
+        )}
+        {(!meetingRooms || meetingRooms.length === 0) && (
+          <p className="text-gray-500">No meeting rooms found.</p>
+        )}
       </div>
     </>
   );

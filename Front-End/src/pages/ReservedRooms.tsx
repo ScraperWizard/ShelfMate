@@ -1,48 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import MeetingRoom from "../components/MeetingRoom";
 import Navbar from "../components/Navbar";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
 import socket from "../Socket";
 import { useAuth } from "../context/AuthProvider";
 
 interface Room {
   Reserver_SID: any;
-  availablity: number;
+  availability: number;
   capacity: number;
   equipment: string;
   id: number;
   maintinance_end: string;
-  maintenance_start: string;
+  maintinance_start: string;
 }
 
 const ReserveRooms: React.FC = () => {
   const [meetingRooms, setMeetingRooms] = useState<Room[]>([]);
-
   const { accessToken } = useAuth();
 
   useEffect(() => {
-    if (accessToken) {
-      socket.emit("get-my-meeting-rooms", {});
+    const getMeetingRooms = () => {
+      if (accessToken) {
+        socket.emit("get-my-meeting-rooms", {});
 
-      socket.on("get-my-meeting-rooms-response", (response) => {
-        console.log(
-          "This is the response from the get reserved meeting rooms",
-          response
-        );
+        socket.on("get-my-meeting-rooms-response", (response) => {
+          console.log(
+            "This is the response from the get reserved meeting rooms",
+            response
+          );
 
-        setMeetingRooms(response);
-      });
-    }
+          setMeetingRooms(response);
+        });
+      }
+    };
+
+    getMeetingRooms();
+    return () => {
+      socket.off("get-my-meeting-rooms-response");
+    };
   }, [accessToken]);
 
   return (
     <>
-      <Navbar></Navbar>
-      <div
-        className="container mx-auto flex flex-col items-center h-screen mt-10 px-12"
-        data-name="reserver-rooms"
-      >
+      <Navbar />
+      <div className="container mx-auto flex flex-col items-center h-screen mt-10 px-12">
         <div className="mb-4">
           <Link
             to="/meeting-room"
@@ -58,21 +60,23 @@ const ReserveRooms: React.FC = () => {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {meetingRooms.length > 0 ? (
+          {meetingRooms && meetingRooms.length > 0 ? (
             meetingRooms.map((room) => (
               <MeetingRoom
                 key={room.id}
                 id={room.id}
                 Reserver_SID={room.Reserver_SID}
-                maintinance_end={room.maintinance_end}
-                maintenance_start={room.maintenance_start}
+                maintenance_end={room.maintinance_end}
+                maintenance_start={room.maintinance_start}
                 equipment={room.equipment}
-                availablity={room.availablity}
+                availablity={room.availability}
                 capacity={room.capacity}
               />
             ))
           ) : (
-            <p>No meeting rooms available</p>
+            <div className="flex items-center justify-center w-full h-full">
+              <p className="text-lg text-gray-600">No meeting rooms available</p>
+            </div>
           )}
         </div>
       </div>

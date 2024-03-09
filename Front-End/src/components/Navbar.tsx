@@ -111,9 +111,7 @@ export default function Navbar() {
           <Link to="/about" className="text-md font-semibold leading-6 text-gray-900">
             About us
           </Link>
-          <Link to="/contact" className="text-md font-semibold leading-6 text-gray-900">
-            Contact
-          </Link>
+        
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-md font-semibold leading-6 text-gray-900">
               Library
@@ -239,12 +237,7 @@ export default function Navbar() {
                   >
                     About us
                   </Link>
-                  <Link
-                    to="/contact"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-blue-900 hover:bg-gray-50"
-                  >
-                    Contact
-                  </Link>
+                  
                 </div>
                 <div className="py-6">
                   {context?.accessToken === undefined ? (
