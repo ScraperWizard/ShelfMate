@@ -1,3 +1,4 @@
+import { and } from "ajv/dist/compile/codegen/index.js";
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 const command = new ServerCommandBuilder("handle-request")
@@ -40,7 +41,27 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     };
   }
   else if(Data.acceptance == true){
-    if
+    const isEnrolled = await Database.isStudentEnrolled(Client.getId());
+    const numberOfBorrowedBooks = await Database.getNumberOfBooksBorrowedByUser(Client.getId());
+
+    if(!isEnrolled&&numberOfBorrowedBooks===1){
+      return {
+        notification: {
+          type: "error",
+          message: "User Already has borrowed a book!",
+        },
+        error: true,
+      };
+    }
+    else if(isEnrolled&&numberOfBorrowedBooks===5){
+      return {
+        notification: {
+          type: "error",
+          message: "User Already has borrowed 5 books!",
+        },
+        error: true,
+      };
+    }
       // Accept the request
       await Database.acceptRequest(Data.bookId, Data.userID);
       return {

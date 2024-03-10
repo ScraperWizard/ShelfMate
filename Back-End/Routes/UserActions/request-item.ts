@@ -29,6 +29,15 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
         error: true,
       };
     }
+    else if(isEnrolled&&numberOfBorrowedBooks===5){
+      return {
+        notification: {
+          type: "error",
+          message: "You have already borrowed 5 books!",
+        },
+        error: true,
+      };
+    }
     // Check if the book is currently borrowed by the user
     const isBorrowed = await Database.isBookBorrowed(bookId);
 
