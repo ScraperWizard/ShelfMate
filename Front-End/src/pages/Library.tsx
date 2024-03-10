@@ -26,6 +26,7 @@ function Library() {
   const { accessToken } = useAuth();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const handleView = (book: Book) => {
+    socket.emit("view-book", { bookId: book.barcode });
     setSelectedBook(book);
     setShowModal(true);
   };

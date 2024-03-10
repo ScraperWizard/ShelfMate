@@ -64,7 +64,6 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       },
     };
   }
-  
 
   Client.setName(UserData.username);
   Client.setId(UserData.id);
