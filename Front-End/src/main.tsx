@@ -58,6 +58,8 @@ import AddStudents from "./pages/students-management/ManageStudents.tsx";
 import AllUsers from "./pages/students-management/ViewAllUsers.tsx";
 import OverDueBooks from "./pages/Users-enrollment/OverDueBooks.tsx";
 import AddMagazines from "./pages/books-managment/AddMagazines.tsx";
+import ViewCards from "./pages/ViewCards.tsx";
+import ViewAccount from "./pages/ViewAccount.tsx";
 function Root() {
   return (
     <>
@@ -74,6 +76,13 @@ function Root() {
                 <Route
                   path="/Librarian-page"
                   element={<LibrarianPage />}
+                ></Route>
+                <Route
+                element={<ViewAccount/>}
+                path="/ViewAccount"
+                ></Route>
+                <Route path="/viewcards"
+                element={<ViewCards></ViewCards>}
                 ></Route>
                 <Route path="/about" element={<About />}></Route>
                 <Route path="/library" element={<Library />}></Route>

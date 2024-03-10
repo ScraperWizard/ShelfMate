@@ -11,7 +11,7 @@ import ABDULRAHMAN from "../assets/Abdulrahman_Photo.png";
 
 function About() {
   const context = useContext(AuthContext);
-  console.log(context?.user?.username); 
+  
 
   
   return (
