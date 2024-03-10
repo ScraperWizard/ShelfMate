@@ -450,21 +450,7 @@ class MySqlDB implements Database {
     }
   }
 
-<<<<<<< HEAD
-  async getMyMeetingRooms({id}:{id:number}): Promise<Object>{
-    const results = await this.connection.execute(`SELECT * FROM meeting_rooms WHERE Reserver_SID=?`,[id]);
-
-    if (results[0].length === 0) {
-      return null;
-    } else {
-      return results[0];
-    }
-  }
-
-  async getAllMeetingRooms(): Promise <object>| null{
-=======
   async getAllMeetingRooms(): Promise<object> | null {
->>>>>>> e131a04 (Deployment)
     const results = await this.connection.execute(`SELECT * FROM meeting_rooms;`);
 
     if (results[0].length === 0) {
@@ -776,36 +762,10 @@ class MySqlDB implements Database {
     this.createLog({ event: "change password", details: `User ${initiatorName} changed password`, initiator: initiator });
   }
 
-<<<<<<< HEAD
-       async  getMyCards({ id }: { id: number; }): Promise<Object> {
-        const results = await this.connection.execute(`SELECT CONCAT(first_name,' ',last_name) AS name,card_number, activation_date, card_status, card_type, user_id, image
-         FROM cards INNER JOIN users ON user_id=users.id WHERE card_status=1 AND user_id=?;`, [id]);
-        return results[0];
-      }
-      async  getOverdueBooks(): Promise<Object> {
-          const result = await this.connection.execute(`SELECT * FROM overdue_inventory_view`);
-          return result[0];
-      }
-      async  roomCheckout({ roomID, userID, username }: { roomID: number; userID: number; username: string; }): Promise<void> {
-        await this.connection.execute(`UPDATE meeting_rooms SET availablity=1 , Reserver_SID=NULL WHERE Reserver_SID=? AND id=?`, [userID,roomID]);
-        this.createLog({ event: "checkout", details: `User ${username} checked out room ${roomID}`, initiator: userID });
-      }
-
-        async  roomsSearch({ search }: { search: string; }): Promise<Object> {
-        const results = await this.connection.execute(`CALL searchRooms(?)`, [search]);
-        return results[0];
-      }
-
-      async getMyInfo({id}:{id:number}): Promise<Object>{
-        const results = await this.connection.execute(`SELECT username, first_name, last_name, email_address, mobile_number, City, Street_name FROM users INNER JOIN Address ON users.id=userID WHERE users.id=?;,[id]`);
-        return results[0][0];
-      }
-=======
   async getMyCards({ id }: { id: number }): Promise<Object> {
     const results = await this.connection.execute(`SELECT * FROM cards WHERE user_id=?`, [id]);
     return results[0];
   }
->>>>>>> e131a04 (Deployment)
 }
 
 export default MySqlDB;
