@@ -2,7 +2,6 @@ abstract class Database {
   state: DatabaseState;
   abstract authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> | null;
   abstract getUserByAccessToken({ accessToken }: { accessToken: string }): Promise<Object> | null;
-  abstract generateJsonWebToken({ username }: { username: string }): Promise<Object> | null;
   abstract getAvailableBooks(): Promise<Object> | null;
   abstract getSearchBooks({ search }: { search: string }): Promise<Object> | null;
   abstract addAccessToken({ id, newAccessToken }: { id: string; newAccessToken: string }): Promise<void> | null;

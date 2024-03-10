@@ -46,12 +46,10 @@ class MySqlDB implements Database {
 
   async authenticateUser({ username, password }: { username: string; password: string }): Promise<Object> {
     const results = await this.connection.execute(`SELECT * FROM users WHERE Username=? AND Password=?`, [username, password]);
-   
-    
-    
+
     if (results[0].length === 0) {
       return false;
-    }  else {
+    } else {
       this.createLog({ event: "login", details: `User ${username} logged in`, initiator: results[0][0].id });
       return results[0][0];
     }
@@ -70,24 +68,8 @@ class MySqlDB implements Database {
   async dropSearch(): Promise<void> {
     await this.connection.execute(` DROP TEMPORARY TABLE IF EXISTS SearchResultTable`);
   }
-
-  async generateJsonWebToken({ username }: { username: string }): Promise<Object> | null {
-    // await this.connection.execute(`INSERT INTO access_tokens (token) VALUES (?)`, []);
-    return null;
-  }
-
   async getAvailableBooks(): Promise<Object> | null {
     const results = await this.connection.execute(`SELECT * FROM inventory WHERE borrower IS NULL`);
-
-    if (results[0].length === 0) {
-      return null;
-    } else {
-      return results[0]; 
-    }
-  }
-  async getSearchBooks({ search }: { search: string }): Promise<Object> | null {
-   
-    const results = await this.connection.execute(`CALL SearchBooks(?)`,[search]);
 
     if (results[0].length === 0) {
       return null;
@@ -95,8 +77,17 @@ class MySqlDB implements Database {
       return results[0];
     }
   }
-  
-  async  getRequests(): Promise<Object> {
+  async getSearchBooks({ search }: { search: string }): Promise<Object> | null {
+    const results = await this.connection.execute(`CALL SearchBooks(?)`, [search]);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0];
+    }
+  }
+
+  async getRequests(): Promise<Object> {
     const results = await this.connection.execute(`SELECT r.id,username,userID,barcode,title,image,date FROM requests r  NATURAL JOIN inventory INNER JOIN users on userID=users.id;`);
     return results[0];
   }
@@ -117,16 +108,15 @@ class MySqlDB implements Database {
     const numberOfBooks = result[0][0].num;
     return numberOfBooks;
   }
-  
 
   async requestItem(barcode: number, borrower: number): Promise<void> {
-  await this.connection.execute("INSERT INTO requests (barcode, userID,date) VALUES (?,?,?)", [barcode, borrower,new Date()]);
+    await this.connection.execute("INSERT INTO requests (barcode, userID,date) VALUES (?,?,?)", [barcode, borrower, new Date()]);
     this.createLog({ event: "request", details: `User ${borrower} requested book ${barcode}`, initiator: borrower });
   }
 
   async returnBook(barcode: number, borrower: number): Promise<void> {
     await this.connection.execute("UPDATE inventory SET borrower = NULL WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
-    this.createLog({ event: "return", details: `User ${borrower} returned book ${barcode}`, initiator: borrower })
+    this.createLog({ event: "return", details: `User ${borrower} returned book ${barcode}`, initiator: borrower });
   }
 
   async acceptRequest(barcode: number, borrower: number): Promise<void> {
@@ -147,7 +137,7 @@ class MySqlDB implements Database {
     if (results[0].length === 0) {
       return null;
     } else {
-      return results[0];  
+      return results[0];
     }
   }
 
@@ -164,8 +154,8 @@ class MySqlDB implements Database {
     image,
     isbn,
     id,
-    username
-  } : {
+    username,
+  }: {
     title: string;
     author: string;
     language: string;
@@ -177,16 +167,16 @@ class MySqlDB implements Database {
     rack: number;
     image: string;
     isbn: string;
-    id:number,
-    username:string
-  }): Promise <void>{
-    
-    try{
-      const barcodeQ= await this.connection.execute(`SELECT max(barcode) AS max FROM inventory;`);
-      let barcode=barcodeQ[0][0].max;
+    id: number;
+    username: string;
+  }): Promise<void> {
+    try {
+      const barcodeQ = await this.connection.execute(`SELECT max(barcode) AS max FROM inventory;`);
+      let barcode = barcodeQ[0][0].max;
       barcode++;
-      
-      await this.connection.execute(`INSERT INTO inventory ( 
+
+      await this.connection.execute(
+        `INSERT INTO inventory ( 
         title,
         author,
         barcode,
@@ -199,50 +189,35 @@ class MySqlDB implements Database {
         rack,
         image,
        type) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
-       [title,
-        author,
-        barcode,
-        language,
-        year_of_prod,
-        publisher,
-        subjects,
-        no_of_pages,
-        price,
-        rack,
-        image,"book"]);
-        await this.connection.execute(`INSERT INTO book(isbn,barcode) VALUES (${isbn},${barcode})`);
-        this.createLog({event:"add book",details:`User ${username} added ${title} book`,initiator:id})
-    }catch(error){
+        [title, author, barcode, language, year_of_prod, publisher, subjects, no_of_pages, price, rack, image, "book"]
+      );
+      await this.connection.execute(`INSERT INTO book(isbn,barcode) VALUES (${isbn},${barcode})`);
+      this.createLog({ event: "add book", details: `User ${username} added ${title} book`, initiator: id });
+    } catch (error) {
       if (error.code === "ER_DUP_ENTRY") {
         throw new Error("Book already exists");
-      }
-      else if(isbn.length>13){
-        throw new Error("isbn can't be longer than 13 charecters")
-      }
-       else throw new Error(error.message);
-       console.log(error.message);
-       console.log(error)
+      } else if (isbn.length > 13) {
+        throw new Error("isbn can't be longer than 13 charecters");
+      } else throw new Error(error.message);
+      console.log(error.message);
+      console.log(error);
     }
-
   }
-  async deleteItem({barcode,id,username}:{barcode: number,id:number,username;string}): Promise<void>{
-    try{
-        
-        const typeResult =await this.connection.execute(`SELECT type FROM inventory WHERE barcode=${barcode};`);
-        const type=typeResult[0][0].type;
-        if(type=='book'){
-          await this.connection.execute(`DELETE FROM book WHERE barcode=${barcode}`);
-          await this.connection.execute(`DELETE FROM inventory WHERE barcode=${barcode}`);
-          this.createLog({event:"delete item",details:`User ${username} deleted ${barcode}`,initiator:id});
-        }
-        else if(type=="magazine"){
-          await this.connection.execute(`DELETE FROM magazine WHERE barcode=${barcode}`);
-          await this.connection.execute(`DELETE FROM inventory WHERE barcode=${barcode};`);
-          this.createLog({event:"delete item",details:`User ${username} deleted ${barcode}`,initiator:id});
-        }
-        
-    } catch (error){
-        throw new Error(error.message)
+  async deleteItem({ barcode, id, username }: { barcode: number; id: number; username; string }): Promise<void> {
+    try {
+      const typeResult = await this.connection.execute(`SELECT type FROM inventory WHERE barcode=${barcode};`);
+      const type = typeResult[0][0].type;
+      if (type == "book") {
+        await this.connection.execute(`DELETE FROM book WHERE barcode=${barcode}`);
+        await this.connection.execute(`DELETE FROM inventory WHERE barcode=${barcode}`);
+        this.createLog({ event: "delete item", details: `User ${username} deleted ${barcode}`, initiator: id });
+      } else if (type == "magazine") {
+        await this.connection.execute(`DELETE FROM magazine WHERE barcode=${barcode}`);
+        await this.connection.execute(`DELETE FROM inventory WHERE barcode=${barcode};`);
+        this.createLog({ event: "delete item", details: `User ${username} deleted ${barcode}`, initiator: id });
+      }
+    } catch (error) {
+      throw new Error(error.message);
     }
   }
 
@@ -261,7 +236,7 @@ class MySqlDB implements Database {
     isbn,
     id,
     username,
-  } : {
+  }: {
     title: string;
     author: string;
     barcode: number;
@@ -274,12 +249,12 @@ class MySqlDB implements Database {
     rack: number;
     image: string;
     isbn: string;
-    id:number,
-    username:string;
-  }): Promise <void>{
-    const book= await this.connection.execute(`SELECT * FROM inventory WHERE barcode=?`,[barcode]);
-    const type =book[0][0].type;
-    try{     
+    id: number;
+    username: string;
+  }): Promise<void> {
+    const book = await this.connection.execute(`SELECT * FROM inventory WHERE barcode=?`, [barcode]);
+    const type = book[0][0].type;
+    try {
       await this.connection.execute(`
       UPDATE inventory
       SET
@@ -296,23 +271,19 @@ class MySqlDB implements Database {
       WHERE
           barcode = ${barcode}
       `);
-      await this.connection.execute(`UPDATE book SET isbn=? WHERE barcode=?`,[isbn,barcode]);
-      this.createLog({event:"update book",details:`User ${username} updated ${barcode} book`,initiator:id})
-    }
-    catch(error){
-      if(type=="magazine"){
+      await this.connection.execute(`UPDATE book SET isbn=? WHERE barcode=?`, [isbn, barcode]);
+      this.createLog({ event: "update book", details: `User ${username} updated ${barcode} book`, initiator: id });
+    } catch (error) {
+      if (type == "magazine") {
         throw new Error("type mismatch");
-      }
-      else if(book[0].length===0){
+      } else if (book[0].length === 0) {
         throw new Error("Barcode invalid");
-      }
-      else{
+      } else {
         throw new Error(error.message);
       }
-      console.log(error.message)
+      console.log(error.message);
       console.log(error);
     }
-
   }
 
   async addMagazine({
@@ -329,8 +300,8 @@ class MySqlDB implements Database {
     edition_num,
     editor,
     id,
-    username
-  } : {
+    username,
+  }: {
     title: string;
     author: string;
     language: string;
@@ -341,18 +312,18 @@ class MySqlDB implements Database {
     price: number;
     rack: number;
     image: string;
-    edition_num:number
+    edition_num: number;
     editor: string;
-    id:number,
-    username:string
-  }): Promise <void>{
-    
-    try{
-      const barcodeQ= await this.connection.execute(`SELECT max(barcode) AS max FROM inventory;`);
-      let barcode=barcodeQ[0][0].max;
+    id: number;
+    username: string;
+  }): Promise<void> {
+    try {
+      const barcodeQ = await this.connection.execute(`SELECT max(barcode) AS max FROM inventory;`);
+      let barcode = barcodeQ[0][0].max;
       barcode++;
-      
-      await this.connection.execute(`INSERT INTO inventory ( 
+
+      await this.connection.execute(
+        `INSERT INTO inventory ( 
         title,
         author,
         barcode,
@@ -365,29 +336,17 @@ class MySqlDB implements Database {
         rack,
         image,
        type) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
-       [title,
-        author,
-        barcode,
-        language,
-        year_of_prod,
-        publisher,
-        subjects,
-        no_of_pages,
-        price,
-        rack,
-        image,"magazine"]);
-        await this.connection.execute(`INSERT INTO magazine(barcode, edition_num, editor) VALUES (${barcode},${edition_num},'${editor}')`);
-        this.createLog({event:"add Magazine",details:`User ${username} added ${barcode} magazine`,initiator:id})
-    }catch(error){
+        [title, author, barcode, language, year_of_prod, publisher, subjects, no_of_pages, price, rack, image, "magazine"]
+      );
+      await this.connection.execute(`INSERT INTO magazine(barcode, edition_num, editor) VALUES (${barcode},${edition_num},'${editor}')`);
+      this.createLog({ event: "add Magazine", details: `User ${username} added ${barcode} magazine`, initiator: id });
+    } catch (error) {
       if (error.code === "ER_DUP_ENTRY") {
         throw new Error("magazine already exists");
-      }
-     
-       else throw new Error(error.message);
-       console.log(error.message);
-       console.log(error)
+      } else throw new Error(error.message);
+      console.log(error.message);
+      console.log(error);
     }
-
   }
 
   async updateMagazine({
@@ -405,8 +364,8 @@ class MySqlDB implements Database {
     edition_num,
     editor,
     id,
-    username
-  } : {
+    username,
+  }: {
     title: string;
     author: string;
     barcode: number;
@@ -418,15 +377,14 @@ class MySqlDB implements Database {
     price: number;
     rack: number;
     image: string;
-    edition_num:number
+    edition_num: number;
     editor: string;
-    id:number,
-    username:string
-  }): Promise <void>{
-
-    const magazine= await this.connection.execute(`SELECT * FROM inventory WHERE barcode=${barcode}`);
-    const type =magazine[0][0].type;
-    try{     
+    id: number;
+    username: string;
+  }): Promise<void> {
+    const magazine = await this.connection.execute(`SELECT * FROM inventory WHERE barcode=${barcode}`);
+    const type = magazine[0][0].type;
+    try {
       await this.connection.execute(`
       UPDATE inventory
       SET
@@ -444,36 +402,21 @@ class MySqlDB implements Database {
           barcode = ${barcode}
       `);
       await this.connection.execute(`UPDATE magazine SET edition_num=${edition_num},editor='${editor}' WHERE barcode=${barcode}`);
-      this.createLog({event:"update Magazine",details:`User ${username} updated ${barcode} magazine`,initiator:id})
-    }
-    
-    catch(error){
-      if(type=="book"){
+      this.createLog({ event: "update Magazine", details: `User ${username} updated ${barcode} magazine`, initiator: id });
+    } catch (error) {
+      if (type == "book") {
         throw new Error("type mismatch");
-      }
-      else if(magazine[0].length===0){
+      } else if (magazine[0].length === 0) {
         throw new Error("Barcode invalid");
-      }
-      else{
+      } else {
         throw new Error(error.message);
       }
-      console.log(error.message)
+      console.log(error.message);
       console.log(error);
     }
   }
-  async viewAllBookDetails({barcode}:{barcode:number}): Promise<Object>{
-    const results = await this.connection.execute(`SELECT * FROM inventory NATURAL JOIN book WHERE barcode=?`,[barcode]);
-
-    if (results[0].length === 0) {
-      return null;
-    } else {
-      return results[0][0];
-    }
-
-  }
-
-  async viewAllMagazineDetails({barcode}:{barcode:number}): Promise<Object>{
-    const results = await this.connection.execute(`SELECT * FROM inventory NATURAL JOIN magazine WHERE barcode=?`,[barcode]);
+  async viewAllBookDetails({ barcode }: { barcode: number }): Promise<Object> {
+    const results = await this.connection.execute(`SELECT * FROM inventory NATURAL JOIN book WHERE barcode=?`, [barcode]);
 
     if (results[0].length === 0) {
       return null;
@@ -482,12 +425,22 @@ class MySqlDB implements Database {
     }
   }
 
-  async getItemType({barcode}:{barcode:number}): Promise<string>{
-    const results = await this.connection.execute(`SELECT * FROM inventory WHERE barcode=?`,[barcode]);
+  async viewAllMagazineDetails({ barcode }: { barcode: number }): Promise<Object> {
+    const results = await this.connection.execute(`SELECT * FROM inventory NATURAL JOIN magazine WHERE barcode=?`, [barcode]);
+
+    if (results[0].length === 0) {
+      return null;
+    } else {
+      return results[0][0];
+    }
+  }
+
+  async getItemType({ barcode }: { barcode: number }): Promise<string> {
+    const results = await this.connection.execute(`SELECT * FROM inventory WHERE barcode=?`, [barcode]);
     return results[0][0].type;
   }
 
-  async getMeetingRooms(): Promise <object>| null{
+  async getMeetingRooms(): Promise<object> | null {
     const results = await this.connection.execute(`SELECT * FROM available_meeting_rooms;`);
 
     if (results[0].length === 0) {
@@ -495,9 +448,9 @@ class MySqlDB implements Database {
     } else {
       return results[0];
     }
-
   }
 
+<<<<<<< HEAD
   async getMyMeetingRooms({id}:{id:number}): Promise<Object>{
     const results = await this.connection.execute(`SELECT * FROM meeting_rooms WHERE Reserver_SID=?`,[id]);
 
@@ -509,6 +462,9 @@ class MySqlDB implements Database {
   }
 
   async getAllMeetingRooms(): Promise <object>| null{
+=======
+  async getAllMeetingRooms(): Promise<object> | null {
+>>>>>>> e131a04 (Deployment)
     const results = await this.connection.execute(`SELECT * FROM meeting_rooms;`);
 
     if (results[0].length === 0) {
@@ -517,21 +473,59 @@ class MySqlDB implements Database {
       return results[0];
     }
   }
-  async addMeetingRoom({capacity, equipment,maintinance_start, maintinance_end,userID,username}:{capacity:number;equipment:string;maintinance_start:Date, maintinance_end:Date,userID:number,username:string} ): Promise<void>{
-    await this.connection.execute(`INSERT INTO meeting_rooms (capacity, equipment, maintinance_start, maintinance_end,availablity) VALUES (?,?,STR_TO_DATE(?, '%Y-%m-%d'),STR_TO_DATE(?, '%Y-%m-%d'),?)`, [capacity, equipment, maintinance_start, maintinance_end,1]);
+  async addMeetingRoom({
+    capacity,
+    equipment,
+    maintinance_start,
+    maintinance_end,
+    userID,
+    username,
+  }: {
+    capacity: number;
+    equipment: string;
+    maintinance_start: Date;
+    maintinance_end: Date;
+    userID: number;
+    username: string;
+  }): Promise<void> {
+    await this.connection.execute(
+      `INSERT INTO meeting_rooms (capacity, equipment, maintinance_start, maintinance_end,availablity) VALUES (?,?,STR_TO_DATE(?, '%Y-%m-%d'),STR_TO_DATE(?, '%Y-%m-%d'),?)`,
+      [capacity, equipment, maintinance_start, maintinance_end, 1]
+    );
     this.createLog({ event: "add", details: `User ${username} added room`, initiator: userID });
   }
-  async deleteMeetingRoom({roomID,userID,username}:{roomID:number,userID:number,username:string}): Promise<void>{
+  async deleteMeetingRoom({ roomID, userID, username }: { roomID: number; userID: number; username: string }): Promise<void> {
     await this.connection.execute(`DELETE FROM meeting_rooms WHERE id=?`, [roomID]);
     this.createLog({ event: "remove", details: `User ${username} removed room ${roomID}`, initiator: userID });
   }
-  async updateMeetingRoom({roomID,capacity, equipment,maintinance_start, maintinance_end,userID,username}:{roomID:number;capacity:number;equipment:string;maintinance_start:Date, maintinance_end:Date,userID:number,username:string} ): Promise<void>{
-    await this.connection.execute(`UPDATE meeting_rooms SET capacity=?, equipment=?, maintinance_start=STR_TO_DATE(?, '%Y-%m-%d'), maintinance_end=STR_TO_DATE(?, '%Y-%m-%d') WHERE id=?`, [capacity, equipment, maintinance_start, maintinance_end,roomID]);
+  async updateMeetingRoom({
+    roomID,
+    capacity,
+    equipment,
+    maintinance_start,
+    maintinance_end,
+    userID,
+    username,
+  }: {
+    roomID: number;
+    capacity: number;
+    equipment: string;
+    maintinance_start: Date;
+    maintinance_end: Date;
+    userID: number;
+    username: string;
+  }): Promise<void> {
+    await this.connection.execute(`UPDATE meeting_rooms SET capacity=?, equipment=?, maintinance_start=STR_TO_DATE(?, '%Y-%m-%d'), maintinance_end=STR_TO_DATE(?, '%Y-%m-%d') WHERE id=?`, [
+      capacity,
+      equipment,
+      maintinance_start,
+      maintinance_end,
+      roomID,
+    ]);
     this.createLog({ event: "update", details: `User ${username} updated room ${roomID}`, initiator: userID });
   }
 
-
-  async getReservedMeetingRooms(): Promise <object>| null{
+  async getReservedMeetingRooms(): Promise<object> | null {
     const results = await this.connection.execute(`SELECT * FROM meeting_rooms  WHERE availablity=0`);
 
     if (results[0].length === 0) {
@@ -539,15 +533,14 @@ class MySqlDB implements Database {
     } else {
       return results[0];
     }
-
   }
 
-  async  reserveMeetingRoom({ roomID, userID }: { roomID: number; userID: number; }): Promise<void> {
-    await this.connection.execute(`UPDATE meeting_rooms SET availablity=0 , Reserver_SID=? WHERE id=?`, [userID,roomID]);
+  async reserveMeetingRoom({ roomID, userID }: { roomID: number; userID: number }): Promise<void> {
+    await this.connection.execute(`UPDATE meeting_rooms SET availablity=0 , Reserver_SID=? WHERE id=?`, [userID, roomID]);
     this.createLog({ event: "reserve", details: `User ${userID} reserved room ${roomID}`, initiator: userID });
   }
 
-  async getUnderMaintenanceMeetingRooms(): Promise <object>| null{
+  async getUnderMaintenanceMeetingRooms(): Promise<object> | null {
     const results = await this.connection.execute(`SELECT * FROM meeting_rooms m WHERE NOW() BETWEEN maintinance_start AND maintinance_end`);
 
     if (results[0].length === 0) {
@@ -555,10 +548,9 @@ class MySqlDB implements Database {
     } else {
       return results[0];
     }
-
   }
 
-  async  viewAllStudnets(): Promise<object> | null {
+  async viewAllStudnets(): Promise<object> | null {
     const results = await this.connection.execute(`SELECT * FROM users WHERE user_type="student"`);
     if (results[0].length === 0) {
       return null;
@@ -567,34 +559,31 @@ class MySqlDB implements Database {
     }
   }
 
-  async viewEnrolledStudents(): Promise <object>| null{
+  async viewEnrolledStudents(): Promise<object> | null {
     const results = await this.connection.execute(`SELECT * FROM users WHERE enrolled=1 AND user_type="student"`);
     if (results[0].length === 0) {
       return null;
     } else {
       return results[0];
     }
-
   }
 
-  async  viewUnEnrolledStudents(): Promise<object> | null{
+  async viewUnEnrolledStudents(): Promise<object> | null {
     const results = await this.connection.execute(`SELECT * FROM users WHERE enrolled=0 AND user_type="student"`);
     if (results[0].length === 0) {
       return null;
     } else {
       return results[0];
     }
-      
   }
 
-  async isStudentEnrolled(id:number): Promise<boolean>{
-    const results = await this.connection.execute(`SELECT * FROM users WHERE id=?`,[id]);
+  async isStudentEnrolled(id: number): Promise<boolean> {
+    const results = await this.connection.execute(`SELECT * FROM users WHERE id=?`, [id]);
     return results[0][0].enrolled;
-
   }
-  async enrollStudent(id:number,initiatorID:number): Promise<void>{
-    await this.connection.execute(`UPDATE users SET enrolled=1 WHERE id=?`,[id]);
-    await this.connection.execute(`CALL insert_user_cards(?)`,[id]);
+  async enrollStudent(id: number, initiatorID: number): Promise<void> {
+    await this.connection.execute(`UPDATE users SET enrolled=1 WHERE id=?`, [id]);
+    await this.connection.execute(`CALL insert_user_cards(?)`, [id]);
     this.createLog({ event: "enroll", details: `User ${initiatorID} enrolled student ${id}`, initiator: initiatorID });
   }
 
@@ -638,16 +627,21 @@ class MySqlDB implements Database {
     phoneNum: string;
   }): Promise<void> {
     try {
-        
-      await this.connection.execute(
-        `INSERT INTO users (username, password, first_name, last_name, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,?)`,
-        [username, password, firstName, lastName,emailAddress, phoneNum,0,"student"]
-      );
+      await this.connection.execute(`INSERT INTO users (username, password, first_name, last_name, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,?)`, [
+        username,
+        password,
+        firstName,
+        lastName,
+        emailAddress,
+        phoneNum,
+        0,
+        "student",
+      ]);
 
-      const userQ =await this.connection.execute(`SELECT id from users WHERE username='${username}'`) 
-      const userID=userQ[0][0].id;
+      const userQ = await this.connection.execute(`SELECT id from users WHERE username='${username}'`);
+      const userID = userQ[0][0].id;
       await this.connection.execute(`INSERT INTO Address (City,Street_name,userID) VALUES ('${city}','${street_name}',${userID})`);
-      this.createLog({ event: "register", details: `User ${username} registered`, initiator: userID});
+      this.createLog({ event: "register", details: `User ${username} registered`, initiator: userID });
     } catch (error) {
       if (error.code === "ER_DUP_ENTRY") {
         throw new Error("Username already exists");
@@ -667,24 +661,52 @@ class MySqlDB implements Database {
     await this.connection.execute(`INSERT INTO Logs (event,details,initiator) VALUES (?,?,?)`, [event, details, initiator]);
   }
 
-  async adduser({username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
-    {username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>{
+  async adduser({
+    username,
+    password,
+    firstName,
+    lastName,
+    city,
+    street_name,
+    emailAddress,
+    phoneNum,
+    userType,
+    initiator,
+    initiatorName,
+  }: {
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    city: string;
+    street_name: string;
+    emailAddress: string;
+    phoneNum: string;
+    userType: string;
+    initiator: number;
+    initiatorName: string;
+  }): Promise<void> {
     try {
-      let enrolled=0;
-      if(userType=="librarian" || userType=="admin"){
-         enrolled=1;
+      let enrolled = 0;
+      if (userType == "librarian" || userType == "admin") {
+        enrolled = 1;
       }
-      
 
-      await this.connection.execute(
-        `INSERT INTO users (username, password, first_name, last_name, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,?)`,
-        [username, password, firstName, lastName,emailAddress, phoneNum,enrolled,userType]
-      );
+      await this.connection.execute(`INSERT INTO users (username, password, first_name, last_name, email_address, mobile_number, enrolled, user_type) VALUES (?,?,?,?,?,?,?,?)`, [
+        username,
+        password,
+        firstName,
+        lastName,
+        emailAddress,
+        phoneNum,
+        enrolled,
+        userType,
+      ]);
 
-      const userQ =await this.connection.execute(`SELECT id from users WHERE username='${username}'`) 
-      const userID=userQ[0][0].id;
+      const userQ = await this.connection.execute(`SELECT id from users WHERE username='${username}'`);
+      const userID = userQ[0][0].id;
       await this.connection.execute(`INSERT INTO Address (City,Street_name,userID) VALUES ('${city}','${street_name}',${userID})`);
-      this.createLog({ event: "register", details: `User ${initiatorName} added new user ${username}`, initiator: initiator});
+      this.createLog({ event: "register", details: `User ${initiatorName} added new user ${username}`, initiator: initiator });
     } catch (error) {
       if (error.code === "ER_DUP_ENTRY") {
         throw new Error("Username already exists");
@@ -693,7 +715,7 @@ class MySqlDB implements Database {
       throw new Error(error.message);
     }
   }
-  async getAllUsers(): Promise <object>| null{
+  async getAllUsers(): Promise<object> | null {
     const results = await this.connection.execute(`SELECT * FROM users INNER JOIN Address ON users.id=Address.userID`);
     if (results[0].length === 0) {
       return null;
@@ -701,27 +723,60 @@ class MySqlDB implements Database {
       return results[0];
     }
   }
-    async deactivateUser({id,initiator,initiatorName}:
-    {id:number,initiator:number,initiatorName:string}): Promise<void>{
-      await this.connection.execute(`UPDATE users SET active=0 WHERE id=?`, [id]);
-      this.createLog({ event: "deactivate", details: `User ${initiatorName} deactivated user ${id}`, initiator: initiator });
+  async deactivateUser({ id, initiator, initiatorName }: { id: number; initiator: number; initiatorName: string }): Promise<void> {
+    await this.connection.execute(`UPDATE users SET active=0 WHERE id=?`, [id]);
+    this.createLog({ event: "deactivate", details: `User ${initiatorName} deactivated user ${id}`, initiator: initiator });
+  }
+  async updateUser({
+    id,
+    username,
+    password,
+    firstName,
+    lastName,
+    city,
+    street_name,
+    emailAddress,
+    phoneNum,
+    userType,
+    initiator,
+    initiatorName,
+  }: {
+    id: number;
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    city: string;
+    street_name: string;
+    emailAddress: string;
+    phoneNum: string;
+    userType: string;
+    initiator: number;
+    initiatorName: string;
+  }): Promise<void> {
+    await this.connection.execute(`UPDATE users SET username=?,password=?,first_name=?,last_name=?,email_address=?,mobile_number=?,user_type=? WHERE id=?`, [
+      username,
+      password,
+      firstName,
+      lastName,
+      emailAddress,
+      phoneNum,
+      userType,
+      id,
+    ]);
+    this.createLog({ event: "update", details: `User ${initiatorName} updated user ${id}`, initiator: initiator });
+  }
+  async changePassword({ oldPassword, newPassword, initiator, initiatorName }: { oldPassword: string; newPassword: string; initiator: number; initiatorName: string }): Promise<void> {
+    //check if old password is correct
+    const results = await this.connection.execute(`SELECT * FROM users WHERE id=? AND password=?`, [initiator, oldPassword]);
+    if (results[0].length === 0) {
+      throw new Error("Old password is incorrect");
     }
-    async updateUser({id,username,password,firstName,lastName,city,street_name,emailAddress,phoneNum,userType,initiator,initiatorName}:
-      {id:number,username:string,password:string,firstName:string,lastName:string,city:string,street_name:string,emailAddress:string,phoneNum:string,userType:string,initiator:number,initiatorName:string}): Promise<void>{
-      await this.connection.execute(`UPDATE users SET username=?,password=?,first_name=?,last_name=?,email_address=?,mobile_number=?,user_type=? WHERE id=?`, [username,password,firstName,lastName,emailAddress,phoneNum,userType,id]);
-      this.createLog({ event: "update", details: `User ${initiatorName} updated user ${id}`, initiator: initiator });
-      }
-      async changePassword({oldPassword,newPassword,initiator,initiatorName}:
-        {oldPassword:string,newPassword:string,initiator:number,initiatorName:string}): Promise<void>{
-          //check if old password is correct
-          const results = await this.connection.execute(`SELECT * FROM users WHERE id=? AND password=?`, [initiator,oldPassword]);
-          if (results[0].length === 0) {
-            throw new Error("Old password is incorrect");
-          }
-        await this.connection.execute(`UPDATE users SET password=? WHERE id=? AND password=?`, [newPassword,initiator,oldPassword]);
-        this.createLog({ event: "change password", details: `User ${initiatorName} changed password`, initiator: initiator });
-      }
+    await this.connection.execute(`UPDATE users SET password=? WHERE id=? AND password=?`, [newPassword, initiator, oldPassword]);
+    this.createLog({ event: "change password", details: `User ${initiatorName} changed password`, initiator: initiator });
+  }
 
+<<<<<<< HEAD
        async  getMyCards({ id }: { id: number; }): Promise<Object> {
         const results = await this.connection.execute(`SELECT CONCAT(first_name,' ',last_name) AS name,card_number, activation_date, card_status, card_type, user_id, image
          FROM cards INNER JOIN users ON user_id=users.id WHERE card_status=1 AND user_id=?;`, [id]);
@@ -745,6 +800,12 @@ class MySqlDB implements Database {
         const results = await this.connection.execute(`SELECT username, first_name, last_name, email_address, mobile_number, City, Street_name FROM users INNER JOIN Address ON users.id=userID WHERE users.id=?;,[id]`);
         return results[0][0];
       }
+=======
+  async getMyCards({ id }: { id: number }): Promise<Object> {
+    const results = await this.connection.execute(`SELECT * FROM cards WHERE user_id=?`, [id]);
+    return results[0];
+  }
+>>>>>>> e131a04 (Deployment)
 }
 
 export default MySqlDB;
