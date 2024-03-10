@@ -40,6 +40,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     };
   }
   else if(Data.acceptance == true){
+    if
       // Accept the request
       await Database.acceptRequest(Data.bookId, Data.userID);
       return {

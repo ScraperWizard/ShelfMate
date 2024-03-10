@@ -8,16 +8,18 @@ const command = new ServerCommandBuilder("get-cards-books")
     type: "object",
     additionalProperties: false,
     properties: {
-        id: { type: "number" },
-    },required:["id"]
+       
+    }
   })
   .setExecute(callback)
   .setOutgoingValidationSchema({})
   .build();
 
-async function callback({ Database,Data }: CommandExecuteArguments) {
-  const id=Data.id;
-  const cards: any = await Database.getMyCards(id);
+async function callback({ Database,Data,Client }: CommandExecuteArguments) {
+  const username = Client.getName();
+  const id = await Database.getUserIdByName({username});
+
+  const cards: any = await Database.getMyCards({id});
   return cards;
 }
 
