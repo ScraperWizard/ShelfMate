@@ -44,6 +44,10 @@ function Login() {
     });
   };
 
+  const navigateToSignup = () => {
+    navigate("/signup");
+  }
+
   
 
   return (
@@ -75,7 +79,7 @@ function Login() {
             </p> */}
 
             <p className="text-center mt-6 text-slate-400 hover:text-sky-400">
-              Not a member? <a href="/signup">Sign up now</a>
+              Not a member? <a onClick={navigateToSignup}>Sign up now</a>
             </p>
 
             
