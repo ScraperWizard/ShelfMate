@@ -129,7 +129,7 @@ class MySqlDB implements Database {
   }
 
   async returnBook(barcode: number, borrower: number): Promise<void> {
-    await this.connection.execute("UPDATE inventory SET borrower = NULL WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
+    await this.connection.execute("UPDATE inventory SET borrower = NULL,borrow_date=NULL WHERE barcode = ? AND borrower = ?", [barcode, borrower]);
     this.createLog({ event: "return", details: `User ${borrower} returned book ${barcode}`, initiator: borrower })
   }
 
@@ -746,7 +746,7 @@ class MySqlDB implements Database {
       }
 
       async getMyInfo({id}:{id:number}): Promise<Object>{
-        const results = await this.connection.execute(`SELECT username, first_name, last_name, email_address, mobile_number, City, Street_name FROM users INNER JOIN Address ON users.id=userID WHERE users.id=?;,[id]`);
+        const results = await this.connection.execute(`SELECT username, first_name, last_name, email_address, mobile_number, City, Street_name FROM users INNER JOIN Address ON users.id=userID WHERE users.id=?`,[id]);
         return results[0][0];
       }
 }

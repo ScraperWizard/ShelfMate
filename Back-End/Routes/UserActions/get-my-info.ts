@@ -13,7 +13,7 @@ const command = new ServerCommandBuilder("get-my-info")
   .build();
 
 async function callback({ Database,Client }: CommandExecuteArguments) {
-  
+    
     try {
       const username = Client.getName();
       const id = await Database.getUserIdByName({username});
