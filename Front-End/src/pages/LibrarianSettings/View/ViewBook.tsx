@@ -23,6 +23,7 @@ type Book = {
   rack: number;
   editor: string;
   edition_num: number;
+  quantity: number;
 };
 
 type BookModalProps = {
@@ -173,6 +174,16 @@ const ViewBook: React.FC<BookModalProps> = ({
             </label>
             <p>{selectedBook.price}</p>
           </div>
+
+          <div className="mb-4">
+              <label
+                htmlFor="price"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                Quantity
+              </label>
+              <p>{selectedBook.quantity}</p>
+            </div>
 
           {/* isbn */}
           {selectedBook.type === "book"? (

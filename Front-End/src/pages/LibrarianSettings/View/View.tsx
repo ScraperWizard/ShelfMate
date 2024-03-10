@@ -24,6 +24,7 @@ export default function View() {
     rack: number;
     editor: string;
     edition_num: number;
+    quantity: number;
   };
 
   const [books, setBooks] = useState<Book[]>([]);
