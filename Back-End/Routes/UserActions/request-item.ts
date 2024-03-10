@@ -20,7 +20,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     const isEnrolled = await Database.isStudentEnrolled(Client.getId());
     const numberOfBorrowedBooks = await Database.getNumberOfBooksBorrowedByUser(Client.getId());
 
-    if(!isEnrolled&&numberOfBorrowedBooks===1){
+    if(!isEnrolled&&numberOfBorrowedBooks>0){
       return {
         notification: {
           type: "error",
@@ -29,7 +29,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
         error: true,
       };
     }
-    else if(isEnrolled&&numberOfBorrowedBooks===5){
+    else if(isEnrolled&&numberOfBorrowedBooks>=5){
       return {
         notification: {
           type: "error",

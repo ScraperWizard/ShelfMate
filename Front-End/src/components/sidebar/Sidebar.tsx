@@ -47,7 +47,7 @@ const Sidebar = () => {
       <div className='sidebar-top'>
         <div className='sidebar-brand'>
           {/* <img src={theme === LIGHT_THEME ? LogoBlue: LogoWhite} alt="" /> */}
-          <span className='sidebar-brand-text'>Pro Library system</span>
+          <span className='sidebar-brand-text'>SHELFMATE</span>
         </div>
         <button className='sidebar-close-btn' onClick={closeSidebar}>
         <MdOutlineClose size={24} />
