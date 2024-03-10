@@ -723,7 +723,8 @@ class MySqlDB implements Database {
       }
 
        async  getMyCards({ id }: { id: number; }): Promise<Object> {
-        const results = await this.connection.execute(`SELECT * FROM cards WHERE user_id=?`, [id]);
+        const results = await this.connection.execute(`SELECT CONCAT(first_name,' ',last_name) AS name,card_number, activation_date, card_status, card_type, user_id, image
+         FROM cards INNER JOIN users ON user_id=users.id WHERE card_status=1 AND user_id=?;`, [id]);
         return results[0];
       }
       async  getOverdueBooks(): Promise<Object> {
