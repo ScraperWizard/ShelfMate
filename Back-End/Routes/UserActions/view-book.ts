@@ -18,12 +18,22 @@ const command = new ServerCommandBuilder("view-book")
 async function callback({ Database, Client, Data }: CommandExecuteArguments) {
   const username = Client.getName();
   const bookId = Data.bookId;
-
-  const book = await Database.viewAllBookDetails({ barcode: bookId });
+  const type = await Database.getItemType({barcode:bookId});
+  if(type=='magazine'){
+    const magazine = await Database.viewAllMagazineDetails({ barcode: bookId });
+    console.log(`User ${username} viewed magazine ${magazine["title"]} with barcode ${bookId}`)
+    Database.viewBookByUser({ userId: Client.getId(), username, bookName: magazine["title"] });
+    return {};
+  }
+  else{
+    const book = await Database.viewAllBookDetails({ barcode: bookId });
 
   console.log(`User ${username} viewed book ${book["title"]} with barcode ${bookId}`)
 
   Database.viewBookByUser({ userId: Client.getId(), username, bookName: book["title"] });
+
+  }
+  
 
   return {};
 }

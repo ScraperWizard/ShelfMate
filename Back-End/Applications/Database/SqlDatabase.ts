@@ -79,7 +79,19 @@ class MySqlDB implements Database {
   }
 
   async getAvailableBooks(): Promise<Object> | null {
-    const results = await this.connection.execute(`SELECT * FROM inventory WHERE borrower IS NULL`);
+    const results = await this.connection.execute(`SELECT 
+    title, author, MIN(barcode) AS barcode, language, year_of_prod, 
+    publisher, subjects, no_of_pages, price, rack, 
+    borrower, image, type, borrow_date
+FROM 
+    inventory 
+WHERE 
+    borrower IS NULL 
+GROUP BY 
+    title, author, language, year_of_prod, 
+    publisher, subjects, no_of_pages, price, 
+    rack, borrower, image, type, borrow_date;
+`);
 
     if (results[0].length === 0) {
       return null;
@@ -843,7 +855,7 @@ GROUP BY
   }
 
       async getMyInfo({id}:{id:number}): Promise<Object>{
-        const results = await this.connection.execute(`SELECT username, first_name, last_name, email_address, mobile_number, City, Street_name FROM users INNER JOIN Address ON users.id=userID WHERE users.id=?;,[id]`);
+        const results = await this.connection.execute(`SELECT username, first_name, last_name, email_address, mobile_number, City, Street_name FROM users INNER JOIN Address ON users.id=userID WHERE users.id=?`,[id]);
         return results[0][0];
       }
 }
