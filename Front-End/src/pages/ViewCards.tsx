@@ -38,7 +38,7 @@ function ViewCards() {
                     <div className="bg-gray-100 rounded-lg shadow-md p-4 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-lg cursor-pointer" key={index}>
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-lg font-semibold">Card Number: {card.card_number}</p>
-                            <img src={card.image} alt={card.name} className="w-8 h-8 rounded-full" />
+                            <img src={card.image} alt={card.name} className="w-[100px] h-[100px] rounded-full" />
                         </div>
                         <p>Name: {card.name}</p>
                         <p>Activation Date: {card.activation_date}</p>

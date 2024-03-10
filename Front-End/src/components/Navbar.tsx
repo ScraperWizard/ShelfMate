@@ -112,7 +112,7 @@ export default function Navbar() {
             About us
           </Link>
           <Link to="/viewcards" className="text-md font-semibold leading-6 text-gray-900">
-            view cards
+            View Cards
           </Link>
           <Link to="/ViewAccount" className="text-md font-semibold leading-6 text-gray-900">
             Profile
@@ -246,7 +246,7 @@ export default function Navbar() {
                     to="/viewcards"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-blue-900 hover:bg-gray-50"
                   >
-                    view cards
+                    View Cards
                   </Link>
                   <Link
                     to="/ViewAccount"
