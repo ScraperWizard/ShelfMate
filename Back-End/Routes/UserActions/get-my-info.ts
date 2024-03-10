@@ -1,7 +1,7 @@
 import { ServerCommandBuilder } from "../../Applications/Commands/Builder.js";
 import { UserAccessLevels, CommandExecuteArguments } from "../../Applications/Commands/Context.js";
 const command = new ServerCommandBuilder("get-my-info")
-  .setAccessLevel(UserAccessLevels.ADMIN)
+  .setAccessLevel(UserAccessLevels.STUDENT)
   .setOutgoingChannel("get-my-info-response")
   .setIncomingValidationSchema({
     type: "object",
