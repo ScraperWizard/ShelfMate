@@ -41,10 +41,11 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
     };
   }
   else if(Data.acceptance == true){
-    const isEnrolled = await Database.isStudentEnrolled(Client.getId());
-    const numberOfBorrowedBooks = await Database.getNumberOfBooksBorrowedByUser(Client.getId());
+    const isEnrolled = await Database.isStudentEnrolled(Data.userID);
+    const numberOfBorrowedBooks = await Database.getNumberOfBooksBorrowedByUser(Data.userID);
 
-    if(!isEnrolled&&numberOfBorrowedBooks===1){
+    if(!isEnrolled&&numberOfBorrowedBooks>0){
+      
       return {
         notification: {
           type: "error",
@@ -53,7 +54,8 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
         error: true,
       };
     }
-    else if(isEnrolled&&numberOfBorrowedBooks===5){
+    else if(isEnrolled&&numberOfBorrowedBooks>=5){
+      
       return {
         notification: {
           type: "error",
@@ -62,6 +64,8 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
         error: true,
       };
     }
+    else{
+      
       // Accept the request
       await Database.acceptRequest(Data.bookId, Data.userID);
       return {
@@ -72,6 +76,9 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       };
 
     }
+
+    }
+      
     else {
       return {
         notification: {
