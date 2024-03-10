@@ -1,7 +1,7 @@
 import io from "socket.io-client"
 
 const isProduction = process.env.NODE_ENV === 'production';
-const serverURL = isProduction ? "https://telebit.cloud:29735" : "http://localhost:4000";
+const serverURL = isProduction ? "https://shelfmate-mcfs.onrender.com" : "http://localhost:4000";
 const socket = io(serverURL);
 
 socket.on("connect", () => {
