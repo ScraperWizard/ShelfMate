@@ -13,7 +13,7 @@ function Home() {
             <h1>
               WELCOME TO
               <br />
-              <span>BOOK LIBRARY</span>
+              <span>SHELFMATE</span>
             </h1>
 
             <p>
