@@ -94,8 +94,9 @@ const UpdateMagazine: React.FC<BookModalProps> = ({
     updateData.price = Number(updateData.price);
     updateData.rack = Number(updateData.rack);
     updateData.edition_num = Number(updateData.edition_num);
-    if(selectedBarcode !== undefined) updateData.barcode = selectedBarcode;
-
+    if (selectedBarcode !== undefined) {
+      updateData.barcode = selectedBarcode;
+    }
     console.log(
       "this is what the update request get when updating the magazine",
       updateData

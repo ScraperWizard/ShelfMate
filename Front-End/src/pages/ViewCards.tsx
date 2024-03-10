@@ -19,7 +19,7 @@ function ViewCards() {
     useEffect(() => {
         socket.emit("get-cards-books", {});
 
-        socket.on("get-cards-response", (message: Card[]) => {
+        socket.on("get-cards-response", (message) => {
             console.log("This is the message that you get from viewing the cards", message);
             setCards(message); 
         });
@@ -40,11 +40,12 @@ function ViewCards() {
                             <p className="text-lg font-semibold">Card Number: {card.card_number}</p>
                             <img src={card.image} alt={card.name} className="w-8 h-8 rounded-full" />
                         </div>
+                        <p>Name: {card.name}</p>
                         <p>Activation Date: {card.activation_date}</p>
                         <p>Card Status: {card.card_status}</p>
                         <p>Card Type: {card.card_type}</p>
                         <p>User ID: {card.user_id}</p>
-                        <p>Name: {card.name}</p>
+                        
                     </div>
                 ))
             ) : (

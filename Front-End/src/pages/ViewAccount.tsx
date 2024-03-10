@@ -34,8 +34,29 @@ function ViewAccount() {
   return (
     <div data-name="ViewAccount">
         <Navbar></Navbar>
-      <SettingsPanel>
-        <div className="pt-4">
+
+
+        <div
+      className="mx-4 min-h-screen max-w-screen-xl sm:mx-8 xl:mx-auto"
+      data-name="settings"
+    >
+     
+      <div className="grid grid-cols-8 pt-3 mr-10 sm:grid-cols-10">
+        <div className="relative my-4 w-56 sm:hidden">
+          <input
+            className="peer hidden"
+            type="checkbox"
+            name="select-1"
+            id="select-1"
+          />
+        
+        </div>
+
+        <div className="col-span-2 hidden sm:block">
+        
+        </div>
+        <div className="col-span-8 overflow-hidden rounded-xl sm:bg-gray-50 sm:px-8 sm:shadow">
+           <div className="pt-4">
           <h1 className="py-2 text-2xl font-semibold">Account Details</h1>
         </div>
         <hr className="mt-4 mb-8" />
@@ -93,7 +114,11 @@ function ViewAccount() {
           Save Password
         </button>
         <hr className="mt-4 mb-8" />
-      </SettingsPanel>
+        </div>
+      </div>
+    </div>
+
+
     </div>
   );
 }
