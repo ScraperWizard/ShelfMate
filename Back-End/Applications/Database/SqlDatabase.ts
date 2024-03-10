@@ -466,7 +466,24 @@ class MySqlDB implements Database {
     }
   }
   async viewAllBookDetails({barcode}:{barcode:number}): Promise<Object>{
-    const results = await this.connection.execute(`SELECT * FROM inventory NATURAL JOIN book WHERE barcode=?`,[barcode]);
+    const results = await this.connection.execute(`SELECT DISTINCT title, author, language, year_of_prod, 
+    publisher, subjects, no_of_pages, price, rack, 
+    borrower, image, type, borrow_date, isbn,quantity,barcode  
+    FROM (
+SELECT 
+	title, author, language, year_of_prod, 
+    publisher, subjects, no_of_pages, price, rack, 
+    borrower, image, type, borrow_date, isbn, 
+    COUNT(isbn) AS quantity 
+FROM 
+    inventory 
+NATURAL JOIN book 
+WHERE borrower IS NULL
+GROUP BY 
+    book.isbn,title, author, language, 
+    year_of_prod, publisher, subjects, no_of_pages, 
+    price, rack, borrower, image, type, borrow_date
+    ) AS T1 NATURAL JOIN book WHERE barcode=?`,[barcode]);
 
     if (results[0].length === 0) {
       return null;
@@ -477,7 +494,24 @@ class MySqlDB implements Database {
   }
 
   async viewAllMagazineDetails({barcode}:{barcode:number}): Promise<Object>{
-    const results = await this.connection.execute(`SELECT * FROM inventory NATURAL JOIN magazine WHERE barcode=?`,[barcode]);
+    const results = await this.connection.execute(`SELECT  barcode, title, author, language, year_of_prod,
+    publisher, subjects, no_of_pages, price,rack,borrower,
+    image, type, borrow_date, edition_num, editor,quantity  
+       FROM (
+   SELECT 
+     title, author, language, year_of_prod,
+    publisher, subjects, no_of_pages, price,rack,borrower,
+    image, type, borrow_date, edition_num, editor,
+       COUNT(edition_num) AS quantity 
+   FROM 
+       inventory 
+   NATURAL JOIN magazine 
+   WHERE borrower IS NULL
+   GROUP BY 
+       title, author, language, year_of_prod,
+    publisher, subjects, no_of_pages, price,rack,borrower,
+    image, type, borrow_date, edition_num, editor
+       ) AS T1 NATURAL JOIN magazine WHERE barcode=?;`,[barcode]);
 
     if (results[0].length === 0) {
       return null;
