@@ -40,8 +40,6 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
   } else {
     UserData = await Database.authenticateUser({ username, password });
 
-    
-
     if (UserData) {
       const newAccessToken = uuidv4();
       await Database.addAccessToken({ id: UserData.id, newAccessToken });
@@ -57,8 +55,7 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       },
       error: "Invalid username or password!",
     };
-  }
-  else if(UserData.active==0){
+  } else if (UserData.active == 0) {
     return {
       notification: {
         type: "error",
@@ -66,12 +63,11 @@ async function callback({ Client, Data, Database }: CommandExecuteArguments) {
       },
     };
   }
-  
 
   Client.setName(UserData.username);
   Client.setId(UserData.id);
   Client.setAccessLevelByHumanName(UserData.user_type);
-  console.log(Client.getAccessLevel())
+  console.log(Client.getAccessLevel());
   return UserData;
 }
 

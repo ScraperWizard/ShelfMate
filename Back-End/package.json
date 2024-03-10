@@ -5,6 +5,7 @@
   "scripts": {
     "prebuild": "rimraf build",
     "build": "tsc && node build/src/main.js",
+    "start": "tsc && node build/src/main.js",
     "test": "npm run build || jest"
   },
   "license": "ISC",
