@@ -740,6 +740,11 @@ class MySqlDB implements Database {
         const results = await this.connection.execute(`CALL searchRooms(?)`, [search]);
         return results[0];
       }
+
+      async getMyInfo({id}:{id:number}): Promise<Object>{
+        const results = await this.connection.execute(`SELECT username, first_name, last_name, email_address, mobile_number, City, Street_name FROM users INNER JOIN Address ON users.id=userID WHERE users.id=?;,[id]`);
+        return results[0][0];
+      }
 }
 
 export default MySqlDB;
