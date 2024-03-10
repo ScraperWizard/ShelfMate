@@ -115,7 +115,7 @@ export default function Navbar() {
             view cards
           </Link>
           <Link to="/ViewAccount" className="text-md font-semibold leading-6 text-gray-900">
-            change pass
+            Profile
           </Link>
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-md font-semibold leading-6 text-gray-900">
@@ -252,7 +252,7 @@ export default function Navbar() {
                     to="/ViewAccount"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-blue-900 hover:bg-gray-50"
                   >
-                    change pass
+                    profile
                   </Link>
                   
                 </div>

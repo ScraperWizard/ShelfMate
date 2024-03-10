@@ -51,6 +51,9 @@ class CommandRouter {
     }
 
     if (this.validateCommandUserAccessLevel()) {
+      // setTimeout(() => {
+      //   this.Socket.disconnect();
+      // }, 1000);
       return this.sendErrorMessageToClient(
         StaticCommandErrorNames.UNAUTHORIZED
       );
