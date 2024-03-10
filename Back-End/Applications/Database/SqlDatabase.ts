@@ -63,7 +63,11 @@ class MySqlDB implements Database {
     if (results[0].length === 0) {
       return false;
     } else {
-      return results[0][0];
+      const id = results[0][0].id;
+      console.log(`id ${id}`)
+      const user = await this.connection.execute(`SELECT * FROM users WHERE id=?`, [id]);
+      console.log(user[0][0])
+      return user[0][0];
     }
   }
 
