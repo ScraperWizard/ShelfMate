@@ -6,6 +6,12 @@ const socket = io(serverURL);
 
 socket.on("connect", () => {
     console.log("Connected to server!");
+    socket.emit("authenticate", { accessToken: localStorage.getItem("accessToken") });
+})
+
+socket.on("disconnect", () => {
+    window.location.href = "/";
+    window.location.reload();
 })
 
 export default socket;
