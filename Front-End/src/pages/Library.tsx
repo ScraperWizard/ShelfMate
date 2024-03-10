@@ -18,6 +18,12 @@ type Book = {
   publisher: string;
   subjects: string;
   price: number;
+  type: string;
+  no_of_pages: number;
+  isbn: string;
+  rack: number;
+  editor: string;
+  edition_num: number;
 };
 
 function Library() {
@@ -25,53 +31,84 @@ function Library() {
   const [showModal, setShowModal] = useState(false);
   const { accessToken } = useAuth();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-  const handleView = (book: Book) => {
-    socket.emit("view-book", { bookId: book.barcode });
-    setSelectedBook(book);
-    setShowModal(true);
-  };
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  // const handleView = (book: Book) => {
+  //   socket.emit("view-book", { bookId: book.barcode });
+  //   setSelectedBook(book);
+  //   setShowModal(true);
+  // };
   useEffect(() => {
-    socket.emit("get-library-books");
+    socket.emit("get-library-books", {query: searchQuery});
 
+    console.log("This is the value of q", { query: searchQuery });
     socket.on("library-books-response", (response: Book[]) => {
       setBooks(response);
-      console.log("This is the response from library-books-response", response)
+      console.log("This is the response from library-books-response", response);
     });
 
     return () => {
       socket.off("library-books-response");
     };
-  }, []);
+  }, [searchQuery]);
 
-  const handleBorrow = (id: number) => { 
-    socket.emit("request-item", {bookId : id});
+  const handleBorrow = (id: number) => {
+    socket.emit("request-item", { bookId: id });
     socket.on("request-item-response", (response) => {
       socket.emit("get-library-books");
 
-    socket.on("library-books-response", (response: Book[]) => {
-      setBooks(response);
-      console.log("This is the response from library-books-response", response)
-    });
+      socket.on("library-books-response", (response: Book[]) => {
+        setBooks(response);
+        console.log(
+          "This is the response from library-books-response",
+          response
+        );
+      });
 
-    return () => {
-      socket.off("library-books-response");
-    };
-      console.log("This is the response from request-item-response", response)
+      return () => {
+        socket.off("library-books-response");
+      };
+      console.log("This is the response from request-item-response", response);
     });
-  }
+  };
+
+  const handleViewItem = (id: number) => {
+    socket.emit("get-all-info", { barcode: id });
+    socket.on("get-all-info-response", (message) => {
+      console.log("get-all-info-response", message);
+      setSelectedBook(message);
+      setShowModal(true);
+    });
+  };
 
   return (
     <Fragment>
       <div className="library" data-name="library">
         <Navbar></Navbar>
         <h1>Library</h1>
+        <div className="flex justify-center mb-4">
+  <div className="w-full max-w-lg">
+    {/* Search Bar */}
+    <input
+      type="text"
+      placeholder="Search by anything..."
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+    />
+  </div>
+</div>
         <div className="libraryBox">
           {/* this is where I will loop through each book  */}
           {books.length > 0 &&
             books.map((book) => (
               <div className="libraryCards" key={book.id}>
                 <div className="libraryImage">
-                  <img src={book.image} className="Image" alt={book.title} onClick={() =>handleView(book)} />
+                  <img
+                    src={book.image}
+                    className="Image"
+                    alt={book.title}
+                    onClick={() => handleViewItem(book.barcode)}
+                  />
                 </div>
                 <div className="libraryTag">
                   <p>{book.title}</p>
@@ -96,17 +133,17 @@ function Library() {
               </div>
             ))}
 
-          {/* this is like a placeholder done by yaman I will remove it as soon as I make sure that everything works right */}
+       
         </div>
       </div>
       <BookModal isVisible={showModal} onClose={() => setShowModal(false)}>
-          {selectedBook && ( 
+        {selectedBook && (
           <div
             className="p-6"
             style={{ maxHeight: "500px", overflowY: "auto" }}
           >
             <h3 className="text-xl font-semibold text-gray-900 mb-5">
-              Book Info
+              Item Info
             </h3>
 
             <div className="mb-4">
@@ -128,6 +165,16 @@ function Library() {
                 Author
               </label>
               <p>{selectedBook.author}</p>
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="barcode"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                Barcode
+              </label>
+              <p>{selectedBook.barcode}</p>
             </div>
 
             {/* language */}
@@ -178,7 +225,15 @@ function Library() {
             </div>
 
             {/* no_of_pages */}
-
+            <div className="mb-4">
+              <label
+                htmlFor="no_of_pages"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                Number of pages
+              </label>
+              <p>{selectedBook.no_of_pages}</p>
+            </div>
             {/* price */}
 
             <div className="mb-4">
@@ -191,9 +246,54 @@ function Library() {
               <p>{selectedBook.price}</p>
             </div>
 
+            {selectedBook.type === "book" ? (
+              <div className="mb-4">
+                <label
+                  htmlFor="isbn"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  ISBN
+                </label>
+                <p>{selectedBook.isbn}</p>
+              </div>
+            ) : null}
+
+            <div className="mb-4">
+              <label
+                htmlFor="rack"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                Rack
+              </label>
+              <p>{selectedBook.rack}</p>
+            </div>
+
+            {selectedBook.type === "magazine" ? (
+              <div className="mb-4">
+                <label
+                  htmlFor="isbn"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  editor
+                </label>
+                <p>{selectedBook.editor}</p>
+              </div>
+            ) : null}
+
+            {selectedBook.type === "magazine" ? (
+              <div className="mb-4">
+                <label
+                  htmlFor="isbn"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  edition_num
+                </label>
+                <p>{selectedBook.edition_num}</p>
+              </div>
+            ) : null}
           </div>
-          )}
-        </BookModal>
+        )}
+      </BookModal>
     </Fragment>
   );
 }
